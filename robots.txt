@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://tj-park8176.github.io/sitemap.xml

@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>내가 산 로또 번호 역대 1등 당첨된 적 있는지 확인하는 방법 (과거 당첨번호 중복 조회 계산기)</title>
+  <meta name="description" content="내가 뽑거나 구매한 로또 번호 6개가 제1회부터 최신 회차까지 역대 로또 추첨에서 1등·2등·3등에 당첨된 적이 있는지 0.1초 만에 조회하는 평행우주 등수 매칭 계산기와 완벽 가이드입니다." />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
+  <link rel="canonical" href="https://tj-park8176.github.io/guides/past-winning-number-check.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="공덕왕 (King of Karma)" />
+  <meta property="og:title" content="내가 산 로또 번호 역대 1등 당첨된 적 있는지 확인하는 방법 (과거 당첨번호 중복 조회 계산기)" />
+  <meta property="og:description" content="내가 뽑거나 구매한 로또 번호 6개가 제1회부터 최신 회차까지 역대 로또 추첨에서 1등·2등·3등에 당첨된 적이 있는지 0.1초 만에 조회하는 평행우주 등수 매칭 계산기와 완벽 가이드입니다." />
+  <meta property="og:url" content="https://tj-park8176.github.io/guides/past-winning-number-check.html" />
+  <meta property="og:image" content="https://tj-park8176.github.io/assets/feature_graphic.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="내가 산 로또 번호 역대 1등 당첨된 적 있는지 확인하는 방법 (과거 당첨번호 중복 조회 계산기)" />
+  <meta name="twitter:description" content="내가 뽑거나 구매한 로또 번호 6개가 제1회부터 최신 회차까지 역대 로또 추첨에서 1등·2등·3등에 당첨된 적이 있는지 0.1초 만에 조회하는 평행우주 등수 매칭 계산기와 완벽 가이드입니다." />
+  <meta name="twitter:image" content="https://tj-park8176.github.io/assets/feature_graphic.png" />
+  <link rel="icon" type="image/png" href="/assets/app_icon.png" />
+  <link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+  <style>
+:root {
+  --bg: #0B0D13;
+  --surface: #171B26;
+  --elevated: #1E2330;
+  --jade: #2EF2A0;
+  --jade-dim: rgba(46, 242, 160, 0.14);
+  --gold: #FFD666;
+  --gold-dim: rgba(255, 214, 102, 0.14);
+  --crimson: #FF6B7A;
+  --crimson-dim: rgba(255, 107, 122, 0.14);
+  --text: #F4F6FA;
+  --muted: #949EB0;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  padding: 0 0 100px 0;
+  background-color: var(--bg);
+  background-image: radial-gradient(circle at 50% 0%, rgba(46, 242, 160, 0.08) 0%, transparent 55%);
+  color: var(--text);
+  font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Malgun Gothic", sans-serif;
+  line-height: 1.68;
+  word-break: keep-all;
+}
+a { color: var(--jade); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.nav-bar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(11, 13, 19, 0.88);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 14px 20px;
+}
+.nav-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.brand-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 800;
+  font-size: 18px;
+  color: var(--text);
+  text-decoration: none !important;
+}
+.orb-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #A8FFDB, var(--jade) 60%, #0A7045 100%);
+  box-shadow: 0 0 12px var(--jade);
+  display: inline-block;
+  flex-shrink: 0;
+}
+.orb-dot-gold {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #FFF3C4, var(--gold) 65%, #997300 100%);
+  box-shadow: 0 0 10px var(--gold);
+  display: inline-block;
+  flex-shrink: 0;
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.nav-links a { color: var(--muted); text-decoration: none; }
+.nav-links a:hover { color: var(--jade); }
+.nav-cta {
+  background: var(--jade);
+  color: var(--bg) !important;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 13px;
+  text-decoration: none !important;
+}
+.container {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 32px 20px;
+}
+.breadcrumb {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 18px;
+}
+.breadcrumb a { color: var(--muted); }
+.card {
+  background: var(--surface);
+  border-radius: 24px;
+  padding: 30px 26px;
+  margin-bottom: 22px;
+}
+.card-elevated {
+  background: var(--elevated);
+  border-radius: 20px;
+  padding: 22px;
+  margin-bottom: 16px;
+}
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: var(--jade-dim);
+  color: var(--jade);
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+.badge-gold {
+  background: var(--gold-dim);
+  color: var(--gold);
+}
+h1 {
+  margin: 0 0 14px 0;
+  font-size: clamp(24px, 4vw, 34px);
+  font-weight: 800;
+  line-height: 1.32;
+  letter-spacing: -0.02em;
+}
+h2 {
+  margin: 0 0 14px 0;
+  font-size: 21px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+h3 {
+  margin: 18px 0 8px 0;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--gold);
+}
+p {
+  color: var(--muted);
+  margin: 0 0 16px 0;
+  font-size: 15.5px;
+}
+.lead {
+  font-size: 17px;
+  color: #D5DCEB;
+  margin-bottom: 24px;
+}
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: var(--jade);
+  color: var(--bg) !important;
+  font-weight: 800;
+  font-size: 16px;
+  padding: 16px 26px;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none !important;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: 0 8px 24px rgba(46, 242, 160, 0.22);
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(46, 242, 160, 0.34);
+}
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--elevated);
+  color: var(--gold) !important;
+  font-weight: 700;
+  font-size: 15px;
+  padding: 15px 22px;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none !important;
+}
+.cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 18px;
+}
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+}
+.screen-card {
+  background: var(--elevated);
+  border-radius: 20px;
+  padding: 14px;
+  text-align: center;
+}
+.screen-card img {
+  width: 100%;
+  max-width: 220px;
+  border-radius: 14px;
+  display: block;
+  margin: 0 auto 10px auto;
+}
+.screen-card span {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+}
+/* 인터랙티브 미니 위젯 스타일 */
+.widget-box {
+  background: linear-gradient(145deg, #1A2030 0%, #141824 100%);
+  border-radius: 24px;
+  padding: 28px 24px;
+  margin: 24px 0;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.35);
+}
+.ball-inputs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 16px 0;
+}
+.ball-input {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--bg);
+  color: var(--text);
+  border: 2px solid #2C344A;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 800;
+  outline: none;
+}
+.ball-input:focus {
+  border-color: var(--jade);
+  box-shadow: 0 0 12px rgba(46, 242, 160, 0.3);
+}
+.lotto-orb {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  font-weight: 800;
+  font-size: 15px;
+  color: #0B0D13;
+  margin-right: 6px;
+  box-shadow: inset -3px -3px 6px rgba(0,0,0,0.35), 0 4px 10px rgba(0,0,0,0.3);
+}
+.orb-yellow { background: radial-gradient(circle at 30% 30%, #FFF5B8, #FFD666 65%, #C79300); }
+.orb-blue   { background: radial-gradient(circle at 30% 30%, #C7E8FF, #5CAEFF 65%, #1E62B5); color: #FFF; }
+.orb-red    { background: radial-gradient(circle at 30% 30%, #FFD0D6, #FF6B7A 65%, #B82535); color: #FFF; }
+.orb-grey   { background: radial-gradient(circle at 30% 30%, #E2E7F0, #949EB0 65%, #4B5363); color: #FFF; }
+.orb-green  { background: radial-gradient(circle at 30% 30%, #C2FBE1, #2EF2A0 65%, #0E8F58); }
+.result-panel {
+  background: var(--bg);
+  border-radius: 18px;
+  padding: 20px;
+  margin-top: 18px;
+  display: none;
+}
+.stat-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 14px 0;
+  font-size: 14.5px;
+}
+.stat-table th, .stat-table td {
+  padding: 12px 14px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.stat-table th {
+  color: var(--gold);
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.03);
+}
+.faq-item {
+  background: var(--elevated);
+  border-radius: 16px;
+  padding: 18px 20px;
+  margin-bottom: 12px;
+}
+.faq-q {
+  font-weight: 800;
+  font-size: 16px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.faq-a {
+  font-size: 14.5px;
+  color: var(--muted);
+  margin: 0;
+}
+/* 하단 고정 스마트 전환 바 */
+.sticky-cta {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 60;
+  background: rgba(23, 27, 38, 0.95);
+  backdrop-filter: blur(16px);
+  border-top: 1px solid rgba(46, 242, 160, 0.25);
+  padding: 12px 20px;
+}
+.sticky-inner {
+  max-width: 880px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.sticky-text {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+}
+.sticky-sub {
+  font-size: 12px;
+  color: var(--gold);
+  display: block;
+}
+/* 비공개 테스터 & 다운로드 안내 모달 */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(5, 7, 11, 0.82);
+  backdrop-filter: blur(8px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal-card {
+  background: var(--surface);
+  max-width: 480px;
+  width: 100%;
+  border-radius: 26px;
+  padding: 28px 24px;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.6);
+}
+.footer {
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+@media (max-width: 640px) {
+  .nav-links { display: none; }
+  .sticky-inner { flex-direction: column; align-items: stretch; text-align: center; }
+}
+</style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "내가 산 로또 번호가 역대 1등에 당첨된 적이 있는지 어떻게 확인하나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "공덕왕 웹 계산기에 6개 번호를 입력하거나, 공덕왕 안드로이드 앱의 QR 스캐너로 복권 용지를 스캔하면 제1회부터 최신 회차까지의 전체 당첨번호 DB와 대조하여 0.1초 만에 과거 최고 당첨 등수(평행우주 등수)와 회차를 알려줍니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "역대 로또 1등 당첨번호가 다른 회차에서 똑같이 또 나온 적이 있나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "제1회부터 현재까지 6개 숫자가 모두 일치하는 1등 당첨 조합이 다른 회차에서 중복으로 1등에 당첨된 사례는 단 한 번도 없습니다."
+      }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+  <header class="nav-bar">
+    <div class="nav-inner">
+      <a class="brand-link" href="/">
+        <span class="orb-dot"></span>
+        <span>공덕왕 (King of Karma)</span>
+      </a>
+      <nav class="nav-links">
+        <a href="/guides/past-winning-number-check.html">역대 당첨번호 대조</a>
+        <a href="/guides/lotto-ac-value-sum-calculator.html">AC값·총합 계산기</a>
+        <a href="/guides/saju-lucky-direction-lotto.html">사주 재물 길방</a>
+        <a href="/stores/index.html">전국 1등 명당</a>
+        <a href="/guides/lottery-public-fund-42-percent-donation.html">42% 복권기금 계산</a>
+      </nav>
+      <a class="nav-cta" href="https://play.google.com/store/apps/details?id=com.taejoonlabs.kingofkarma" onclick="return openInstallModal(event);">앱 다운로드</a>
+    </div>
+  </header>
+  <main class="container">
+    
+    <div class="breadcrumb"><a href="/">홈</a> &gt; <a href="/guides/past-winning-number-check.html">역대 로또 당첨번호 중복 조회</a></div>
+    <article class="card">
+      <span class="badge"><span class="orb-dot"></span>역대 전 회차 당첨번호 전수 대조 도구</span>
+      <h1>내가 산 로또 번호, 역대 1등 당첨된 적 있는지 확인하는 방법</h1>
+      <p class="lead">
+        "이번 주에는 아쉽게 꽝이었지만, 만약 내가 산 이 번호가 다른 회차에 나왔다면 몇 등이었을까?"<br/>
+        아래 <strong>평행우주 역대 당첨 대조 계산기</strong>에 번호 6개를 입력하면 제1회부터 최신 회차까지의 실제 동행복권 당첨번호 전체 데이터와 즉시 대조하여 역대 최고 등수와 실제 지급된 1등 당첨금을 알려드립니다.
+      </p>
+
+      <div class="widget-box">
+        <span class="badge badge-gold"><span class="orb-dot-gold"></span>무료 웹 미니 계산기 · 제1회~최신 회차 즉시 대조</span>
+        <h2 style="margin-bottom:8px;">내 로또 번호 6개 과거 당첨 등수 즉시 조회</h2>
+        <p style="font-size:14px; margin-bottom:12px;">1부터 45 사이의 서로 다른 숫자 6개를 입력하고 [역대 당첨 회차 전수 검색] 버튼을 눌러보세요.</p>
+        <div class="ball-inputs">
+          <input type="number" min="1" max="45" class="ball-input" id="pw1" value="6" />
+          <input type="number" min="1" max="45" class="ball-input" id="pw2" value="14" />
+          <input type="number" min="1" max="45" class="ball-input" id="pw3" value="16" />
+          <input type="number" min="1" max="45" class="ball-input" id="pw4" value="18" />
+          <input type="number" min="1" max="45" class="ball-input" id="pw5" value="24" />
+          <input type="number" min="1" max="45" class="ball-input" id="pw6" value="42" />
+        </div>
+        <div class="cta-row">
+          <button class="btn-primary" onclick="checkPastWinning()">역대 당첨 회차 전수 검색하기</button>
+          <button class="btn-secondary" onclick="fillRandomBalls()">랜덤 번호로 테스트</button>
+        </div>
+        <div id="pwResult" class="result-panel"></div>
+      </div>
+
+      <h2>왜 내 번호의 '과거 당첨 이력'을 확인해야 할까요?</h2>
+      <p>
+        로또 6/45의 전체 조합 가짓수는 총 <strong>8,145,060가지</strong>입니다. 매주 1개의 1등 번호 조합이 추첨되므로, 약 1,240회 이상 진행된 현재까지도 전체 조합의 약 0.015%만이 1등으로 배출되었습니다.
+      </p>
+      <p>
+        따라서 두 가지 핵심 전략적 이유로 많은 분석가들이 과거 당첨번호 중복 여부를 조회합니다.
+      </p>
+      <div class="card-elevated">
+        <h3>1. 역대 1등 완전 동일 조합 중복 회피</h3>
+        <p style="margin:0;">독립시행 확률상 과거 1등 번호가 다시 1등으로 나올 확률도 동일하지만, 통계적으로 이미 배출된 약 1,240여 개의 1등 번호와 똑같은 6개 조합이 다시 1등으로 중복 추첨된 사례는 단 한 번도 없습니다. 고정수를 쓰는 분들은 자신의 고정 조합이 이미 과거에 1등으로 소진된 번호인지 반드시 점검해 보아야 합니다.</p>
+      </div>
+      <div class="card-elevated">
+        <h3>2. 낙첨 복권의 '평행우주 아차상' 확인을 통한 패턴 점검</h3>
+        <p style="margin:0;">이번 주 추첨에서는 아쉽게 5등에도 들지 못했지만, 역대 다른 회차 기준으로는 1등·2등·3등에 당첨되었을 번호라면 내 번호 조합의 홀짝·고저·AC값 밸런스 자체는 매우 훌륭했다는 뜻입니다.</p>
+      </div>
+
+      <h2>종이 복권 5게임(A~E열)을 일일이 손으로 치기 번거롭다면?</h2>
+      <p>
+        웹 계산기에서는 1게임(6개 번호)씩 직접 입력해야 하지만, <strong>「공덕왕 (King of Karma)」</strong> 안드로이드 앱의 <strong>[공덕 스캐너]</strong>를 켜고 복권 용지 QR 코드를 비추면 <strong>0.1초 만에 5게임 전체(30개 숫자)를 동시에 자동 인식</strong>합니다.
+      </p>
+      <ul style="color:var(--muted); font-size:15px; padding-left:20px;">
+        <li>해당 회차 실제 당첨 등수 및 당첨금 즉시 판정</li>
+        <li>낙첨 시 5게임 전체에 대한 <strong>역대 전 회차 평행우주 최고 등수(제N회차 N등 아차상)</strong> 자동 브리핑</li>
+        <li>낙첨된 악연 번호들을 내 다음 번호 추출 시 제외수로 걸러내는 <strong>[액운 소각 시스템]</strong> 연동</li>
+      </ul>
+      <div class="cta-row">
+        <a class="btn-primary" href="https://play.google.com/store/apps/details?id=com.taejoonlabs.kingofkarma" onclick="return openInstallModal(event);">공덕왕 앱으로 복권 용지 QR 0.1초 스캔하기</a>
+      </div>
+
+      <h2 style="margin-top:32px;">자주 묻는 질문 (FAQ)</h2>
+      <div class="faq-item">
+        <div class="faq-q">Q. 역대 로또 1등 당첨번호가 다른 회차에서 똑같이 또 나온 적이 있나요?</div>
+        <p class="faq-a">제1회부터 현재까지 6개 숫자가 모두 일치하는 1등 당첨 조합이 다른 회차에서 중복으로 1등에 당첨된 적은 없습니다. 반면 5개 숫자가 일치하는 2·3등 조합은 여러 회차에 걸쳐 종종 겹쳐서 등장합니다.</p>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Q. 내가 산 낙첨 복권 여러 장을 한꺼번에 과거 당첨번호와 비교할 수 있나요?</div>
+        <p class="faq-a">네, 공덕왕(King of Karma) 앱의 QR 스캐너를 사용하면 카메라를 갖다 대는 즉시 용지당 5게임 전체를 역대 전 회차 DB와 대조하여 가장 높았던 평행우주 등수와 회차를 0.1초 만에 보여줍니다.</p>
+      </div>
+    </article>
+    
+    <footer class="footer">
+      <div style="margin-bottom:12px;">
+        <a href="/">홈</a> ·
+        <a href="/stores/index.html">전국 로또 1등 명당 지도</a> ·
+        <a href="/guides/past-winning-number-check.html">과거 당첨번호 중복 조회</a> ·
+        <a href="/guides/lotto-ac-value-sum-calculator.html">로또 AC값 계산기</a> ·
+        <a href="/privacy-policy.html">개인정보처리방침</a> ·
+        <a href="/delete-account.html">계정 및 데이터 삭제</a>
+      </div>
+      <div>© 2026 Taejoon Labs (Origincs). 문의: ptj8176@gmail.com</div>
+      <div style="font-size:12px; margin-top:6px; opacity:0.75;">본 서비스는 동행복권 공개 데이터 및 정통 만세력 알고리즘에 기반한 통계·엔터테인먼트 유틸리티이며, 앱 내 복권 판매 및 사행성 결제를 일절 제공하지 않습니다.</div>
+    </footer>
+  </main>
+  
+<div class="sticky-cta">
+  <div class="sticky-inner">
+    <div>
+      <span class="sticky-text">공덕왕 (King of Karma) - 사주 길방 로또 명당 &amp; 0.1초 QR 스캐너</span>
+      <span class="sticky-sub">내 사주 재물 방향 명당 찾기부터 평행우주 1등 조회, 42% 기부보살 증서까지 무료 제공</span>
+    </div>
+    <div style="display:flex; gap:8px; justify-content:center;">
+      <a class="btn-primary" style="padding:11px 18px; font-size:14px;" href="https://play.google.com/store/apps/details?id=com.taejoonlabs.kingofkarma" onclick="return openInstallModal(event);">Google Play 앱 설치</a>
+    </div>
+  </div>
+</div>
+
+<div id="installModal" class="modal-backdrop" onclick="if(event.target===this)closeInstallModal();">
+  <div class="modal-card">
+    <span class="badge"><span class="orb-dot"></span>Google Play 공식 출시 &amp; 사전 체험 안내</span>
+    <h2 style="margin-bottom:10px;">공덕왕 앱 설치 및 사전 체험</h2>
+    <p style="font-size:14.5px;">공덕왕은 현재 Google Play 스토어 정식 배포 및 비공개 사전 체험(Closed Testing)을 운영하고 있습니다. 아래 버튼으로 Google Play 스토어에서 바로 확인하실 수 있습니다.</p>
+    <div class="card-elevated" style="margin:16px 0; font-size:13.5px; color:#D5DCEB;">
+      <strong style="color:var(--gold); display:block; margin-bottom:6px;">사전 체험(비공개 테스트) 기간 안내</strong>
+      만약 스토어 링크 접속 시 '항목을 찾을 수 없음'이 표시된다면, 정식 공개 전환 전 사전 테스터 등록이 필요한 상태입니다. 아래 이메일로 Google 계정(Gmail) 주소를 보내주시면 즉시 사전 테스터 권한과 설치 링크를 열어드립니다.
+    </div>
+    <div class="cta-row" style="flex-direction:column;">
+      <a class="btn-primary" style="width:100%;" href="https://play.google.com/store/apps/details?id=com.taejoonlabs.kingofkarma" target="_blank" rel="noopener">1. Google Play 스토어 바로가기</a>
+      <a class="btn-secondary" style="width:100%;" href="mailto:ptj8176@gmail.com?subject=%5B%EA%B3%B5%EB%8D%95%EC%99%95%5D%20%EC%82%AC%EC%A0%84%20%EC%B2%B4%ED%97%98%20%ED%85%8C%EC%8A%A4%ED%84%B0%20%EC%8B%A0%EC%B2%AD&body=Google%20Play%20%EA%B3%84%EC%A0%95%20%EC%9D%B4%EB%A9%94%EC%9D%BC(Gmail)%3A%20">2. 사전 테스터 즉시 등록 신청 (1분 컷)</a>
+      <button class="btn-secondary" style="width:100%; background:transparent; color:var(--muted)!important;" onclick="closeInstallModal()">닫기</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function openInstallModal(e) {
+  if (e) e.preventDefault();
+  document.getElementById('installModal').style.display = 'flex';
+  return false;
+}
+function closeInstallModal() {
+  document.getElementById('installModal').style.display = 'none';
+}
+function getOrbClass(n) {
+  if (n <= 10) return 'orb-yellow';
+  if (n <= 20) return 'orb-blue';
+  if (n <= 30) return 'orb-red';
+  if (n <= 40) return 'orb-grey';
+  return 'orb-green';
+}
+</script>
+
+  
+<script>
+let cachedDraws = null;
+async function loadDraws() {
+  if (cachedDraws) return cachedDraws;
+  try {
+    const res = await fetch('/assets/lotto_draws_compact.json');
+    cachedDraws = await res.json();
+  } catch (e) {
+    cachedDraws = [[993,"2021-12-11",[6,14,16,18,24,42],44,3991197063],[1246,"2026-10-17",[16,22,23,24,27,28],6,1881025430]];
+  }
+  return cachedDraws;
+}
+function fillRandomBalls() {
+  const pool = [];
+  while (pool.length < 6) {
+    const n = Math.floor(Math.random() * 45) + 1;
+    if (!pool.includes(n)) pool.push(n);
+  }
+  pool.sort((a,b)=>a-b);
+  for (let i=1; i<=6; i++) document.getElementById('pw'+i).value = pool[i-1];
+  checkPastWinning();
+}
+async function checkPastWinning() {
+  const nums = [];
+  for (let i=1; i<=6; i++) {
+    const v = parseInt(document.getElementById('pw'+i).value, 10);
+    if (isNaN(v) || v < 1 || v > 45 || nums.includes(v)) {
+      alert('1부터 45 사이의 서로 다른 숫자 6개를 입력해 주세요.');
+      return;
+    }
+    nums.push(v);
+  }
+  nums.sort((a,b)=>a-b);
+  const draws = await loadDraws();
+  const hits = [];
+  for (const d of draws) {
+    const [round, date, winNums, bonus, prize] = d;
+    let matchCount = 0;
+    for (const n of nums) if (winNums.includes(n)) matchCount++;
+    let rank = 0;
+    if (matchCount === 6) rank = 1;
+    else if (matchCount === 5 && nums.includes(bonus)) rank = 2;
+    else if (matchCount === 5) rank = 3;
+    else if (matchCount === 4) rank = 4;
+    if (rank > 0 && rank <= 4) {
+      hits.push({ round, date, winNums, bonus, prize, rank, matchCount });
+    }
+  }
+  hits.sort((a,b) => a.rank - b.rank || b.round - a.round);
+  const panel = document.getElementById('pwResult');
+  panel.style.display = 'block';
+  const ballsHtml = nums.map(n => `<span class="lotto-orb ${getOrbClass(n)}">${n}</span>`).join('');
+  if (hits.length === 0) {
+    panel.innerHTML = `
+      <div style="margin-bottom:10px;">${ballsHtml}</div>
+      <h3 style="margin:0 0 8px 0; color:var(--jade);">역대 1~4등 당첨 이력이 없는 '미개척 순수 조합'입니다!</h3>
+      <p style="margin:0 0 14px 0; font-size:14.5px;">제1회부터 최신 회차까지 아직 4개 이상 일치(4등 이상)로 소진된 적이 없는 신선한 번호입니다. 복권 용지 전체 5게임을 카메라로 0.1초 만에 찍어 확인하려면 공덕왕 앱을 이용해 보세요.</p>
+      <a class="btn-primary" style="font-size:14px; padding:12px 20px;" href="#" onclick="return openInstallModal(event);">용지 5게임 전체 QR 0.1초 스캔하기 (공덕왕 앱)</a>
+    `;
+  } else {
+    const best = hits[0];
+    const prizeStr = best.rank === 1 ? (Math.round(best.prize / 100000000 * 10) / 10) + '억 원 (실제 1등 지급액)' : (best.rank === 2 ? '약 5,500만 원 (2등)' : (best.rank === 3 ? '약 150만 원 (3등)' : '5만 원 (4등)'));
+    const topRows = hits.slice(0, 5).map(h => `
+      <tr>
+        <td><strong>제${h.round}회</strong> (${h.date})</td>
+        <td style="color:var(--gold); font-weight:800;">평행우주 ${h.rank}등</td>
+        <td>${h.winNums.join(', ')} + 보너스 ${h.bonus}</td>
+      </tr>
+    `).join('');
+    panel.innerHTML = `
+      <div style="margin-bottom:12px;">${ballsHtml}</div>
+      <div class="badge badge-gold"><span class="orb-dot-gold"></span>평행우주 최고 기록 발견! 총 ${hits.length}회 상위 당첨</div>
+      <h3 style="margin:0 0 8px 0; color:var(--gold); font-size:20px;">만약 제${best.round}회(${best.date})에 이 번호를 샀다면 [${best.rank}등] 당첨! (${prizeStr})</h3>
+      <table class="stat-table">
+        <thead><tr><th>회차 (추첨일)</th><th>달성 등수</th><th>당시 당첨번호</th></tr></thead>
+        <tbody>${topRows}</tbody>
+      </table>
+      <p style="margin:12px 0; font-size:14px; color:#D5DCEB;">방금 확인하신 것은 단 1게임입니다! 구매하신 종이 복권의 QR 코드를 공덕왕 앱으로 스캔하면 5게임 전체의 평행우주 등수와 42% 기부보살 증서를 0.1초 만에 확인하실 수 있습니다.</p>
+      <a class="btn-primary" style="font-size:14px; padding:12px 20px;" href="#" onclick="return openInstallModal(event);">내 종이 복권 QR 0.1초 스캔하러 가기 (무료 앱)</a>
+    `;
+  }
+}
+window.addEventListener('DOMContentLoaded', () => { checkPastWinning(); });
+</script>
+
+</body>
+</html>

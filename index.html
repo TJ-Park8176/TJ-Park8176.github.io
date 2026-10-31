@@ -3,94 +3,632 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>공덕왕 (King of Karma) - 공식 안내 및 정책 센터</title>
+  <title>공덕왕 (King of Karma) - 사주 길방 로또 명당 레이더 · 4단계 번호 추출 · 0.1초 QR 스캐너</title>
+  <meta name="description" content="오늘 내 사주에 재물이 열리는 방향(길방)의 실제 로또 1등 명당 판매점 레이더부터, 역대 당첨번호 평행우주 대조, AC값 4단계 비기 번호 추출, 42% 복권기금 기부보살 증서까지 한 번에 경험하세요." />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
+  <link rel="canonical" href="https://tj-park8176.github.io/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="공덕왕 (King of Karma)" />
+  <meta property="og:title" content="공덕왕 (King of Karma) - 사주 길방 로또 명당 레이더 · 4단계 번호 추출 · 0.1초 QR 스캐너" />
+  <meta property="og:description" content="오늘 내 사주에 재물이 열리는 방향(길방)의 실제 로또 1등 명당 판매점 레이더부터, 역대 당첨번호 평행우주 대조, AC값 4단계 비기 번호 추출, 42% 복권기금 기부보살 증서까지 한 번에 경험하세요." />
+  <meta property="og:url" content="https://tj-park8176.github.io/" />
+  <meta property="og:image" content="https://tj-park8176.github.io/assets/feature_graphic.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="공덕왕 (King of Karma) - 사주 길방 로또 명당 레이더 · 4단계 번호 추출 · 0.1초 QR 스캐너" />
+  <meta name="twitter:description" content="오늘 내 사주에 재물이 열리는 방향(길방)의 실제 로또 1등 명당 판매점 레이더부터, 역대 당첨번호 평행우주 대조, AC값 4단계 비기 번호 추출, 42% 복권기금 기부보살 증서까지 한 번에 경험하세요." />
+  <meta name="twitter:image" content="https://tj-park8176.github.io/assets/feature_graphic.png" />
+  <link rel="icon" type="image/png" href="/assets/app_icon.png" />
+  <link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
   <style>
-    :root {
-      --bg: #0B0D13;
-      --card: #171B26;
-      --jade: #2EF2A0;
-      --gold: #FFD666;
-      --text: #F4F6FA;
-      --muted: #949EB0;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      padding: 40px 20px;
-      background: var(--bg);
-      color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Malgun Gothic", sans-serif;
-      line-height: 1.6;
-    }
-    .container {
-      max-width: 680px;
-      margin: 0 auto;
-    }
-    .card {
-      background: var(--card);
-      border-radius: 24px;
-      padding: 32px 28px;
-      margin-bottom: 20px;
-    }
-    .badge {
-      display: inline-block;
-      padding: 5px 12px;
-      border-radius: 999px;
-      background: rgba(46, 242, 160, 0.14);
-      color: var(--jade);
-      font-size: 13px;
-      font-weight: 700;
-      margin-bottom: 12px;
-    }
-    h1 {
-      margin: 0 0 8px 0;
-      font-size: 26px;
-      font-weight: 800;
-    }
-    p { color: var(--muted); margin: 0 0 24px 0; font-size: 15px; }
-    .btn-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    a.btn {
-      display: block;
-      text-decoration: none;
-      padding: 16px 20px;
-      border-radius: 16px;
-      font-weight: 700;
-      font-size: 15px;
-      background: #1E2330;
-      color: var(--text);
-      transition: transform 0.15s ease;
-    }
-    a.btn:hover { transform: translateY(-2px); }
-    a.btn-jade {
-      background: rgba(46, 242, 160, 0.15);
-      color: var(--jade);
-    }
-    .footer {
-      text-align: center;
-      color: var(--muted);
-      font-size: 13px;
-      margin-top: 28px;
-    }
-  </style>
+:root {
+  --bg: #0B0D13;
+  --surface: #171B26;
+  --elevated: #1E2330;
+  --jade: #2EF2A0;
+  --jade-dim: rgba(46, 242, 160, 0.14);
+  --gold: #FFD666;
+  --gold-dim: rgba(255, 214, 102, 0.14);
+  --crimson: #FF6B7A;
+  --crimson-dim: rgba(255, 107, 122, 0.14);
+  --text: #F4F6FA;
+  --muted: #949EB0;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  padding: 0 0 100px 0;
+  background-color: var(--bg);
+  background-image: radial-gradient(circle at 50% 0%, rgba(46, 242, 160, 0.08) 0%, transparent 55%);
+  color: var(--text);
+  font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Malgun Gothic", sans-serif;
+  line-height: 1.68;
+  word-break: keep-all;
+}
+a { color: var(--jade); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.nav-bar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(11, 13, 19, 0.88);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 14px 20px;
+}
+.nav-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.brand-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 800;
+  font-size: 18px;
+  color: var(--text);
+  text-decoration: none !important;
+}
+.orb-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #A8FFDB, var(--jade) 60%, #0A7045 100%);
+  box-shadow: 0 0 12px var(--jade);
+  display: inline-block;
+  flex-shrink: 0;
+}
+.orb-dot-gold {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #FFF3C4, var(--gold) 65%, #997300 100%);
+  box-shadow: 0 0 10px var(--gold);
+  display: inline-block;
+  flex-shrink: 0;
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.nav-links a { color: var(--muted); text-decoration: none; }
+.nav-links a:hover { color: var(--jade); }
+.nav-cta {
+  background: var(--jade);
+  color: var(--bg) !important;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 13px;
+  text-decoration: none !important;
+}
+.container {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 32px 20px;
+}
+.breadcrumb {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 18px;
+}
+.breadcrumb a { color: var(--muted); }
+.card {
+  background: var(--surface);
+  border-radius: 24px;
+  padding: 30px 26px;
+  margin-bottom: 22px;
+}
+.card-elevated {
+  background: var(--elevated);
+  border-radius: 20px;
+  padding: 22px;
+  margin-bottom: 16px;
+}
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: var(--jade-dim);
+  color: var(--jade);
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+.badge-gold {
+  background: var(--gold-dim);
+  color: var(--gold);
+}
+h1 {
+  margin: 0 0 14px 0;
+  font-size: clamp(24px, 4vw, 34px);
+  font-weight: 800;
+  line-height: 1.32;
+  letter-spacing: -0.02em;
+}
+h2 {
+  margin: 0 0 14px 0;
+  font-size: 21px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+h3 {
+  margin: 18px 0 8px 0;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--gold);
+}
+p {
+  color: var(--muted);
+  margin: 0 0 16px 0;
+  font-size: 15.5px;
+}
+.lead {
+  font-size: 17px;
+  color: #D5DCEB;
+  margin-bottom: 24px;
+}
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: var(--jade);
+  color: var(--bg) !important;
+  font-weight: 800;
+  font-size: 16px;
+  padding: 16px 26px;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none !important;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: 0 8px 24px rgba(46, 242, 160, 0.22);
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(46, 242, 160, 0.34);
+}
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--elevated);
+  color: var(--gold) !important;
+  font-weight: 700;
+  font-size: 15px;
+  padding: 15px 22px;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none !important;
+}
+.cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 18px;
+}
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+}
+.screen-card {
+  background: var(--elevated);
+  border-radius: 20px;
+  padding: 14px;
+  text-align: center;
+}
+.screen-card img {
+  width: 100%;
+  max-width: 220px;
+  border-radius: 14px;
+  display: block;
+  margin: 0 auto 10px auto;
+}
+.screen-card span {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+}
+/* 인터랙티브 미니 위젯 스타일 */
+.widget-box {
+  background: linear-gradient(145deg, #1A2030 0%, #141824 100%);
+  border-radius: 24px;
+  padding: 28px 24px;
+  margin: 24px 0;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.35);
+}
+.ball-inputs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 16px 0;
+}
+.ball-input {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--bg);
+  color: var(--text);
+  border: 2px solid #2C344A;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 800;
+  outline: none;
+}
+.ball-input:focus {
+  border-color: var(--jade);
+  box-shadow: 0 0 12px rgba(46, 242, 160, 0.3);
+}
+.lotto-orb {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  font-weight: 800;
+  font-size: 15px;
+  color: #0B0D13;
+  margin-right: 6px;
+  box-shadow: inset -3px -3px 6px rgba(0,0,0,0.35), 0 4px 10px rgba(0,0,0,0.3);
+}
+.orb-yellow { background: radial-gradient(circle at 30% 30%, #FFF5B8, #FFD666 65%, #C79300); }
+.orb-blue   { background: radial-gradient(circle at 30% 30%, #C7E8FF, #5CAEFF 65%, #1E62B5); color: #FFF; }
+.orb-red    { background: radial-gradient(circle at 30% 30%, #FFD0D6, #FF6B7A 65%, #B82535); color: #FFF; }
+.orb-grey   { background: radial-gradient(circle at 30% 30%, #E2E7F0, #949EB0 65%, #4B5363); color: #FFF; }
+.orb-green  { background: radial-gradient(circle at 30% 30%, #C2FBE1, #2EF2A0 65%, #0E8F58); }
+.result-panel {
+  background: var(--bg);
+  border-radius: 18px;
+  padding: 20px;
+  margin-top: 18px;
+  display: none;
+}
+.stat-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 14px 0;
+  font-size: 14.5px;
+}
+.stat-table th, .stat-table td {
+  padding: 12px 14px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.stat-table th {
+  color: var(--gold);
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.03);
+}
+.faq-item {
+  background: var(--elevated);
+  border-radius: 16px;
+  padding: 18px 20px;
+  margin-bottom: 12px;
+}
+.faq-q {
+  font-weight: 800;
+  font-size: 16px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.faq-a {
+  font-size: 14.5px;
+  color: var(--muted);
+  margin: 0;
+}
+/* 하단 고정 스마트 전환 바 */
+.sticky-cta {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 60;
+  background: rgba(23, 27, 38, 0.95);
+  backdrop-filter: blur(16px);
+  border-top: 1px solid rgba(46, 242, 160, 0.25);
+  padding: 12px 20px;
+}
+.sticky-inner {
+  max-width: 880px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.sticky-text {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+}
+.sticky-sub {
+  font-size: 12px;
+  color: var(--gold);
+  display: block;
+}
+/* 비공개 테스터 & 다운로드 안내 모달 */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(5, 7, 11, 0.82);
+  backdrop-filter: blur(8px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal-card {
+  background: var(--surface);
+  max-width: 480px;
+  width: 100%;
+  border-radius: 26px;
+  padding: 28px 24px;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.6);
+}
+.footer {
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+@media (max-width: 640px) {
+  .nav-links { display: none; }
+  .sticky-inner { flex-direction: column; align-items: stretch; text-align: center; }
+}
+</style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "공덕왕 (King of Karma) - 사주 길방 로또 명당 레이더 & 공덕 스캐너",
+  "operatingSystem": "Android",
+  "applicationCategory": "LifestyleApplication",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "KRW"
+  },
+  "description": "오늘 내 사주에 재물이 열리는 방향(길방)의 실제 로또 1등 명당 판매점 레이더부터, 역대 당첨번호 평행우주 대조, AC값 4단계 비기 번호 추출, 42% 복권기금 기부보살 증서까지 한 번에 경험하세요.",
+  "url": "https://tj-park8176.github.io",
+  "downloadUrl": "https://play.google.com/store/apps/details?id=com.taejoonlabs.kingofkarma",
+  "author": {
+    "@type": "Organization",
+    "name": "Taejoon Labs (Origincs)"
+  }
+}
+</script>
 </head>
 <body>
-  <div class="container">
-    <div class="card">
-      <span class="badge">Taejoon Labs Official</span>
-      <h1>공덕왕 (King of Karma)</h1>
-      <p>사주 길방 로또 명당 레이더 · 4단계 카르마 번호 추출 · 복권 QR 공덕 스캐너</p>
-      <div class="btn-list">
-        <a class="btn btn-jade" href="./privacy-policy.html">개인정보처리방침 (Privacy Policy) 바로가기 →</a>
-        <a class="btn" href="./delete-account.html">클라우드 계정 및 백업 데이터 영구 삭제 센터 →</a>
-      </div>
+  <header class="nav-bar">
+    <div class="nav-inner">
+      <a class="brand-link" href="/">
+        <span class="orb-dot"></span>
+        <span>공덕왕 (King of Karma)</span>
+      </a>
+      <nav class="nav-links">
+        <a href="/guides/past-winning-number-check.html">역대 당첨번호 대조</a>
+        <a href="/guides/lotto-ac-value-sum-calculator.html">AC값·총합 계산기</a>
+        <a href="/guides/saju-lucky-direction-lotto.html">사주 재물 길방</a>
+        <a href="/stores/index.html">전국 1등 명당</a>
+        <a href="/guides/lottery-public-fund-42-percent-donation.html">42% 복권기금 계산</a>
+      </nav>
+      <a class="nav-cta" href="https://play.google.com/store/apps/details?id=com.taejoonlabs.kingofkarma" onclick="return openInstallModal(event);">앱 다운로드</a>
     </div>
-    <div class="footer">
-      © 2026 Taejoon Labs (Origincs). 문의: ptj8176@gmail.com
+  </header>
+  <main class="container">
+    
+    <section class="card" style="padding:38px 30px;">
+      <span class="badge"><span class="orb-dot"></span>Taejoon Labs 공식 런칭 · 사주 명리학 x 동행복권 빅데이터</span>
+      <h1>오늘 내 사주에 재물이 터지는 방향,<br/>실제 로또 1등 명당은 어디일까요?</h1>
+      <p class="lead">
+        매주 꽝이 나와도 허탈해하지 마세요. <strong>「공덕왕 (King of Karma)」</strong>은 내 생년월일시 만세력 사주 길방(8방위) 나침반 레이더로 주변 1·2등 명당을 안내하고, 낙첨된 복권의 <strong>42% 법정 공익기금 기부 증서</strong>와 <strong>역대 회차 평행우주 당첨 분석</strong>까지 제공하는 프리미엄 다크 유틸리티 앱입니다.
+      </p>
+      <div class="cta-row">
+        <a class="btn-primary" href="https://play.google.com/store/apps/details?id=com.taejoonlabs.kingofkarma" onclick="return openInstallModal(event);">Google Play에서 무료로 시작하기</a>
+        <a class="btn-secondary" href="/guides/past-winning-number-check.html">내 번호 과거 1등 당첨 여부 웹에서 즉시 조회 →</a>
+      </div>
+    </section>
+
+    <section class="card">
+      <span class="badge badge-gold"><span class="orb-dot-gold"></span>웹에서 바로 쓰는 무료 로또·사주 분석 도구 모음</span>
+      <h2>궁금한 질문을 선택해 지금 바로 계산해 보세요</h2>
+      <p>복잡한 가입 없이 웹 브라우저에서 즉시 테스트해 볼 수 있는 5대 핵심 분석 가이드 및 미니 계산기입니다.</p>
+      <div class="grid-2">
+        <a class="card-elevated" style="text-decoration:none; display:block;" href="/guides/past-winning-number-check.html">
+          <span class="badge" style="margin-bottom:8px;"><span class="orb-dot"></span>평행우주 등수 매칭</span>
+          <h3 style="margin-top:0; color:var(--text);">1. 내가 산 로또 번호, 역대 1등 당첨된 적 있는지 확인하는 법</h3>
+          <p style="margin:0; font-size:14px;">제1회~최신 회차 전체 당첨번호 DB와 내 번호 6개를 0.1초 만에 대조하여 과거 최고 등수와 당첨금을 즉시 확인합니다.</p>
+        </a>
+        <a class="card-elevated" style="text-decoration:none; display:block;" href="/guides/lotto-ac-value-sum-calculator.html">
+          <span class="badge" style="margin-bottom:8px;"><span class="orb-dot"></span>수학적 통계 필터</span>
+          <h3 style="margin-top:0; color:var(--text);">2. 로또 AC값(산술적 복잡도) 7 이상 &amp; 합계 100~175 계산기</h3>
+          <p style="margin:0; font-size:14px;">내가 조합한 번호 6개의 AC값, 총합 구간, 홀짝 균형, 연속번호 유무를 정밀 진단하여 수학적 완성도를 평가합니다.</p>
+        </a>
+        <a class="card-elevated" style="text-decoration:none; display:block;" href="/guides/saju-lucky-direction-lotto.html">
+          <span class="badge" style="margin-bottom:8px;"><span class="orb-dot"></span>만세력 60갑자 길방</span>
+          <h3 style="margin-top:0; color:var(--text);">3. 사주 일주별 오늘 로또 사러 가기 좋은 재물 방향(길방) 찾기</h3>
+          <p style="margin:0; font-size:14px;">내 생년월일의 부족한 오행(목·화·토·금·수)을 보완하는 오늘의 재물 방위(8방위)와 행운의 사주 용신 숫자를 확인합니다.</p>
+        </a>
+        <a class="card-elevated" style="text-decoration:none; display:block;" href="/guides/lottery-public-fund-42-percent-donation.html">
+          <span class="badge badge-gold" style="margin-bottom:8px;"><span class="orb-dot-gold"></span>복권기금 42% 환원</span>
+          <h3 style="margin-top:0; color:var(--text);">4. 로또 5천 원 꽝 되면 기부금으로 얼마 쓰이나요? (연탄 환산기)</h3>
+          <p style="margin:0; font-size:14px;">복권 및 복권기금법에 따라 소외계층 지원에 쓰이는 내 누적 기부 금액(42%)과 연탄 환산 수량, 공덕 등급을 계산합니다.</p>
+        </a>
+      </div>
+      <div style="margin-top:14px;">
+        <a class="card-elevated" style="text-decoration:none; display:block;" href="/guides/moktak-asmr-108-karma-meditation.html">
+          <span class="badge" style="margin-bottom:8px;"><span class="orb-dot"></span>448.8Hz 에밀레종 &amp; 108타 정진</span>
+          <h3 style="margin-top:0; color:var(--text);">5. 마음 다스리는 백팔번뇌(108타) 목탁 ASMR &amp; 448.8Hz 범종 웹 체험관</h3>
+          <p style="margin:0; font-size:14px;">브라우저에서 바로 대추나무 목탁과 성덕대왕신종(448.8Hz 맥놀이) 주파수를 울리며 평정심과 공덕 포인트를 쌓아보세요.</p>
+        </a>
+      </div>
+    </section>
+
+    <section class="card">
+      <span class="badge"><span class="orb-dot"></span>앱 미리보기 (Concept B Minimal Dark UI)</span>
+      <h2>유료 번호 리딩방 스팸 없는 가장 세련된 로또 유틸리티</h2>
+      <p>과장된 당첨 보장 문구나 복잡한 팝업 광고 대신, 직관적인 3D 글래스 오브와 정교한 알고리즘만 담았습니다.</p>
+      <div class="grid-4">
+        <div class="screen-card">
+          <img src="/assets/screen_radar.png" alt="사주 길방 로또 명당 GPS 나침반 레이더 화면" loading="lazy" />
+          <span>1. 사주 길방 명당 레이더</span>
+        </div>
+        <div class="screen-card">
+          <img src="/assets/screen_generator.png" alt="448.8Hz 범종 4단계 카르마 필터 번호 추출 화면" loading="lazy" />
+          <span>2. 4단계 비기 번호 추출기</span>
+        </div>
+        <div class="screen-card">
+          <img src="/assets/screen_scanner.png" alt="0.1초 초고속 복권 QR 스캐너 및 기부보살 증서 화면" loading="lazy" />
+          <span>3. 0.1초 QR &amp; 기부보살 증서</span>
+        </div>
+        <div class="screen-card">
+          <img src="/assets/screen_moktak.png" alt="백팔번뇌 108타 목탁 ASMR 및 전국 공덕 랭킹 화면" loading="lazy" />
+          <span>4. 108타 목탁 &amp; 공덕 서열</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <span class="badge badge-gold"><span class="orb-dot-gold"></span>전국 실제 1·2등 최다 배출 판매점 데이터</span>
+      <h2>전국 로또 1등 최다 배출 명당 TOP 6 및 권역별 총람</h2>
+      <p>동행복권 공식 통계에 기반한 전국 대표 성지 판매점입니다. 권역별 상세 페이지에서 내 지역 주변의 모든 명당 주소와 당첨 횟수를 확인하세요.</p>
+      <div style="overflow-x:auto;">
+        <table class="stat-table">
+          <thead>
+            <tr><th>판매점명</th><th>도로명/지번 주소</th><th>1등 배출</th><th>2등 배출</th></tr>
+          </thead>
+          <tbody><tr>
+          <td><strong style="color:var(--text);">스파(SPA)</strong></td>
+          <td>서울 노원구 동일로 1493 상계주공10단지 주공10단지종합상가111</td>
+          <td style="color:var(--gold); font-weight:800;">1등 49회</td>
+          <td style="color:var(--jade); font-weight:700;">2등 212회</td>
+        </tr><tr>
+          <td><strong style="color:var(--text);">부일카서비스</strong></td>
+          <td>부산 동구 자성로133번길 35 범일동 830-195</td>
+          <td style="color:var(--gold); font-weight:800;">1등 44회</td>
+          <td style="color:var(--jade); font-weight:700;">2등 168회</td>
+        </tr><tr>
+          <td><strong style="color:var(--text);">제이복권방</strong></td>
+          <td>서울 종로구 종로 225-1 평화시장 1층 76호</td>
+          <td style="color:var(--gold); font-weight:800;">1등 26회</td>
+          <td style="color:var(--jade); font-weight:700;">2등 95회</td>
+        </tr><tr>
+          <td><strong style="color:var(--text);">로또휴게실</strong></td>
+          <td>경기 용인시 기흥구 용구대로 1885 보라동 378-1</td>
+          <td style="color:var(--gold); font-weight:800;">1등 24회</td>
+          <td style="color:var(--jade); font-weight:700;">2등 89회</td>
+        </tr><tr>
+          <td><strong style="color:var(--text);">세진전자통신</strong></td>
+          <td>대구 서구 서대구로 156 평리동 1094-4</td>
+          <td style="color:var(--gold); font-weight:800;">1등 18회</td>
+          <td style="color:var(--jade); font-weight:700;">2등 71회</td>
+        </tr><tr>
+          <td><strong style="color:var(--text);">잠실매점(교통카드판매소)</strong></td>
+          <td>서울 송파구 올림픽로 269 잠실역 8번출구 앞</td>
+          <td style="color:var(--gold); font-weight:800;">1등 16회</td>
+          <td style="color:var(--jade); font-weight:700;">2등 64회</td>
+        </tr></tbody>
+        </table>
+      </div>
+      <div class="cta-row">
+        <a class="btn-secondary" href="/stores/index.html">전국 권역별 로또 1·2등 명당 전체 리스트 보기 →</a>
+        <a class="btn-primary" href="https://play.google.com/store/apps/details?id=com.taejoonlabs.kingofkarma" onclick="return openInstallModal(event);">내 사주 길방 명당 나침반으로 찾기</a>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>공식 정책 및 데이터 안전 센터</h2>
+      <p>공덕왕은 사용자의 개인정보 보호와 투명한 계정 관리를 최우선으로 준수합니다.</p>
+      <div class="cta-row">
+        <a class="btn-secondary" href="/privacy-policy.html">개인정보처리방침 (Privacy Policy) →</a>
+        <a class="btn-secondary" href="/delete-account.html">클라우드 계정 및 백업 데이터 영구 삭제 센터 →</a>
+      </div>
+    </section>
+    
+    <footer class="footer">
+      <div style="margin-bottom:12px;">
+        <a href="/">홈</a> ·
+        <a href="/stores/index.html">전국 로또 1등 명당 지도</a> ·
+        <a href="/guides/past-winning-number-check.html">과거 당첨번호 중복 조회</a> ·
+        <a href="/guides/lotto-ac-value-sum-calculator.html">로또 AC값 계산기</a> ·
+        <a href="/privacy-policy.html">개인정보처리방침</a> ·
+        <a href="/delete-account.html">계정 및 데이터 삭제</a>
+      </div>
+      <div>© 2026 Taejoon Labs (Origincs). 문의: ptj8176@gmail.com</div>
+      <div style="font-size:12px; margin-top:6px; opacity:0.75;">본 서비스는 동행복권 공개 데이터 및 정통 만세력 알고리즘에 기반한 통계·엔터테인먼트 유틸리티이며, 앱 내 복권 판매 및 사행성 결제를 일절 제공하지 않습니다.</div>
+    </footer>
+  </main>
+  
+<div class="sticky-cta">
+  <div class="sticky-inner">
+    <div>
+      <span class="sticky-text">공덕왕 (King of Karma) - 사주 길방 로또 명당 &amp; 0.1초 QR 스캐너</span>
+      <span class="sticky-sub">내 사주 재물 방향 명당 찾기부터 평행우주 1등 조회, 42% 기부보살 증서까지 무료 제공</span>
+    </div>
+    <div style="display:flex; gap:8px; justify-content:center;">
+      <a class="btn-primary" style="padding:11px 18px; font-size:14px;" href="https://play.google.com/store/apps/details?id=com.taejoonlabs.kingofkarma" onclick="return openInstallModal(event);">Google Play 앱 설치</a>
     </div>
   </div>
+</div>
+
+<div id="installModal" class="modal-backdrop" onclick="if(event.target===this)closeInstallModal();">
+  <div class="modal-card">
+    <span class="badge"><span class="orb-dot"></span>Google Play 공식 출시 &amp; 사전 체험 안내</span>
+    <h2 style="margin-bottom:10px;">공덕왕 앱 설치 및 사전 체험</h2>
+    <p style="font-size:14.5px;">공덕왕은 현재 Google Play 스토어 정식 배포 및 비공개 사전 체험(Closed Testing)을 운영하고 있습니다. 아래 버튼으로 Google Play 스토어에서 바로 확인하실 수 있습니다.</p>
+    <div class="card-elevated" style="margin:16px 0; font-size:13.5px; color:#D5DCEB;">
+      <strong style="color:var(--gold); display:block; margin-bottom:6px;">사전 체험(비공개 테스트) 기간 안내</strong>
+      만약 스토어 링크 접속 시 '항목을 찾을 수 없음'이 표시된다면, 정식 공개 전환 전 사전 테스터 등록이 필요한 상태입니다. 아래 이메일로 Google 계정(Gmail) 주소를 보내주시면 즉시 사전 테스터 권한과 설치 링크를 열어드립니다.
+    </div>
+    <div class="cta-row" style="flex-direction:column;">
+      <a class="btn-primary" style="width:100%;" href="https://play.google.com/store/apps/details?id=com.taejoonlabs.kingofkarma" target="_blank" rel="noopener">1. Google Play 스토어 바로가기</a>
+      <a class="btn-secondary" style="width:100%;" href="mailto:ptj8176@gmail.com?subject=%5B%EA%B3%B5%EB%8D%95%EC%99%95%5D%20%EC%82%AC%EC%A0%84%20%EC%B2%B4%ED%97%98%20%ED%85%8C%EC%8A%A4%ED%84%B0%20%EC%8B%A0%EC%B2%AD&body=Google%20Play%20%EA%B3%84%EC%A0%95%20%EC%9D%B4%EB%A9%94%EC%9D%BC(Gmail)%3A%20">2. 사전 테스터 즉시 등록 신청 (1분 컷)</a>
+      <button class="btn-secondary" style="width:100%; background:transparent; color:var(--muted)!important;" onclick="closeInstallModal()">닫기</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function openInstallModal(e) {
+  if (e) e.preventDefault();
+  document.getElementById('installModal').style.display = 'flex';
+  return false;
+}
+function closeInstallModal() {
+  document.getElementById('installModal').style.display = 'none';
+}
+function getOrbClass(n) {
+  if (n <= 10) return 'orb-yellow';
+  if (n <= 20) return 'orb-blue';
+  if (n <= 30) return 'orb-red';
+  if (n <= 40) return 'orb-grey';
+  return 'orb-green';
+}
+</script>
+
+  
 </body>
 </html>

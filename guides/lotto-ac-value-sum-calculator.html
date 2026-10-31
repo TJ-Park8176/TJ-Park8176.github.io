@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>로또 AC값(산술적 복잡도) 7 이상 계산법 및 번호 합계 100~175 황금구간 진단기</title>
+  <meta name="description" content="로또 1등 당첨번호의 80% 이상이 분포하는 산술적 복잡도(AC값 7~10)와 번호 총합 황금구간(100~175), 홀짝 밸런스를 즉시 계산해 주는 무료 로또 수학 필터 진단기입니다." />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
+  <link rel="canonical" href="https://tj-park8176.github.io/guides/lotto-ac-value-sum-calculator.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="공덕왕 (King of Karma)" />
+  <meta property="og:title" content="로또 AC값(산술적 복잡도) 7 이상 계산법 및 번호 합계 100~175 황금구간 진단기" />
+  <meta property="og:description" content="로또 1등 당첨번호의 80% 이상이 분포하는 산술적 복잡도(AC값 7~10)와 번호 총합 황금구간(100~175), 홀짝 밸런스를 즉시 계산해 주는 무료 로또 수학 필터 진단기입니다." />
+  <meta property="og:url" content="https://tj-park8176.github.io/guides/lotto-ac-value-sum-calculator.html" />
+  <meta property="og:image" content="https://tj-park8176.github.io/assets/feature_graphic.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="로또 AC값(산술적 복잡도) 7 이상 계산법 및 번호 합계 100~175 황금구간 진단기" />
+  <meta name="twitter:description" content="로또 1등 당첨번호의 80% 이상이 분포하는 산술적 복잡도(AC값 7~10)와 번호 총합 황금구간(100~175), 홀짝 밸런스를 즉시 계산해 주는 무료 로또 수학 필터 진단기입니다." />
+  <meta name="twitter:image" content="https://tj-park8176.github.io/assets/feature_graphic.png" />
+  <link rel="icon" type="image/png" href="/assets/app_icon.png" />
+  <link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+  <style>
+:root {
+  --bg: #0B0D13;
+  --surface: #171B26;
+  --elevated: #1E2330;
+  --jade: #2EF2A0;
+  --jade-dim: rgba(46, 242, 160, 0.14);
+  --gold: #FFD666;
+  --gold-dim: rgba(255, 214, 102, 0.14);
+  --crimson: #FF6B7A;
+  --crimson-dim: rgba(255, 107, 122, 0.14);
+  --text: #F4F6FA;
+  --muted: #949EB0;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  padding: 0 0 100px 0;
+  background-color: var(--bg);
+  background-image: radial-gradient(circle at 50% 0%, rgba(46, 242, 160, 0.08) 0%, transparent 55%);
+  color: var(--text);
+  font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Malgun Gothic", sans-serif;
+  line-height: 1.68;
+  word-break: keep-all;
+}
+a { color: var(--jade); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.nav-bar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(11, 13, 19, 0.88);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 14px 20px;
+}
+.nav-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.brand-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 800;
+  font-size: 18px;
+  color: var(--text);
+  text-decoration: none !important;
+}
+.orb-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #A8FFDB, var(--jade) 60%, #0A7045 100%);
+  box-shadow: 0 0 12px var(--jade);
+  display: inline-block;
+  flex-shrink: 0;
+}
+.orb-dot-gold {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #FFF3C4, var(--gold) 65%, #997300 100%);
+  box-shadow: 0 0 10px var(--gold);
+  display: inline-block;
+  flex-shrink: 0;
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.nav-links a { color: var(--muted); text-decoration: none; }
+.nav-links a:hover { color: var(--jade); }
+.nav-cta {
+  background: var(--jade);
+  color: var(--bg) !important;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 13px;
+  text-decoration: none !important;
+}
+.container {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 32px 20px;
+}
+.breadcrumb {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 18px;
+}
+.breadcrumb a { color: var(--muted); }
+.card {
+  background: var(--surface);
+  border-radius: 24px;
+  padding: 30px 26px;
+  margin-bottom: 22px;
+}
+.card-elevated {
+  background: var(--elevated);
+  border-radius: 20px;
+  padding: 22px;
+  margin-bottom: 16px;
+}
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: var(--jade-dim);
+  color: var(--jade);
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+.badge-gold {
+  background: var(--gold-dim);
+  color: var(--gold);
+}
+h1 {
+  margin: 0 0 14px 0;
+  font-size: clamp(24px, 4vw, 34px);
+  font-weight: 800;
+  line-height: 1.32;
+  letter-spacing: -0.02em;
+}
+h2 {
+  margin: 0 0 14px 0;
+  font-size: 21px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+h3 {
+  margin: 18px 0 8px 0;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--gold);
+}
+p {
+  color: var(--muted);
+  margin: 0 0 16px 0;
+  font-size: 15.5px;
+}
+.lead {
+  font-size: 17px;
+  color: #D5DCEB;
+  margin-bottom: 24px;
+}
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: var(--jade);
+  color: var(--bg) !important;
+  font-weight: 800;
+  font-size: 16px;
+  padding: 16px 26px;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none !important;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: 0 8px 24px rgba(46, 242, 160, 0.22);
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(46, 242, 160, 0.34);
+}
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--elevated);
+  color: var(--gold) !important;
+  font-weight: 700;
+  font-size: 15px;
+  padding: 15px 22px;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none !important;
+}
+.cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 18px;
+}
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+}
+.screen-card {
+  background: var(--elevated);
+  border-radius: 20px;
+  padding: 14px;
+  text-align: center;
+}
+.screen-card img {
+  width: 100%;
+  max-width: 220px;
+  border-radius: 14px;
+  display: block;
+  margin: 0 auto 10px auto;
+}
+.screen-card span {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+}
+/* 인터랙티브 미니 위젯 스타일 */
+.widget-box {
+  background: linear-gradient(145deg, #1A2030 0%, #141824 100%);
+  border-radius: 24px;
+  padding: 28px 24px;
+  margin: 24px 0;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.35);
+}
+.ball-inputs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 16px 0;
+}
+.ball-input {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--bg);
+  color: var(--text);
+  border: 2px solid #2C344A;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 800;
+  outline: none;
+}
+.ball-input:focus {
+  border-color: var(--jade);
+  box-shadow: 0 0 12px rgba(46, 242, 160, 0.3);
+}
+.lotto-orb {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  font-weight: 800;
+  font-size: 15px;
+  color: #0B0D13;
+  margin-right: 6px;
+  box-shadow: inset -3px -3px 6px rgba(0,0,0,0.35), 0 4px 10px rgba(0,0,0,0.3);
+}
+.orb-yellow { background: radial-gradient(circle at 30% 30%, #FFF5B8, #FFD666 65%, #C79300); }
+.orb-blue   { background: radial-gradient(circle at 30% 30%, #C7E8FF, #5CAEFF 65%, #1E62B5); color: #FFF; }
+.orb-red    { background: radial-gradient(circle at 30% 30%, #FFD0D6, #FF6B7A 65%, #B82535); color: #FFF; }
+.orb-grey   { background: radial-gradient(circle at 30% 30%, #E2E7F0, #949EB0 65%, #4B5363); color: #FFF; }
+.orb-green  { background: radial-gradient(circle at 30% 30%, #C2FBE1, #2EF2A0 65%, #0E8F58); }
+.result-panel {
+  background: var(--bg);
+  border-radius: 18px;
+  padding: 20px;
+  margin-top: 18px;
+  display: none;
+}
+.stat-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 14px 0;
+  font-size: 14.5px;
+}
+.stat-table th, .stat-table td {
+  padding: 12px 14px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.stat-table th {
+  color: var(--gold);
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.03);
+}
+.faq-item {
+  background: var(--elevated);
+  border-radius: 16px;
+  padding: 18px 20px;
+  margin-bottom: 12px;
+}
+.faq-q {
+  font-weight: 800;
+  font-size: 16px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.faq-a {
+  font-size: 14.5px;
+  color: var(--muted);
+  margin: 0;
+}
+/* 하단 고정 스마트 전환 바 */
+.sticky-cta {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 60;
+  background: rgba(23, 27, 38, 0.95);
+  backdrop-filter: blur(16px);
+  border-top: 1px solid rgba(46, 242, 160, 0.25);
+  padding: 12px 20px;
+}
+.sticky-inner {
+  max-width: 880px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.sticky-text {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+}
+.sticky-sub {
+  font-size: 12px;
+  color: var(--gold);
+  display: block;
+}
+/* 비공개 테스터 & 다운로드 안내 모달 */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(5, 7, 11, 0.82);
+  backdrop-filter: blur(8px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal-card {
+  background: var(--surface);
+  max-width: 480px;
+  width: 100%;
+  border-radius: 26px;
+  padding: 28px 24px;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.6);
+}
+.footer {
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+@media (max-width: 640px) {
+  .nav-links { display: none; }
+  .sticky-inner { flex-direction: column; align-items: stretch; text-align: center; }
+}
+</style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "로또 AC값(산술적 복잡도)은 어떻게 계산하며 몇 이상이 좋은가요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "로또 번호 6개에서 두 숫자씩 뺀 15개의 차이값 중 중복을 제외한 고유 차이값 개수(D)에서 5를 뺀 값(D-5)이 AC값입니다. 역대 당첨 통계상 7 이상(7~10)이 가장 이상적입니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "로또 번호 6개 합계 황금구간은 몇부터 몇까지인가요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "6개 번호의 합계가 100 이상 175 이하인 구간이 정규분포의 중심(평균 138)에 해당하여 역대 1등 당첨 빈도가 가장 높습니다."
+      }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+  <header class="nav-bar">
+    <div class="nav-inner">
+      <a class="brand-link" href="/">
+        <span class="orb-dot"></span>
+        <span>공덕왕 (King of Karma)</span>
+      </a>
+      <nav class="nav-links">
+        <a href="/guides/past-winning-number-check.html">역대 당첨번호 대조</a>
+        <a href="/guides/lotto-ac-value-sum-calculator.html">AC값·총합 계산기</a>
+        <a href="/guides/saju-lucky-direction-lotto.html">사주 재물 길방</a>
+        <a href="/stores/index.html">전국 1등 명당</a>
+        <a href="/guides/lottery-public-fund-42-percent-donation.html">42% 복권기금 계산</a>
+      </nav>
+      <a class="nav-cta" href="https://play.google.com/store/apps/details?id=com.taejoonlabs.kingofkarma" onclick="return openInstallModal(event);">앱 다운로드</a>
+    </div>
+  </header>
+  <main class="container">
+    
+    <div class="breadcrumb"><a href="/">홈</a> &gt; <a href="/guides/lotto-ac-value-sum-calculator.html">로또 AC값 및 총합 황금구간 계산기</a></div>
+    <article class="card">
+      <span class="badge"><span class="orb-dot"></span>로또 수학적 통계 필터링 공식 가이드</span>
+      <h1>로또 AC값(산술적 복잡도) 7 이상 계산법 및 번호 총합 100~175 황금구간 진단기</h1>
+      <p class="lead">
+        무작위로 뽑은 번호가 왜 매번 빗나갈까요? 역대 로또 1등 당첨번호 데이터를 통계적으로 분석해 보면, <strong>산술적 복잡도(AC값)가 7 이상</strong>이고 <strong>6개 번호의 합계가 100~175 사이</strong>에 위치하는 조합이 전체 당첨의 대다수를 차지합니다. 지금 내 번호 6개의 수학적 완성도를 진단해 보세요.
+      </p>
+
+      <div class="widget-box">
+        <span class="badge badge-gold"><span class="orb-dot-gold"></span>실시간 수학 필터 진단 위젯</span>
+        <h2 style="margin-bottom:8px;">내 로또 번호 6개 AC값 · 총합 · 홀짝 · 연번 정밀 계산기</h2>
+        <p style="font-size:14px; margin-bottom:12px;">번호 6개를 입력하면 AC값 공식(15개 차이값 중 고유값 개수 - 5)과 황금총합 통과 여부를 즉시 판정합니다.</p>
+        <div class="ball-inputs">
+          <input type="number" min="1" max="45" class="ball-input" id="ac1" value="3" />
+          <input type="number" min="1" max="45" class="ball-input" id="ac2" value="11" />
+          <input type="number" min="1" max="45" class="ball-input" id="ac3" value="19" />
+          <input type="number" min="1" max="45" class="ball-input" id="ac4" value="26" />
+          <input type="number" min="1" max="45" class="ball-input" id="ac5" value="35" />
+          <input type="number" min="1" max="45" class="ball-input" id="ac6" value="42" />
+        </div>
+        <div class="cta-row">
+          <button class="btn-primary" onclick="calcAcAndSum()">AC값 및 황금구간 정밀 진단하기</button>
+          <button class="btn-secondary" onclick="generateGoldenSample()">황금구간 통과 번호 자동 생성</button>
+        </div>
+        <div id="acResult" class="result-panel"></div>
+      </div>
+
+      <h2>1. 로또 AC값(Arithmetic Complexity, 산술적 복잡도)이란?</h2>
+      <p>
+        AC값은 6개의 번호가 얼마나 규칙적이지 않고 불규칙(복잡)하게 퍼져 있는지를 나타내는 0~10 사이의 수학적 지표입니다.
+      </p>
+      <div class="card-elevated">
+        <h3>AC값 계산 공식: (두 숫자 간 차이값의 고유 개수 D) - (6 - 1)</h3>
+        <p style="margin:0;">
+          6개의 숫자에서 2개씩 짝지어 큰 수에서 작은 수를 빼면 총 <strong>15개의 차이값</strong>이 나옵니다. 만약 `1, 2, 3, 4, 5, 6`처럼 등차수열로 번호를 고르면 차이값 종류가 `1, 2, 3, 4, 5` 딱 5개뿐이므로 <strong>AC값 = 5 - 5 = 0점</strong>이 됩니다.<br/>
+          반면 차이값이 겹치지 않고 다양할수록 AC값은 최고 10점에 가까워지며, <strong>역대 1등 번호의 약 82% 이상이 AC값 7~10 구간</strong>에서 출현했습니다.
+        </p>
+      </div>
+
+      <h2>2. 번호 총합 황금구간 (100 ~ 175)의 원리</h2>
+      <p>
+        로또 번호 6개의 최소 합계는 `21 (1+2+3+4+5+6)`이고 최대 합계는 `255 (40+41+42+43+44+45)`이며, 정중앙 평균값은 <strong>138</strong>입니다. 정규분포 종 모양 곡선의 중심부인 <strong>총합 100 이상 ~ 175 이하 구간</strong>에 가장 많은 1등 조합이 몰려 있습니다.
+      </p>
+
+      <h2>손계산 없이 4단계 필터가 적용된 번호를 뽑는 법</h2>
+      <p>
+        <strong>「공덕왕」</strong> 앱의 <strong>[비기 번호 추출기]</strong>는 에밀레종 448.8Hz 범종을 3회 타종하면 아래 4단계 카르마 필터를 자동으로 통과한 번호 5게임을 즉시 생성합니다.
+      </p>
+      <ul style="color:var(--muted); font-size:15px; padding-left:20px;">
+        <li><strong>Lv.1 입문 보살 필터</strong>: 극단적 홀짝(6:0, 0:6) 및 3연속 연번 자동 배제</li>
+        <li><strong>Lv.2 공덕 거사 필터</strong>: 내가 과거에 스캔하여 낙첨된 '악연수' 블랙리스트 자동 배제</li>
+        <li><strong>Lv.3 해탈 거사 필터</strong>: <strong>번호 총합 100~175 황금구간</strong> 및 오늘 내 사주 상충수 방어</li>
+        <li><strong>Lv.4 인간 부처 필터</strong>: <strong>AC값 7 이상 강제 보장</strong> + 내 사주와 동일한 일주 유저들의 최다 선택 행운수 결합</li>
+      </ul>
+      <div class="cta-row">
+        <a class="btn-primary" href="https://play.google.com/store/apps/details?id=com.taejoonlabs.kingofkarma" onclick="return openInstallModal(event);">공덕왕 앱에서 4단계 비기 번호 무료 추출하기</a>
+      </div>
+
+      <h2 style="margin-top:32px;">자주 묻는 질문 (FAQ)</h2>
+      <div class="faq-item">
+        <div class="faq-q">Q. 로또 AC값은 몇 점 이상이어야 좋은 번호인가요?</div>
+        <p class="faq-a">로또 6/45에서 AC값은 최소 0부터 최대 10까지 나올 수 있으며, 통계적으로 AC값 7 이상(7, 8, 9, 10)일 때 숫자의 간격이 등차수열에 치우치지 않은 이상적인 분포로 평가받습니다.</p>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Q. 로또 번호 6개 합계는 얼마로 맞추는 것이 가장 유리한가요?</div>
+        <p class="faq-a">이론적 평균값인 138을 중심으로 총합 100에서 175 사이 구간이 가장 출현 빈도가 높은 황금구간입니다.</p>
+      </div>
+    </article>
+    
+    <footer class="footer">
+      <div style="margin-bottom:12px;">
+        <a href="/">홈</a> ·
+        <a href="/stores/index.html">전국 로또 1등 명당 지도</a> ·
+        <a href="/guides/past-winning-number-check.html">과거 당첨번호 중복 조회</a> ·
+        <a href="/guides/lotto-ac-value-sum-calculator.html">로또 AC값 계산기</a> ·
+        <a href="/privacy-policy.html">개인정보처리방침</a> ·
+        <a href="/delete-account.html">계정 및 데이터 삭제</a>
+      </div>
+      <div>© 2026 Taejoon Labs (Origincs). 문의: ptj8176@gmail.com</div>
+      <div style="font-size:12px; margin-top:6px; opacity:0.75;">본 서비스는 동행복권 공개 데이터 및 정통 만세력 알고리즘에 기반한 통계·엔터테인먼트 유틸리티이며, 앱 내 복권 판매 및 사행성 결제를 일절 제공하지 않습니다.</div>
+    </footer>
+  </main>
+  
+<div class="sticky-cta">
+  <div class="sticky-inner">
+    <div>
+      <span class="sticky-text">공덕왕 (King of Karma) - 사주 길방 로또 명당 &amp; 0.1초 QR 스캐너</span>
+      <span class="sticky-sub">내 사주 재물 방향 명당 찾기부터 평행우주 1등 조회, 42% 기부보살 증서까지 무료 제공</span>
+    </div>
+    <div style="display:flex; gap:8px; justify-content:center;">
+      <a class="btn-primary" style="padding:11px 18px; font-size:14px;" href="https://play.google.com/store/apps/details?id=com.taejoonlabs.kingofkarma" onclick="return openInstallModal(event);">Google Play 앱 설치</a>
+    </div>
+  </div>
+</div>
+
+<div id="installModal" class="modal-backdrop" onclick="if(event.target===this)closeInstallModal();">
+  <div class="modal-card">
+    <span class="badge"><span class="orb-dot"></span>Google Play 공식 출시 &amp; 사전 체험 안내</span>
+    <h2 style="margin-bottom:10px;">공덕왕 앱 설치 및 사전 체험</h2>
+    <p style="font-size:14.5px;">공덕왕은 현재 Google Play 스토어 정식 배포 및 비공개 사전 체험(Closed Testing)을 운영하고 있습니다. 아래 버튼으로 Google Play 스토어에서 바로 확인하실 수 있습니다.</p>
+    <div class="card-elevated" style="margin:16px 0; font-size:13.5px; color:#D5DCEB;">
+      <strong style="color:var(--gold); display:block; margin-bottom:6px;">사전 체험(비공개 테스트) 기간 안내</strong>
+      만약 스토어 링크 접속 시 '항목을 찾을 수 없음'이 표시된다면, 정식 공개 전환 전 사전 테스터 등록이 필요한 상태입니다. 아래 이메일로 Google 계정(Gmail) 주소를 보내주시면 즉시 사전 테스터 권한과 설치 링크를 열어드립니다.
+    </div>
+    <div class="cta-row" style="flex-direction:column;">
+      <a class="btn-primary" style="width:100%;" href="https://play.google.com/store/apps/details?id=com.taejoonlabs.kingofkarma" target="_blank" rel="noopener">1. Google Play 스토어 바로가기</a>
+      <a class="btn-secondary" style="width:100%;" href="mailto:ptj8176@gmail.com?subject=%5B%EA%B3%B5%EB%8D%95%EC%99%95%5D%20%EC%82%AC%EC%A0%84%20%EC%B2%B4%ED%97%98%20%ED%85%8C%EC%8A%A4%ED%84%B0%20%EC%8B%A0%EC%B2%AD&body=Google%20Play%20%EA%B3%84%EC%A0%95%20%EC%9D%B4%EB%A9%94%EC%9D%BC(Gmail)%3A%20">2. 사전 테스터 즉시 등록 신청 (1분 컷)</a>
+      <button class="btn-secondary" style="width:100%; background:transparent; color:var(--muted)!important;" onclick="closeInstallModal()">닫기</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function openInstallModal(e) {
+  if (e) e.preventDefault();
+  document.getElementById('installModal').style.display = 'flex';
+  return false;
+}
+function closeInstallModal() {
+  document.getElementById('installModal').style.display = 'none';
+}
+function getOrbClass(n) {
+  if (n <= 10) return 'orb-yellow';
+  if (n <= 20) return 'orb-blue';
+  if (n <= 30) return 'orb-red';
+  if (n <= 40) return 'orb-grey';
+  return 'orb-green';
+}
+</script>
+
+  
+<script>
+function calcAcAndSum() {
+  const nums = [];
+  for (let i=1; i<=6; i++) {
+    const v = parseInt(document.getElementById('ac'+i).value, 10);
+    if (isNaN(v) || v < 1 || v > 45 || nums.includes(v)) {
+      alert('1부터 45 사이의 서로 다른 숫자 6개를 입력해 주세요.');
+      return;
+    }
+    nums.push(v);
+  }
+  nums.sort((a,b)=>a-b);
+  const diffs = new Set();
+  for (let i=0; i<6; i++) {
+    for (let j=i+1; j<6; j++) {
+      diffs.add(nums[j] - nums[i]);
+    }
+  }
+  const ac = diffs.size - 5;
+  const sum = nums.reduce((a,b)=>a+b, 0);
+  const odds = nums.filter(n => n % 2 === 1).length;
+  const evens = 6 - odds;
+  let maxConsec = 1, curConsec = 1;
+  for (let i=1; i<6; i++) {
+    if (nums[i] === nums[i-1] + 1) { curConsec++; if (curConsec > maxConsec) maxConsec = curConsec; }
+    else curConsec = 1;
+  }
+  const passAc = ac >= 7;
+  const passSum = sum >= 100 && sum <= 175;
+  const passOddEven = odds >= 1 && odds <= 5;
+  const passConsec = maxConsec < 3;
+  const scoreCount = [passAc, passSum, passOddEven, passConsec].filter(Boolean).length;
+  const grade = scoreCount === 4 ? 'S등급 (완벽한 4단계 황금 밸런스)' : (scoreCount === 3 ? 'A등급 (양호하나 일부 보완 권장)' : 'B등급 (편중된 패턴 주의)');
+
+  const ballsHtml = nums.map(n => `<span class="lotto-orb ${getOrbClass(n)}">${n}</span>`).join('');
+  const panel = document.getElementById('acResult');
+  panel.style.display = 'block';
+  panel.innerHTML = `
+    <div style="margin-bottom:12px;">${ballsHtml}</div>
+    <h3 style="margin:0 0 12px 0; color:${scoreCount===4 ? 'var(--jade)' : 'var(--gold)'};">종합 수학 필터 판정: ${grade}</h3>
+    <table class="stat-table">
+      <thead><tr><th>검증 항목</th><th>내 번호 측정값</th><th>권장 기준</th><th>통과 여부</th></tr></thead>
+      <tbody>
+        <tr><td><strong>산술적 복잡도 (AC값)</strong></td><td><strong>${ac}점</strong> (고유 차이값 ${diffs.size}개)</td><td>7점 ~ 10점</td><td style="color:${passAc?'var(--jade)':'var(--crimson)'}; font-weight:800;">${passAc?'통과 (PASS)':'미달 (재조합 권장)'}</td></tr>
+        <tr><td><strong>6개 번호 총합</strong></td><td><strong>${sum}</strong></td><td>100 ~ 175 구간</td><td style="color:${passSum?'var(--jade)':'var(--crimson)'}; font-weight:800;">${passSum?'황금구간 통과':'구간 이탈'}</td></tr>
+        <tr><td><strong>홀짝 비율</strong></td><td>홀 ${odds} : 짝 ${evens}</td><td>극단적 6:0 / 0:6 배제</td><td style="color:${passOddEven?'var(--jade)':'var(--crimson)'}; font-weight:800;">${passOddEven?'균형 통과':'단조로움'}</td></tr>
+        <tr><td><strong>최대 연속번호</strong></td><td>${maxConsec}연번</td><td>3연번 이상 배제</td><td style="color:${passConsec?'var(--jade)':'var(--crimson)'}; font-weight:800;">${passConsec?'통과':'3연번 이상 포함'}</td></tr>
+      </tbody>
+    </table>
+    <p style="margin:12px 0; font-size:14px; color:#D5DCEB;">공덕왕 앱에서는 위 4가지 수학 공식에 더해 <strong>내 사주 용신 행운수</strong>와 <strong>과거 내 낙첨 악연수 제외 필터</strong>까지 결합된 5게임을 원터치로 추출할 수 있습니다.</p>
+    <a class="btn-primary" style="font-size:14px; padding:12px 20px;" href="#" onclick="return openInstallModal(event);">공덕왕 앱에서 4단계 비기 번호 5게임 바로 뽑기</a>
+  `;
+}
+function generateGoldenSample() {
+  while (true) {
+    const pool = [];
+    while (pool.length < 6) {
+      const n = Math.floor(Math.random() * 45) + 1;
+      if (!pool.includes(n)) pool.push(n);
+    }
+    pool.sort((a,b)=>a-b);
+    const diffs = new Set();
+    for (let i=0; i<6; i++) for (let j=i+1; j<6; j++) diffs.add(pool[j]-pool[i]);
+    const ac = diffs.size - 5;
+    const sum = pool.reduce((a,b)=>a+b,0);
+    const odds = pool.filter(n=>n%2===1).length;
+    let maxC = 1, curC = 1;
+    for (let i=1; i<6; i++) { if (pool[i]===pool[i-1]+1) { curC++; if(curC>maxC) maxC=curC; } else curC=1; }
+    if (ac >= 7 && sum >= 100 && sum <= 175 && odds >= 2 && odds <= 4 && maxC < 3) {
+      for (let i=1; i<=6; i++) document.getElementById('ac'+i).value = pool[i-1];
+      calcAcAndSum();
+      break;
+    }
+  }
+}
+window.addEventListener('DOMContentLoaded', () => { calcAcAndSum(); });
+</script>
+
+</body>
+</html>
