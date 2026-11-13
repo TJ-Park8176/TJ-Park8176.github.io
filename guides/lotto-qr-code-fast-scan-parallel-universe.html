@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="naver-site-verification" content="9f119f04ba678c0bd33719745297069751709464" />
+  <meta name="google-site-verification" content="mUhHkJJcnw3pLYkugLDV9ktjiaMZM67z3SI7XKqhzZ4" />
+  <title>로또 QR코드 당첨확인 0.1초 초고속 스캔 및 낙첨 복권 평행우주 1등·기부증서 전환법</title>
+  <meta name="description" content="동행복권 로또 용지 QR코드를 카메라에 비추는 순간 0.1초 만에 당첨 결과와 역대 평행우주 1등 당첨 회차, 42% 복권기금 기부보살 증서를 동시에 확인하는 가장 빠른 방법입니다." />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
+  <link rel="canonical" href="https://tj-park8176.github.io/guides/lotto-qr-code-fast-scan-parallel-universe.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="공덕왕 (King of Karma)" />
+  <meta property="og:title" content="로또 QR코드 당첨확인 0.1초 초고속 스캔 및 낙첨 복권 평행우주 1등·기부증서 전환법" />
+  <meta property="og:description" content="동행복권 로또 용지 QR코드를 카메라에 비추는 순간 0.1초 만에 당첨 결과와 역대 평행우주 1등 당첨 회차, 42% 복권기금 기부보살 증서를 동시에 확인하는 가장 빠른 방법입니다." />
+  <meta property="og:url" content="https://tj-park8176.github.io/guides/lotto-qr-code-fast-scan-parallel-universe.html" />
+  <meta property="og:image" content="https://tj-park8176.github.io/assets/feature_graphic.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="로또 QR코드 당첨확인 0.1초 초고속 스캔 및 낙첨 복권 평행우주 1등·기부증서 전환법" />
+  <meta name="twitter:description" content="동행복권 로또 용지 QR코드를 카메라에 비추는 순간 0.1초 만에 당첨 결과와 역대 평행우주 1등 당첨 회차, 42% 복권기금 기부보살 증서를 동시에 확인하는 가장 빠른 방법입니다." />
+  <meta name="twitter:image" content="https://tj-park8176.github.io/assets/feature_graphic.png" />
+  <link rel="icon" type="image/png" href="/assets/app_icon.png" />
+  <link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+  <style>
+:root {
+  --bg: #0B0D13;
+  --surface: #171B26;
+  --elevated: #1E2330;
+  --jade: #2EF2A0;
+  --jade-dim: rgba(46, 242, 160, 0.14);
+  --gold: #FFD666;
+  --gold-dim: rgba(255, 214, 102, 0.14);
+  --crimson: #FF6B7A;
+  --crimson-dim: rgba(255, 107, 122, 0.14);
+  --text: #F4F6FA;
+  --muted: #949EB0;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  padding: 0 0 100px 0;
+  background-color: var(--bg);
+  background-image: radial-gradient(circle at 50% 0%, rgba(46, 242, 160, 0.08) 0%, transparent 55%);
+  color: var(--text);
+  font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Malgun Gothic", sans-serif;
+  line-height: 1.68;
+  word-break: keep-all;
+}
+a { color: var(--jade); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.nav-bar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(11, 13, 19, 0.88);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 14px 20px;
+}
+.nav-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.brand-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 800;
+  font-size: 18px;
+  color: var(--text);
+  text-decoration: none !important;
+}
+.orb-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #A8FFDB, var(--jade) 60%, #0A7045 100%);
+  box-shadow: 0 0 12px var(--jade);
+  display: inline-block;
+  flex-shrink: 0;
+}
+.orb-dot-gold {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #FFF3C4, var(--gold) 65%, #997300 100%);
+  box-shadow: 0 0 10px var(--gold);
+  display: inline-block;
+  flex-shrink: 0;
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.nav-links a { color: var(--muted); text-decoration: none; }
+.nav-links a:hover { color: var(--jade); }
+.nav-cta {
+  background: var(--jade);
+  color: var(--bg) !important;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 13px;
+  text-decoration: none !important;
+}
+.container {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 32px 20px;
+}
+.breadcrumb {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 18px;
+}
+.breadcrumb a { color: var(--muted); }
+.card {
+  background: var(--surface);
+  border-radius: 24px;
+  padding: 30px 26px;
+  margin-bottom: 22px;
+}
+.card-elevated {
+  background: var(--elevated);
+  border-radius: 20px;
+  padding: 22px;
+  margin-bottom: 16px;
+}
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: var(--jade-dim);
+  color: var(--jade);
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+.badge-gold {
+  background: var(--gold-dim);
+  color: var(--gold);
+}
+h1 {
+  margin: 0 0 14px 0;
+  font-size: clamp(24px, 4vw, 34px);
+  font-weight: 800;
+  line-height: 1.32;
+  letter-spacing: -0.02em;
+}
+h2 {
+  margin: 0 0 14px 0;
+  font-size: 21px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+h3 {
+  margin: 18px 0 8px 0;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--gold);
+}
+p {
+  color: var(--muted);
+  margin: 0 0 16px 0;
+  font-size: 15.5px;
+}
+.lead {
+  font-size: 17px;
+  color: #D5DCEB;
+  margin-bottom: 24px;
+}
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: var(--jade);
+  color: var(--bg) !important;
+  font-weight: 800;
+  font-size: 16px;
+  padding: 16px 26px;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none !important;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: 0 8px 24px rgba(46, 242, 160, 0.22);
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(46, 242, 160, 0.34);
+}
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--elevated);
+  color: var(--gold) !important;
+  font-weight: 700;
+  font-size: 15px;
+  padding: 15px 22px;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none !important;
+}
+.cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 18px;
+}
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+}
+.screen-card {
+  background: var(--elevated);
+  border-radius: 20px;
+  padding: 14px;
+  text-align: center;
+}
+.screen-card img {
+  width: 100%;
+  max-width: 220px;
+  border-radius: 14px;
+  display: block;
+  margin: 0 auto 10px auto;
+}
+.screen-card span {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+}
+/* 인터랙티브 미니 위젯 스타일 */
+.widget-box {
+  background: linear-gradient(145deg, #1A2030 0%, #141824 100%);
+  border-radius: 24px;
+  padding: 28px 24px;
+  margin: 24px 0;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.35);
+}
+.ball-inputs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 16px 0;
+}
+.ball-input {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--bg);
+  color: var(--text);
+  border: 2px solid #2C344A;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 800;
+  outline: none;
+}
+.ball-input:focus {
+  border-color: var(--jade);
+  box-shadow: 0 0 12px rgba(46, 242, 160, 0.3);
+}
+.lotto-orb {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  font-weight: 800;
+  font-size: 15px;
+  color: #0B0D13;
+  margin-right: 6px;
+  box-shadow: inset -3px -3px 6px rgba(0,0,0,0.35), 0 4px 10px rgba(0,0,0,0.3);
+}
+.orb-yellow { background: radial-gradient(circle at 30% 30%, #FFF5B8, #FFD666 65%, #C79300); }
+.orb-blue   { background: radial-gradient(circle at 30% 30%, #C7E8FF, #5CAEFF 65%, #1E62B5); color: #FFF; }
+.orb-red    { background: radial-gradient(circle at 30% 30%, #FFD0D6, #FF6B7A 65%, #B82535); color: #FFF; }
+.orb-grey   { background: radial-gradient(circle at 30% 30%, #E2E7F0, #949EB0 65%, #4B5363); color: #FFF; }
+.orb-green  { background: radial-gradient(circle at 30% 30%, #C2FBE1, #2EF2A0 65%, #0E8F58); }
+.result-panel {
+  background: var(--bg);
+  border-radius: 18px;
+  padding: 20px;
+  margin-top: 18px;
+  display: none;
+}
+.stat-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 14px 0;
+  font-size: 14.5px;
+}
+.stat-table th, .stat-table td {
+  padding: 12px 14px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.stat-table th {
+  color: var(--gold);
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.03);
+}
+.faq-item {
+  background: var(--elevated);
+  border-radius: 16px;
+  padding: 18px 20px;
+  margin-bottom: 12px;
+}
+.faq-q {
+  font-weight: 800;
+  font-size: 16px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.faq-a {
+  font-size: 14.5px;
+  color: var(--muted);
+  margin: 0;
+}
+/* 하단 고정 스마트 전환 바 */
+.sticky-cta {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 60;
+  background: rgba(23, 27, 38, 0.95);
+  backdrop-filter: blur(16px);
+  border-top: 1px solid rgba(46, 242, 160, 0.25);
+  padding: 12px 20px;
+}
+.sticky-inner {
+  max-width: 880px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.sticky-text {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+}
+.sticky-sub {
+  font-size: 12px;
+  color: var(--gold);
+  display: block;
+}
+/* 비공개 테스터 & 다운로드 안내 모달 */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(5, 7, 11, 0.82);
+  backdrop-filter: blur(8px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal-card {
+  background: var(--surface);
+  max-width: 480px;
+  width: 100%;
+  border-radius: 26px;
+  padding: 28px 24px;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.6);
+}
+.footer {
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+@media (max-width: 640px) {
+  .nav-links { display: none; }
+  .sticky-inner { flex-direction: column; align-items: stretch; text-align: center; }
+}
+</style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "로또 QR코드 스캔 시 평행우주 1등 조회란 무엇인가요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "내가 구매한 로또 용지의 5게임 번호를 제1회부터 최신 회차까지의 역대 모든 당첨번호와 대조하여, 과거 어느 회차에서 1등·2등·3등에 당첨되었을 번호인지 0.1초 만에 찾아주는 공덕왕 앱의 고유 기능입니다."
+      }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+  <header class="nav-bar">
+    <div class="nav-inner">
+      <a class="brand-link" href="/">
+        <span class="orb-dot"></span>
+        <span>공덕왕 (King of Karma)</span>
+      </a>
+      <nav class="nav-links">
+        <a href="/guides/past-winning-number-check.html">역대 당첨번호 대조</a>
+        <a href="/guides/lotto-ac-value-sum-calculator.html">AC값·총합 계산기</a>
+        <a href="/guides/saju-lucky-direction-lotto.html">사주 재물 길방</a>
+        <a href="/guides/lotto-first-prize-tax-real-payout-calculator.html">1등 실수령액 계산</a>
+        <a href="/stores/index.html">전국 1등 명당</a>
+      </nav>
+      <a class="nav-cta" href="https://play.google.com/store/apps/details?id=com.taejoonlabs.kingofkarma" target="_blank" rel="noopener">Google Play 설치</a>
+    </div>
+  </header>
+  <main class="container">
+    
+    <div class="breadcrumb"><a href="/">홈</a> &gt; <a href="/guides/lotto-qr-code-fast-scan-parallel-universe.html">로또 QR코드 0.1초 스캔 &amp; 평행우주 1등 확인</a></div>
+    <article class="card">
+      <span class="badge badge-gold"><span class="orb-dot-gold"></span>Google Play 정식 출시 · 초고속 ML Kit QR 스캐너</span>
+      <h1>로또 QR코드 당첨확인 0.1초 초고속 스캔 &amp; 낙첨 복권 '평행우주 1등·기부증서' 전환법</h1>
+      <p class="lead">
+        기존 복권 앱으로 QR 코드를 찍을 때 초점이 잘 안 잡히거나 단순하게 '낙첨입니다' 한 줄만 보고 허탈하게 종이를 구겨 버리셨나요?<br/>
+        <strong>「공덕왕 (King of Karma)」</strong>의 초고속 비전 QR 스캐너는 카메라를 켜고 용지를 스치는 즉시 <strong>0.1초 만에 5게임(30개 번호) 전체를 정밀 해독</strong>하여 3가지 놀라운 결과를 동시에 브리핑합니다.
+      </p>
+
+      <div class="grid-2" style="margin:20px 0;">
+        <div class="card-elevated" style="margin:0;">
+          <span class="badge"><span class="orb-dot"></span>STEP 1 · 0.1초 광속 판독</span>
+          <h3 style="margin-top:6px;">구겨진 용지도 즉시 인식하는 초고속 QR 판독</h3>
+          <p style="margin:0; font-size:14.5px;">별도의 촬영 버튼을 누를 필요 없이 카메라 프리뷰에 QR 코드가 스치기만 해도 해당 회차 1~5등 당첨 여부와 실수령액을 즉시 판정합니다.</p>
+        </div>
+        <div class="card-elevated" style="margin:0;">
+          <span class="badge badge-gold"><span class="orb-dot-gold"></span>STEP 2 · 평행우주 1등 아차상</span>
+          <h3 style="margin-top:6px;">"제993회차에 이 번호를 샀다면 1등 39억 당첨!"</h3>
+          <p style="margin:0; font-size:14.5px;">이번 회차에서는 아쉽게 빗나갔더라도, 내 복권 5게임이 제1회~최신 회차 중 언제 몇 등(평행우주 1·2·3등)에 당첨되었는지 전수 대조해 줍니다.</p>
+        </div>
+        <div class="card-elevated" style="margin:0;">
+          <span class="badge"><span class="orb-dot"></span>STEP 3 · 황금 한지 4중 화염 소각</span>
+          <h3 style="margin-top:6px;">나를 비껴간 악연수 불태우고 공덕 EXP 2배 적립</h3>
+          <p style="margin:0; font-size:14.5px;">낙첨 복권을 화면 속에서 황금 한지 부적과 함께 4중 화염으로 시원하게 소각(액땜)하면 악연수가 블랙리스트로 격리되고 공덕 포인트가 쌓입니다.</p>
+        </div>
+        <div class="card-elevated" style="margin:0;">
+          <span class="badge badge-gold"><span class="orb-dot-gold"></span>STEP 4 · 42% 기부보살 증서</span>
+          <h3 style="margin-top:6px;">5,000원 구매 시 2,100원(연탄 2.5장) 공식 공덕 기록</h3>
+          <p style="margin:0; font-size:14.5px;">복권기금법에 따라 자동 기부된 42% 공익기금을 누적 합산하여 SNS·단톡방에 바로 공유할 수 있는 <strong>기부보살 공덕 증서</strong>를 발급합니다.</p>
+        </div>
+      </div>
+
+      <div class="widget-box">
+        <span class="badge badge-gold"><span class="orb-dot-gold"></span>정식 런칭 기념 +50,000 P 시크릿 쿠폰 증정</span>
+        <h2 style="margin-bottom:8px;">지금 Google Play에서 다운로드하고 인간 부처(Lv.4)에 도전하세요</h2>
+        <p style="font-size:14.5px; margin-bottom:14px;">
+          앱 설치 후 상단 <strong>[선물함/쿠폰]</strong>에 정식 런칭 코드 <strong style="color:var(--gold);">kofk261113</strong>을 입력하시면 <strong>50,000 공덕 포인트</strong>가 즉시 지급되어 고단계 비기 번호 필터를 바로 체험하실 수 있습니다.
+        </p>
+        <div class="cta-row">
+          <a class="btn-primary" href="https://play.google.com/store/apps/details?id=com.taejoonlabs.kingofkarma" target="_blank" rel="noopener">Google Play 스토어에서 공덕왕 무료 다운로드</a>
+          <a class="btn-secondary" href="/guides/past-winning-number-check.html">웹에서 먼저 내 번호 평행우주 등수 조회하기 →</a>
+        </div>
+      </div>
+    </article>
+    
+    <footer class="footer">
+      <div style="margin-bottom:12px;">
+        <a href="/">홈</a> ·
+        <a href="/stores/index.html">전국 로또 1등 명당 지도</a> ·
+        <a href="/guides/past-winning-number-check.html">과거 당첨번호 중복 조회</a> ·
+        <a href="/guides/lotto-ac-value-sum-calculator.html">로또 AC값 계산기</a> ·
+        <a href="/guides/lotto-first-prize-tax-real-payout-calculator.html">1등 세금 실수령액 계산기</a> ·
+        <a href="/privacy-policy.html">개인정보처리방침</a> ·
+        <a href="/delete-account.html">계정 및 데이터 삭제</a>
+      </div>
+      <div>© 2026 Taejoon Labs (Origincs). 문의: ptj8176@gmail.com</div>
+      <div style="font-size:12px; margin-top:6px; opacity:0.75;">본 서비스는 동행복권 공개 데이터 및 정통 만세력 알고리즘에 기반한 통계·엔터테인먼트 유틸리티이며, 앱 내 복권 판매 및 사행성 결제를 일절 제공하지 않습니다.</div>
+    </footer>
+  </main>
+  
+<div class="sticky-cta">
+  <div class="sticky-inner">
+    <div>
+      <span class="sticky-text">공덕왕 Google Play 정식 출시! — 사주 길방 로또 명당 &amp; 0.1초 QR 스캐너</span>
+      <span class="sticky-sub">정식 출시 축원 쿠폰 코드 [ kofk261113 ] 입력 시 +50,000 공덕 포인트 즉시 지급</span>
+    </div>
+    <div style="display:flex; gap:8px; justify-content:center;">
+      <a class="btn-primary" style="padding:11px 18px; font-size:14px;" href="https://play.google.com/store/apps/details?id=com.taejoonlabs.kingofkarma" target="_blank" rel="noopener">Google Play 무료 설치</a>
+    </div>
+  </div>
+</div>
+
+<script>
+function getOrbClass(n) {
+  if (n <= 10) return 'orb-yellow';
+  if (n <= 20) return 'orb-blue';
+  if (n <= 30) return 'orb-red';
+  if (n <= 40) return 'orb-grey';
+  return 'orb-green';
+}
+</script>
+
+  
+</body>
+</html>

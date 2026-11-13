@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="naver-site-verification" content="9f119f04ba678c0bd33719745297069751709464" />
+  <meta name="google-site-verification" content="mUhHkJJcnw3pLYkugLDV9ktjiaMZM67z3SI7XKqhzZ4" />
+  <title>로또 제외수(악연수) 걸러내는 법 및 홀짝·고저(23 기준)·끝수 통계 필터 생성기</title>
+  <meta name="description" content="내가 넣을 때마다 빗나가는 로또 제외수(악연수)를 배제하고 홀짝 비율(3:3, 4:2), 고저 비율(1~22 저수 vs 23~45 고수), AC값 7 이상을 동시에 만족하는 조합을 생성해 보세요." />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
+  <link rel="canonical" href="https://tj-park8176.github.io/guides/lotto-excluded-numbers-odd-even-high-low-stat.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="공덕왕 (King of Karma)" />
+  <meta property="og:title" content="로또 제외수(악연수) 걸러내는 법 및 홀짝·고저(23 기준)·끝수 통계 필터 생성기" />
+  <meta property="og:description" content="내가 넣을 때마다 빗나가는 로또 제외수(악연수)를 배제하고 홀짝 비율(3:3, 4:2), 고저 비율(1~22 저수 vs 23~45 고수), AC값 7 이상을 동시에 만족하는 조합을 생성해 보세요." />
+  <meta property="og:url" content="https://tj-park8176.github.io/guides/lotto-excluded-numbers-odd-even-high-low-stat.html" />
+  <meta property="og:image" content="https://tj-park8176.github.io/assets/feature_graphic.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="로또 제외수(악연수) 걸러내는 법 및 홀짝·고저(23 기준)·끝수 통계 필터 생성기" />
+  <meta name="twitter:description" content="내가 넣을 때마다 빗나가는 로또 제외수(악연수)를 배제하고 홀짝 비율(3:3, 4:2), 고저 비율(1~22 저수 vs 23~45 고수), AC값 7 이상을 동시에 만족하는 조합을 생성해 보세요." />
+  <meta name="twitter:image" content="https://tj-park8176.github.io/assets/feature_graphic.png" />
+  <link rel="icon" type="image/png" href="/assets/app_icon.png" />
+  <link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+  <style>
+:root {
+  --bg: #0B0D13;
+  --surface: #171B26;
+  --elevated: #1E2330;
+  --jade: #2EF2A0;
+  --jade-dim: rgba(46, 242, 160, 0.14);
+  --gold: #FFD666;
+  --gold-dim: rgba(255, 214, 102, 0.14);
+  --crimson: #FF6B7A;
+  --crimson-dim: rgba(255, 107, 122, 0.14);
+  --text: #F4F6FA;
+  --muted: #949EB0;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  padding: 0 0 100px 0;
+  background-color: var(--bg);
+  background-image: radial-gradient(circle at 50% 0%, rgba(46, 242, 160, 0.08) 0%, transparent 55%);
+  color: var(--text);
+  font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Malgun Gothic", sans-serif;
+  line-height: 1.68;
+  word-break: keep-all;
+}
+a { color: var(--jade); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.nav-bar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(11, 13, 19, 0.88);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 14px 20px;
+}
+.nav-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.brand-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 800;
+  font-size: 18px;
+  color: var(--text);
+  text-decoration: none !important;
+}
+.orb-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #A8FFDB, var(--jade) 60%, #0A7045 100%);
+  box-shadow: 0 0 12px var(--jade);
+  display: inline-block;
+  flex-shrink: 0;
+}
+.orb-dot-gold {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #FFF3C4, var(--gold) 65%, #997300 100%);
+  box-shadow: 0 0 10px var(--gold);
+  display: inline-block;
+  flex-shrink: 0;
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.nav-links a { color: var(--muted); text-decoration: none; }
+.nav-links a:hover { color: var(--jade); }
+.nav-cta {
+  background: var(--jade);
+  color: var(--bg) !important;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 13px;
+  text-decoration: none !important;
+}
+.container {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 32px 20px;
+}
+.breadcrumb {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 18px;
+}
+.breadcrumb a { color: var(--muted); }
+.card {
+  background: var(--surface);
+  border-radius: 24px;
+  padding: 30px 26px;
+  margin-bottom: 22px;
+}
+.card-elevated {
+  background: var(--elevated);
+  border-radius: 20px;
+  padding: 22px;
+  margin-bottom: 16px;
+}
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: var(--jade-dim);
+  color: var(--jade);
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+.badge-gold {
+  background: var(--gold-dim);
+  color: var(--gold);
+}
+h1 {
+  margin: 0 0 14px 0;
+  font-size: clamp(24px, 4vw, 34px);
+  font-weight: 800;
+  line-height: 1.32;
+  letter-spacing: -0.02em;
+}
+h2 {
+  margin: 0 0 14px 0;
+  font-size: 21px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+h3 {
+  margin: 18px 0 8px 0;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--gold);
+}
+p {
+  color: var(--muted);
+  margin: 0 0 16px 0;
+  font-size: 15.5px;
+}
+.lead {
+  font-size: 17px;
+  color: #D5DCEB;
+  margin-bottom: 24px;
+}
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: var(--jade);
+  color: var(--bg) !important;
+  font-weight: 800;
+  font-size: 16px;
+  padding: 16px 26px;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none !important;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: 0 8px 24px rgba(46, 242, 160, 0.22);
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(46, 242, 160, 0.34);
+}
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--elevated);
+  color: var(--gold) !important;
+  font-weight: 700;
+  font-size: 15px;
+  padding: 15px 22px;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none !important;
+}
+.cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 18px;
+}
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+}
+.screen-card {
+  background: var(--elevated);
+  border-radius: 20px;
+  padding: 14px;
+  text-align: center;
+}
+.screen-card img {
+  width: 100%;
+  max-width: 220px;
+  border-radius: 14px;
+  display: block;
+  margin: 0 auto 10px auto;
+}
+.screen-card span {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+}
+/* 인터랙티브 미니 위젯 스타일 */
+.widget-box {
+  background: linear-gradient(145deg, #1A2030 0%, #141824 100%);
+  border-radius: 24px;
+  padding: 28px 24px;
+  margin: 24px 0;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.35);
+}
+.ball-inputs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 16px 0;
+}
+.ball-input {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--bg);
+  color: var(--text);
+  border: 2px solid #2C344A;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 800;
+  outline: none;
+}
+.ball-input:focus {
+  border-color: var(--jade);
+  box-shadow: 0 0 12px rgba(46, 242, 160, 0.3);
+}
+.lotto-orb {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  font-weight: 800;
+  font-size: 15px;
+  color: #0B0D13;
+  margin-right: 6px;
+  box-shadow: inset -3px -3px 6px rgba(0,0,0,0.35), 0 4px 10px rgba(0,0,0,0.3);
+}
+.orb-yellow { background: radial-gradient(circle at 30% 30%, #FFF5B8, #FFD666 65%, #C79300); }
+.orb-blue   { background: radial-gradient(circle at 30% 30%, #C7E8FF, #5CAEFF 65%, #1E62B5); color: #FFF; }
+.orb-red    { background: radial-gradient(circle at 30% 30%, #FFD0D6, #FF6B7A 65%, #B82535); color: #FFF; }
+.orb-grey   { background: radial-gradient(circle at 30% 30%, #E2E7F0, #949EB0 65%, #4B5363); color: #FFF; }
+.orb-green  { background: radial-gradient(circle at 30% 30%, #C2FBE1, #2EF2A0 65%, #0E8F58); }
+.result-panel {
+  background: var(--bg);
+  border-radius: 18px;
+  padding: 20px;
+  margin-top: 18px;
+  display: none;
+}
+.stat-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 14px 0;
+  font-size: 14.5px;
+}
+.stat-table th, .stat-table td {
+  padding: 12px 14px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.stat-table th {
+  color: var(--gold);
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.03);
+}
+.faq-item {
+  background: var(--elevated);
+  border-radius: 16px;
+  padding: 18px 20px;
+  margin-bottom: 12px;
+}
+.faq-q {
+  font-weight: 800;
+  font-size: 16px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.faq-a {
+  font-size: 14.5px;
+  color: var(--muted);
+  margin: 0;
+}
+/* 하단 고정 스마트 전환 바 */
+.sticky-cta {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 60;
+  background: rgba(23, 27, 38, 0.95);
+  backdrop-filter: blur(16px);
+  border-top: 1px solid rgba(46, 242, 160, 0.25);
+  padding: 12px 20px;
+}
+.sticky-inner {
+  max-width: 880px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.sticky-text {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+}
+.sticky-sub {
+  font-size: 12px;
+  color: var(--gold);
+  display: block;
+}
+/* 비공개 테스터 & 다운로드 안내 모달 */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(5, 7, 11, 0.82);
+  backdrop-filter: blur(8px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal-card {
+  background: var(--surface);
+  max-width: 480px;
+  width: 100%;
+  border-radius: 26px;
+  padding: 28px 24px;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.6);
+}
+.footer {
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+@media (max-width: 640px) {
+  .nav-links { display: none; }
+  .sticky-inner { flex-direction: column; align-items: stretch; text-align: center; }
+}
+</style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "로또 제외수(악연수)는 어떻게 선정하는 것이 좋은가요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "최근 내가 구매해 낙첨된 복권에서 반복 출현한 악연수와 오늘 내 사주 일진과 상충(沖)하는 오행 끝수를 제외수로 설정한 뒤, 홀짝(2:4~4:2)과 고저(23 기준) 밸런스를 맞춰 번호를 추출하는 것이 효과적입니다."
+      }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+  <header class="nav-bar">
+    <div class="nav-inner">
+      <a class="brand-link" href="/">
+        <span class="orb-dot"></span>
+        <span>공덕왕 (King of Karma)</span>
+      </a>
+      <nav class="nav-links">
+        <a href="/guides/past-winning-number-check.html">역대 당첨번호 대조</a>
+        <a href="/guides/lotto-ac-value-sum-calculator.html">AC값·총합 계산기</a>
+        <a href="/guides/saju-lucky-direction-lotto.html">사주 재물 길방</a>
+        <a href="/guides/lotto-first-prize-tax-real-payout-calculator.html">1등 실수령액 계산</a>
+        <a href="/stores/index.html">전국 1등 명당</a>
+      </nav>
+      <a class="nav-cta" href="https://play.google.com/store/apps/details?id=com.taejoonlabs.kingofkarma" target="_blank" rel="noopener">Google Play 설치</a>
+    </div>
+  </header>
+  <main class="container">
+    
+    <div class="breadcrumb"><a href="/">홈</a> &gt; <a href="/guides/lotto-excluded-numbers-odd-even-high-low-stat.html">로또 제외수 및 홀짝·고저 통계 필터</a></div>
+    <article class="card">
+      <span class="badge"><span class="orb-dot"></span>제외수(악연수) 소각 &amp; 홀짝·고저 밸런스 필터</span>
+      <h1>로또 제외수(악연수) 걸러내는 법 및 홀짝·고저(23 기준) 통계 필터 생성기</h1>
+      <p class="lead">
+        로또 6/45에서 1등 확률을 높이는 핵심 기법 중 하나는 <strong>나와 유독 궁합이 맞지 않는 제외수(악연수)를 먼저 소거</strong>한 뒤, 남은 후보군에서 <strong>홀짝 밸런스(2:4~4:2)</strong>와 <strong>고저 밸런스(23 기준 저수·고수 균형)</strong>를 맞추는 것입니다. 아래 생성기에서 제외할 번호를 입력하고 황금 필터 조합을 즉시 뽑아보세요.
+      </p>
+
+      <div class="widget-box">
+        <span class="badge badge-gold"><span class="orb-dot-gold"></span>제외수(악연수) 반영 4단계 수학 필터 번호 생성기</span>
+        <h2 style="margin-bottom:8px;">내 제외수 빼고 홀짝·고저·AC값 완벽 통과 번호 뽑기</h2>
+        <p style="font-size:14px; margin-bottom:10px;">이번 주에 절대 포함하고 싶지 않은 제외수(쉼표로 구분, 최대 15개)를 입력하고 버튼을 눌러보세요.</p>
+        <div style="margin-bottom:14px;">
+          <label style="font-size:13px; color:var(--muted); display:block; margin-bottom:6px;">제외할 악연수 목록 (1~45 사이 숫자, 쉼표 구분)</label>
+          <input type="text" id="exInput" value="4, 13, 29, 41" style="padding:12px 16px; border-radius:12px; background:var(--bg); color:var(--text); border:1px solid #2C344A; font-weight:700; width:100%; max-width:420px;" />
+        </div>
+        <div class="cta-row">
+          <button class="btn-primary" onclick="generateFilteredByExcluded()">제외수 배제 + 황금 밸런스 번호 추출하기</button>
+        </div>
+        <div id="exResult" class="result-panel"></div>
+      </div>
+
+      <h2>로또 1등 조합이 가장 많이 나오는 3대 균형 지표</h2>
+      <div class="card-elevated">
+        <h3>1. 홀짝 비율 (Odd : Even = 3:3, 4:2, 2:4)</h3>
+        <p style="margin:0;">6개 숫자가 모두 홀수(6:0)이거나 모두 짝수(0:6)일 확률은 전체의 약 2.1%에 불과합니다. 역대 당첨번호의 약 81%는 홀수가 2개~4개 포함된 균형 구간에서 출현했습니다.</p>
+      </div>
+      <div class="card-elevated">
+        <h3>2. 고저 비율 (1~22 저수 vs 23~45 고수)</h3>
+        <p style="margin:0;">중앙값인 <strong>23</strong>을 기준으로 1~22(저수)와 23~45(고수)가 한쪽으로 쏠리지 않고 <strong>2:4, 3:3, 4:2</strong>로 분포할 때 번호 총합 역시 자연스럽게 황금구간(100~175)에 안착합니다.</p>
+      </div>
+      <div class="card-elevated">
+        <h3>3. 개인별 낙첨 악연수(제외수) 데이터 누적 관리</h3>
+        <p style="margin:0;">내가 구매했던 복권에서 반복적으로 당첨을 가로막은 '나의 악연수'는 사람마다 다릅니다. <strong>「공덕왕」</strong> 앱은 QR 스캔으로 누적된 내 낙첨 용지 데이터를 분석하여 가장 많이 빗나간 악연수를 <strong>[황금 한지 화염 소각]</strong>으로 태워버리고 다음 번호 추출 시 자동으로 제외해 줍니다.</p>
+      </div>
+
+      <div class="cta-row">
+        <a class="btn-primary" href="https://play.google.com/store/apps/details?id=com.taejoonlabs.kingofkarma" target="_blank" rel="noopener">공덕왕 앱에서 내 낙첨 악연수 소각하고 비기 번호 뽑기</a>
+      </div>
+
+      <h2 style="margin-top:32px;">자주 묻는 질문 (FAQ)</h2>
+      <div class="faq-item">
+        <div class="faq-q">Q. 로또 고저 비율에서 기준이 되는 숫자는 몇 번인가요?</div>
+        <p class="faq-a">1부터 45까지의 정중앙 숫자인 23을 기준으로 1~22를 저수(Low), 23~45를 고수(High)로 분류합니다. 저수와 고수가 3:3 또는 2:4, 4:2로 섞인 조합이 가장 안정적입니다.</p>
+      </div>
+    </article>
+    
+    <footer class="footer">
+      <div style="margin-bottom:12px;">
+        <a href="/">홈</a> ·
+        <a href="/stores/index.html">전국 로또 1등 명당 지도</a> ·
+        <a href="/guides/past-winning-number-check.html">과거 당첨번호 중복 조회</a> ·
+        <a href="/guides/lotto-ac-value-sum-calculator.html">로또 AC값 계산기</a> ·
+        <a href="/guides/lotto-first-prize-tax-real-payout-calculator.html">1등 세금 실수령액 계산기</a> ·
+        <a href="/privacy-policy.html">개인정보처리방침</a> ·
+        <a href="/delete-account.html">계정 및 데이터 삭제</a>
+      </div>
+      <div>© 2026 Taejoon Labs (Origincs). 문의: ptj8176@gmail.com</div>
+      <div style="font-size:12px; margin-top:6px; opacity:0.75;">본 서비스는 동행복권 공개 데이터 및 정통 만세력 알고리즘에 기반한 통계·엔터테인먼트 유틸리티이며, 앱 내 복권 판매 및 사행성 결제를 일절 제공하지 않습니다.</div>
+    </footer>
+  </main>
+  
+<div class="sticky-cta">
+  <div class="sticky-inner">
+    <div>
+      <span class="sticky-text">공덕왕 Google Play 정식 출시! — 사주 길방 로또 명당 &amp; 0.1초 QR 스캐너</span>
+      <span class="sticky-sub">정식 출시 축원 쿠폰 코드 [ kofk261113 ] 입력 시 +50,000 공덕 포인트 즉시 지급</span>
+    </div>
+    <div style="display:flex; gap:8px; justify-content:center;">
+      <a class="btn-primary" style="padding:11px 18px; font-size:14px;" href="https://play.google.com/store/apps/details?id=com.taejoonlabs.kingofkarma" target="_blank" rel="noopener">Google Play 무료 설치</a>
+    </div>
+  </div>
+</div>
+
+<script>
+function getOrbClass(n) {
+  if (n <= 10) return 'orb-yellow';
+  if (n <= 20) return 'orb-blue';
+  if (n <= 30) return 'orb-red';
+  if (n <= 40) return 'orb-grey';
+  return 'orb-green';
+}
+</script>
+
+  
+<script>
+const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.taejoonlabs.kingofkarma';
+function generateFilteredByExcluded() {
+  const raw = document.getElementById('exInput').value || '';
+  const excluded = raw.split(',').map(s => parseInt(s.trim(), 10)).filter(n => !isNaN(n) && n >= 1 && n <= 45);
+  const exSet = new Set(excluded);
+  if (exSet.size > 30) {
+    alert('제외수는 30개 이하로 입력해 주세요.');
+    return;
+  }
+  const candidates = [];
+  for (let n = 1; n <= 45; n++) if (!exSet.has(n)) candidates.push(n);
+
+  let chosen = null;
+  let ac = 0, sum = 0, odds = 0, highs = 0;
+  for (let iter = 0; iter < 2000; iter++) {
+    const pool = [];
+    while (pool.length < 6) {
+      const pick = candidates[Math.floor(Math.random() * candidates.length)];
+      if (!pool.includes(pick)) pool.push(pick);
+    }
+    pool.sort((a,b)=>a-b);
+    const diffs = new Set();
+    for (let i=0; i<6; i++) for (let j=i+1; j<6; j++) diffs.add(pool[j]-pool[i]);
+    ac = diffs.size - 5;
+    sum = pool.reduce((a,b)=>a+b, 0);
+    odds = pool.filter(n => n % 2 === 1).length;
+    highs = pool.filter(n => n >= 23).length;
+    if (ac >= 7 && sum >= 100 && sum <= 175 && odds >= 2 && odds <= 4 && highs >= 2 && highs <= 4) {
+      chosen = pool;
+      break;
+    }
+  }
+  if (!chosen) chosen = candidates.slice(0, 6);
+  const ballsHtml = chosen.map(n => `<span class="lotto-orb ${getOrbClass(n)}">${n}</span>`).join('');
+  const exText = excluded.length > 0 ? Array.from(exSet).sort((a,b)=>a-b).join(', ') : '없음';
+  const panel = document.getElementById('exResult');
+  panel.style.display = 'block';
+  panel.innerHTML = `
+    <span class="badge"><span class="orb-dot"></span>악연수 [${exText}] 완전 배제 완료</span>
+    <div style="margin:12px 0;">${ballsHtml}</div>
+    <table class="stat-table">
+      <thead><tr><th>필터 항목</th><th>산출 수치</th><th>판정</th></tr></thead>
+      <tbody>
+        <tr><td><strong>산술적 복잡도 (AC값)</strong></td><td>${ac}점</td><td style="color:var(--jade); font-weight:800;">7점 이상 통과</td></tr>
+        <tr><td><strong>번호 총합</strong></td><td>${sum}</td><td style="color:var(--jade); font-weight:800;">황금구간 (100~175) 통과</td></tr>
+        <tr><td><strong>홀짝 비율</strong></td><td>홀 ${odds} : 짝 ${6-odds}</td><td style="color:var(--jade); font-weight:800;">균형 통과</td></tr>
+        <tr><td><strong>고저 비율 (23 기준)</strong></td><td>저 ${6-highs} : 고 ${highs}</td><td style="color:var(--jade); font-weight:800;">균형 통과</td></tr>
+      </tbody>
+    </table>
+    <p style="margin:12px 0; font-size:14px; color:#D5DCEB;">공덕왕 앱에서는 내가 스캔한 낙첨 용지의 악연수를 자동으로 집계·소각하고 내 사주 용신 행운수까지 결합한 5게임을 즉시 추출합니다.</p>
+    <a class="btn-primary" style="font-size:14px; padding:12px 20px;" href="${PLAY_STORE_URL}" target="_blank" rel="noopener">공덕왕 앱에서 내 사주+악연수 소각 번호 뽑기 (Google Play)</a>
+  `;
+}
+window.addEventListener('DOMContentLoaded', () => { generateFilteredByExcluded(); });
+</script>
+
+</body>
+</html>

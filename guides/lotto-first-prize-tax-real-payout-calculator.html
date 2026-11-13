@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="naver-site-verification" content="9f119f04ba678c0bd33719745297069751709464" />
+  <meta name="google-site-verification" content="mUhHkJJcnw3pLYkugLDV9ktjiaMZM67z3SI7XKqhzZ4" />
+  <title>로또 1등·2등·3등 세금 및 실수령액 계산기 (3억 초과 33%·22% 원천징수 & 복권기금 42%)</title>
+  <meta name="description" content="로또 1등 20억·30억 당첨 시 세금(3억 원 이하 22%, 3억 원 초과 33%)을 제외한 실제 통장 입금 실수령액은 얼마일까요? 1등·2등·3등 당첨금 실수령액을 1초 만에 계산해 보세요." />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
+  <link rel="canonical" href="https://tj-park8176.github.io/guides/lotto-first-prize-tax-real-payout-calculator.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="공덕왕 (King of Karma)" />
+  <meta property="og:title" content="로또 1등·2등·3등 세금 및 실수령액 계산기 (3억 초과 33%·22% 원천징수 & 복권기금 42%)" />
+  <meta property="og:description" content="로또 1등 20억·30억 당첨 시 세금(3억 원 이하 22%, 3억 원 초과 33%)을 제외한 실제 통장 입금 실수령액은 얼마일까요? 1등·2등·3등 당첨금 실수령액을 1초 만에 계산해 보세요." />
+  <meta property="og:url" content="https://tj-park8176.github.io/guides/lotto-first-prize-tax-real-payout-calculator.html" />
+  <meta property="og:image" content="https://tj-park8176.github.io/assets/feature_graphic.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="로또 1등·2등·3등 세금 및 실수령액 계산기 (3억 초과 33%·22% 원천징수 & 복권기금 42%)" />
+  <meta name="twitter:description" content="로또 1등 20억·30억 당첨 시 세금(3억 원 이하 22%, 3억 원 초과 33%)을 제외한 실제 통장 입금 실수령액은 얼마일까요? 1등·2등·3등 당첨금 실수령액을 1초 만에 계산해 보세요." />
+  <meta name="twitter:image" content="https://tj-park8176.github.io/assets/feature_graphic.png" />
+  <link rel="icon" type="image/png" href="/assets/app_icon.png" />
+  <link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+  <style>
+:root {
+  --bg: #0B0D13;
+  --surface: #171B26;
+  --elevated: #1E2330;
+  --jade: #2EF2A0;
+  --jade-dim: rgba(46, 242, 160, 0.14);
+  --gold: #FFD666;
+  --gold-dim: rgba(255, 214, 102, 0.14);
+  --crimson: #FF6B7A;
+  --crimson-dim: rgba(255, 107, 122, 0.14);
+  --text: #F4F6FA;
+  --muted: #949EB0;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  padding: 0 0 100px 0;
+  background-color: var(--bg);
+  background-image: radial-gradient(circle at 50% 0%, rgba(46, 242, 160, 0.08) 0%, transparent 55%);
+  color: var(--text);
+  font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Malgun Gothic", sans-serif;
+  line-height: 1.68;
+  word-break: keep-all;
+}
+a { color: var(--jade); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.nav-bar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(11, 13, 19, 0.88);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 14px 20px;
+}
+.nav-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.brand-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 800;
+  font-size: 18px;
+  color: var(--text);
+  text-decoration: none !important;
+}
+.orb-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #A8FFDB, var(--jade) 60%, #0A7045 100%);
+  box-shadow: 0 0 12px var(--jade);
+  display: inline-block;
+  flex-shrink: 0;
+}
+.orb-dot-gold {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #FFF3C4, var(--gold) 65%, #997300 100%);
+  box-shadow: 0 0 10px var(--gold);
+  display: inline-block;
+  flex-shrink: 0;
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.nav-links a { color: var(--muted); text-decoration: none; }
+.nav-links a:hover { color: var(--jade); }
+.nav-cta {
+  background: var(--jade);
+  color: var(--bg) !important;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 13px;
+  text-decoration: none !important;
+}
+.container {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 32px 20px;
+}
+.breadcrumb {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 18px;
+}
+.breadcrumb a { color: var(--muted); }
+.card {
+  background: var(--surface);
+  border-radius: 24px;
+  padding: 30px 26px;
+  margin-bottom: 22px;
+}
+.card-elevated {
+  background: var(--elevated);
+  border-radius: 20px;
+  padding: 22px;
+  margin-bottom: 16px;
+}
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: var(--jade-dim);
+  color: var(--jade);
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+.badge-gold {
+  background: var(--gold-dim);
+  color: var(--gold);
+}
+h1 {
+  margin: 0 0 14px 0;
+  font-size: clamp(24px, 4vw, 34px);
+  font-weight: 800;
+  line-height: 1.32;
+  letter-spacing: -0.02em;
+}
+h2 {
+  margin: 0 0 14px 0;
+  font-size: 21px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+h3 {
+  margin: 18px 0 8px 0;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--gold);
+}
+p {
+  color: var(--muted);
+  margin: 0 0 16px 0;
+  font-size: 15.5px;
+}
+.lead {
+  font-size: 17px;
+  color: #D5DCEB;
+  margin-bottom: 24px;
+}
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: var(--jade);
+  color: var(--bg) !important;
+  font-weight: 800;
+  font-size: 16px;
+  padding: 16px 26px;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none !important;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: 0 8px 24px rgba(46, 242, 160, 0.22);
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(46, 242, 160, 0.34);
+}
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--elevated);
+  color: var(--gold) !important;
+  font-weight: 700;
+  font-size: 15px;
+  padding: 15px 22px;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none !important;
+}
+.cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 18px;
+}
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+}
+.screen-card {
+  background: var(--elevated);
+  border-radius: 20px;
+  padding: 14px;
+  text-align: center;
+}
+.screen-card img {
+  width: 100%;
+  max-width: 220px;
+  border-radius: 14px;
+  display: block;
+  margin: 0 auto 10px auto;
+}
+.screen-card span {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+}
+/* 인터랙티브 미니 위젯 스타일 */
+.widget-box {
+  background: linear-gradient(145deg, #1A2030 0%, #141824 100%);
+  border-radius: 24px;
+  padding: 28px 24px;
+  margin: 24px 0;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.35);
+}
+.ball-inputs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 16px 0;
+}
+.ball-input {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--bg);
+  color: var(--text);
+  border: 2px solid #2C344A;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 800;
+  outline: none;
+}
+.ball-input:focus {
+  border-color: var(--jade);
+  box-shadow: 0 0 12px rgba(46, 242, 160, 0.3);
+}
+.lotto-orb {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  font-weight: 800;
+  font-size: 15px;
+  color: #0B0D13;
+  margin-right: 6px;
+  box-shadow: inset -3px -3px 6px rgba(0,0,0,0.35), 0 4px 10px rgba(0,0,0,0.3);
+}
+.orb-yellow { background: radial-gradient(circle at 30% 30%, #FFF5B8, #FFD666 65%, #C79300); }
+.orb-blue   { background: radial-gradient(circle at 30% 30%, #C7E8FF, #5CAEFF 65%, #1E62B5); color: #FFF; }
+.orb-red    { background: radial-gradient(circle at 30% 30%, #FFD0D6, #FF6B7A 65%, #B82535); color: #FFF; }
+.orb-grey   { background: radial-gradient(circle at 30% 30%, #E2E7F0, #949EB0 65%, #4B5363); color: #FFF; }
+.orb-green  { background: radial-gradient(circle at 30% 30%, #C2FBE1, #2EF2A0 65%, #0E8F58); }
+.result-panel {
+  background: var(--bg);
+  border-radius: 18px;
+  padding: 20px;
+  margin-top: 18px;
+  display: none;
+}
+.stat-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 14px 0;
+  font-size: 14.5px;
+}
+.stat-table th, .stat-table td {
+  padding: 12px 14px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.stat-table th {
+  color: var(--gold);
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.03);
+}
+.faq-item {
+  background: var(--elevated);
+  border-radius: 16px;
+  padding: 18px 20px;
+  margin-bottom: 12px;
+}
+.faq-q {
+  font-weight: 800;
+  font-size: 16px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.faq-a {
+  font-size: 14.5px;
+  color: var(--muted);
+  margin: 0;
+}
+/* 하단 고정 스마트 전환 바 */
+.sticky-cta {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 60;
+  background: rgba(23, 27, 38, 0.95);
+  backdrop-filter: blur(16px);
+  border-top: 1px solid rgba(46, 242, 160, 0.25);
+  padding: 12px 20px;
+}
+.sticky-inner {
+  max-width: 880px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.sticky-text {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+}
+.sticky-sub {
+  font-size: 12px;
+  color: var(--gold);
+  display: block;
+}
+/* 비공개 테스터 & 다운로드 안내 모달 */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(5, 7, 11, 0.82);
+  backdrop-filter: blur(8px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal-card {
+  background: var(--surface);
+  max-width: 480px;
+  width: 100%;
+  border-radius: 26px;
+  padding: 28px 24px;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.6);
+}
+.footer {
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+@media (max-width: 640px) {
+  .nav-links { display: none; }
+  .sticky-inner { flex-direction: column; align-items: stretch; text-align: center; }
+}
+</style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "로또 1등 20억 원 당첨 시 세금과 실수령액은 얼마인가요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "3억 원 이하 구간은 22%(6,600만 원), 3억 원 초과 17억 원 구간은 33%(5억 6,100만 원)가 원천징수되어 총 세금 약 6억 2,700만 원을 제외한 약 13억 7,300만 원을 실수령합니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "로또 3등 당첨금도 세금을 내나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "2023년 세법 개정으로 복권 당첨금 비과세 한도가 200만 원 이하로 상향되어, 당첨금이 200만 원 이하인 3등·4등·5등은 세금 없이 전액 실수령합니다."
+      }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+  <header class="nav-bar">
+    <div class="nav-inner">
+      <a class="brand-link" href="/">
+        <span class="orb-dot"></span>
+        <span>공덕왕 (King of Karma)</span>
+      </a>
+      <nav class="nav-links">
+        <a href="/guides/past-winning-number-check.html">역대 당첨번호 대조</a>
+        <a href="/guides/lotto-ac-value-sum-calculator.html">AC값·총합 계산기</a>
+        <a href="/guides/saju-lucky-direction-lotto.html">사주 재물 길방</a>
+        <a href="/guides/lotto-first-prize-tax-real-payout-calculator.html">1등 실수령액 계산</a>
+        <a href="/stores/index.html">전국 1등 명당</a>
+      </nav>
+      <a class="nav-cta" href="https://play.google.com/store/apps/details?id=com.taejoonlabs.kingofkarma" target="_blank" rel="noopener">Google Play 설치</a>
+    </div>
+  </header>
+  <main class="container">
+    
+    <div class="breadcrumb"><a href="/">홈</a> &gt; <a href="/guides/lotto-first-prize-tax-real-payout-calculator.html">로또 1등·2등 세금 및 실수령액 계산기</a></div>
+    <article class="card">
+      <span class="badge"><span class="orb-dot"></span>소득세법 제129조 복권 당첨소득 원천징수 기준</span>
+      <h1>로또 1등·2등·3등 세금 및 실수령액 계산기 (3억 초과 33% · 22% 자동 계산)</h1>
+      <p class="lead">
+        "만약 이번 주 로또 1등 25억 원에 당첨되면 세금을 떼고 내 통장에 실제로 얼마가 찍힐까?"<br/>
+        대한민국 소득세법에 따라 복권 당첨금은 <strong>기타소득(분리과세)</strong>으로 분류되어, <strong>200만 원 이하는 비과세</strong>, <strong>3억 원 이하는 22%(소득세 20% + 지방소득세 2%)</strong>, <strong>3억 원 초과분은 33%(소득세 30% + 지방소득세 3%)</strong>를 원천징수합니다. 아래 계산기에서 1원 단위까지 정확한 실수령액을 확인해 보세요.
+      </p>
+
+      <div class="widget-box">
+        <span class="badge badge-gold"><span class="orb-dot-gold"></span>실시간 로또 세금 &amp; 실수령액 정밀 계산기</span>
+        <h2 style="margin-bottom:8px;">내 목표 당첨금 세후 실수령액 &amp; 월 이자 즉시 계산하기</h2>
+        <p style="font-size:14px; margin-bottom:12px;">당첨 금액(원)을 입력하거나 아래 빠른 금액 버튼을 눌러 세금과 실수령액을 확인하세요.</p>
+        <div style="display:flex; flex-wrap:wrap; gap:10px; margin-bottom:14px;">
+          <button class="btn-secondary" style="padding:10px 14px; font-size:13.5px;" onclick="setPrizeAmount(3000000000)">1등 30억 원</button>
+          <button class="btn-secondary" style="padding:10px 14px; font-size:13.5px;" onclick="setPrizeAmount(2000000000)">1등 20억 원</button>
+          <button class="btn-secondary" style="padding:10px 14px; font-size:13.5px;" onclick="setPrizeAmount(1500000000)">1등 15억 원</button>
+          <button class="btn-secondary" style="padding:10px 14px; font-size:13.5px;" onclick="setPrizeAmount(60000000)">2등 6,000만 원</button>
+          <button class="btn-secondary" style="padding:10px 14px; font-size:13.5px;" onclick="setPrizeAmount(1500000)">3등 150만 원 (비과세)</button>
+        </div>
+        <div style="display:flex; flex-wrap:wrap; gap:12px; align-items:center; margin-bottom:16px;">
+          <input type="number" id="taxPrizeInput" value="2000000000" step="10000000" min="5000" style="padding:13px 16px; border-radius:12px; background:var(--bg); color:var(--text); border:1px solid #2C344A; font-weight:800; font-size:16px; width:240px;" />
+          <span style="font-size:14px; color:var(--muted);">원 (복권 구매 비용 1,000원 필요경비 공제 반영)</span>
+        </div>
+        <button class="btn-primary" onclick="calcLottoTax()">세금 및 통장 실수령액 계산하기</button>
+        <div id="taxResult" class="result-panel"></div>
+      </div>
+
+      <h2>2026년 기준 로또 당첨금 구간별 세율표</h2>
+      <p>
+        2023년 소득세법 개정 이후 복권 당첨금 비과세 한도가 기존 5만 원에서 <strong>200만 원 이하</strong>로 대폭 상향되었습니다. 덕분에 대부분의 <strong>3등 당첨금(약 130만~170만 원)은 세금 한 푼 없이 100% 전액 수령</strong>할 수 있습니다.
+      </p>
+      <table class="stat-table">
+        <thead><tr><th>당첨금 구간 (과세표준)</th><th>원천징수 세율 (국세+지방세)</th><th>해당 등수 예시</th><th>종합소득세 합산 여부</th></tr></thead>
+        <tbody>
+          <tr><td><strong>200만 원 이하</strong></td><td style="color:var(--jade); font-weight:800;">0% (전액 비과세)</td><td>3등(대부분), 4등(5만 원), 5등(5천 원)</td><td>비과세 (신고 불필요)</td></tr>
+          <tr><td><strong>200만 원 초과 ~ 3억 원 이하</strong></td><td style="color:var(--gold); font-weight:800;">22% (소득세 20% + 지방세 2%)</td><td>2등(약 5,000만~8,000만 원), 1등(3억 이하 구간)</td><td>무조건 분리과세 (연말정산 무관)</td></tr>
+          <tr><td><strong>3억 원 초과분</strong></td><td style="color:var(--crimson); font-weight:800;">33% (소득세 30% + 지방세 3%)</td><td>1등 당첨금 중 3억 원을 초과하는 금액</td><td>무조건 분리과세 (연말정산 무관)</td></tr>
+        </tbody>
+      </table>
+
+      <h2>세금 33%와는 별개인 '복권기금 42% 공익 기부'의 비밀</h2>
+      <p>
+        당첨자가 내는 소득세(22%~33%)와는 별개로, 우리가 복권 판매점에서 로또를 구매할 때 이미 <strong>구매 금액의 42%가 법정 공익 복권기금으로 자동 적립</strong>됩니다. 즉, 아쉽게 당첨되지 않았더라도 5,000원(1장)을 구매한 순간 이미 <strong>2,100원(연탄 약 2.5장)을 소외계층에 기부한 '기부보살'</strong>이 됩니다.
+      </p>
+      <div class="cta-row">
+        <a class="btn-primary" href="https://play.google.com/store/apps/details?id=com.taejoonlabs.kingofkarma" target="_blank" rel="noopener">공덕왕 앱으로 내 복권 당첨 확인 &amp; 42% 기부보살 증서 받기</a>
+        <a class="btn-secondary" href="/guides/past-winning-number-check.html">내 번호 역대 1등 당첨금 얼마였는지 조회하기 →</a>
+      </div>
+
+      <h2 style="margin-top:32px;">자주 묻는 질문 (FAQ)</h2>
+      <div class="faq-item">
+        <div class="faq-q">Q. 로또 1등 20억 원에 당첨되면 실수령액은 정확히 얼마인가요?</div>
+        <p class="faq-a">3억 원까지는 22% 세율(6,600만 원)이 적용되고, 나머지 17억 원에는 33% 세율(5억 6,100만 원)이 적용되어 총 세금 약 6억 2,700만 원을 공제한 뒤 약 13억 7,300만 원을 실수령하게 됩니다.</p>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Q. 로또에 당첨되면 직장 건강보험료가 오르거나 회사에 알려지나요?</div>
+        <p class="faq-a">아니요! 복권 당첨금은 지급 시점에 농협은행에서 원천징수로 납세 의무가 100% 종결되는 '완납적 분리과세 기타소득'이므로 종합소득세나 연말정산에 합산되지 않으며 직장이나 건강보험공단에 통보되지 않습니다.</p>
+      </div>
+    </article>
+    
+    <footer class="footer">
+      <div style="margin-bottom:12px;">
+        <a href="/">홈</a> ·
+        <a href="/stores/index.html">전국 로또 1등 명당 지도</a> ·
+        <a href="/guides/past-winning-number-check.html">과거 당첨번호 중복 조회</a> ·
+        <a href="/guides/lotto-ac-value-sum-calculator.html">로또 AC값 계산기</a> ·
+        <a href="/guides/lotto-first-prize-tax-real-payout-calculator.html">1등 세금 실수령액 계산기</a> ·
+        <a href="/privacy-policy.html">개인정보처리방침</a> ·
+        <a href="/delete-account.html">계정 및 데이터 삭제</a>
+      </div>
+      <div>© 2026 Taejoon Labs (Origincs). 문의: ptj8176@gmail.com</div>
+      <div style="font-size:12px; margin-top:6px; opacity:0.75;">본 서비스는 동행복권 공개 데이터 및 정통 만세력 알고리즘에 기반한 통계·엔터테인먼트 유틸리티이며, 앱 내 복권 판매 및 사행성 결제를 일절 제공하지 않습니다.</div>
+    </footer>
+  </main>
+  
+<div class="sticky-cta">
+  <div class="sticky-inner">
+    <div>
+      <span class="sticky-text">공덕왕 Google Play 정식 출시! — 사주 길방 로또 명당 &amp; 0.1초 QR 스캐너</span>
+      <span class="sticky-sub">정식 출시 축원 쿠폰 코드 [ kofk261113 ] 입력 시 +50,000 공덕 포인트 즉시 지급</span>
+    </div>
+    <div style="display:flex; gap:8px; justify-content:center;">
+      <a class="btn-primary" style="padding:11px 18px; font-size:14px;" href="https://play.google.com/store/apps/details?id=com.taejoonlabs.kingofkarma" target="_blank" rel="noopener">Google Play 무료 설치</a>
+    </div>
+  </div>
+</div>
+
+<script>
+function getOrbClass(n) {
+  if (n <= 10) return 'orb-yellow';
+  if (n <= 20) return 'orb-blue';
+  if (n <= 30) return 'orb-red';
+  if (n <= 40) return 'orb-grey';
+  return 'orb-green';
+}
+</script>
+
+  
+<script>
+const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.taejoonlabs.kingofkarma';
+function setPrizeAmount(val) {
+  document.getElementById('taxPrizeInput').value = val;
+  calcLottoTax();
+}
+function calcLottoTax() {
+  const gross = parseInt(document.getElementById('taxPrizeInput').value, 10) || 2000000000;
+  const cost = 1000;
+  const taxable = Math.max(0, gross - cost);
+  let tax = 0;
+  if (gross <= 2000000) {
+    tax = 0;
+  } else if (taxable <= 300000000) {
+    tax = Math.floor(taxable * 0.22);
+  } else {
+    tax = Math.floor(300000000 * 0.22 + (taxable - 300000000) * 0.33);
+  }
+  const net = gross - tax;
+  const effRate = gross > 0 ? ((tax / gross) * 100).toFixed(1) : '0.0';
+  const monthlyInterest = Math.floor((net * 0.035 * 0.846) / 12);
+
+  const panel = document.getElementById('taxResult');
+  panel.style.display = 'block';
+  panel.innerHTML = `
+    <span class="badge badge-gold"><span class="orb-dot-gold"></span>실효 세율 ${effRate}% 원천징수 완료 (분리과세 종결)</span>
+    <h3 style="margin:0 0 10px 0; color:var(--jade); font-size:22px;">통장 입금 실수령액: ${net.toLocaleString()}원</h3>
+    <table class="stat-table">
+      <thead><tr><th>구분</th><th>금액</th><th>비고</th></tr></thead>
+      <tbody>
+        <tr><td><strong>세전 총 당첨금</strong></td><td>${gross.toLocaleString()}원</td><td>필요경비 1,000원 공제 대상</td></tr>
+        <tr><td><strong>원천징수 세금 합계</strong></td><td style="color:var(--crimson); font-weight:800;">-${tax.toLocaleString()}원</td><td>3억 이하 22% / 3억 초과 33%</td></tr>
+        <tr><td><strong>최종 세후 실수령액</strong></td><td style="color:var(--jade); font-weight:800;">${net.toLocaleString()}원</td><td>농협은행 즉시 입금액</td></tr>
+        <tr><td><strong>예금 시 세후 월 이자 (연 3.5% 가정)</strong></td><td style="color:var(--gold); font-weight:800;">월 약 ${monthlyInterest.toLocaleString()}원</td><td>이자소득세 15.4% 공제 후</td></tr>
+      </tbody>
+    </table>
+    <p style="margin:12px 0; font-size:14px; color:#D5DCEB;">구매하신 로또 용지의 실제 당첨 여부와 역대 평행우주 1등 실수령액은 공덕왕 앱의 0.1초 QR 스캐너로 즉시 확인하실 수 있습니다.</p>
+    <a class="btn-primary" style="font-size:14px; padding:12px 20px;" href="${PLAY_STORE_URL}" target="_blank" rel="noopener">공덕왕 앱에서 0.1초 QR 스캔 &amp; 비기 번호 뽑기 (Google Play)</a>
+  `;
+}
+window.addEventListener('DOMContentLoaded', () => { calcLottoTax(); });
+</script>
+
+</body>
+</html>
