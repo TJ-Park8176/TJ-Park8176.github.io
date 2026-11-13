@@ -5,20 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="naver-site-verification" content="9f119f04ba678c0bd33719745297069751709464" />
   <meta name="google-site-verification" content="mUhHkJJcnw3pLYkugLDV9ktjiaMZM67z3SI7XKqhzZ4" />
-  <title>로또 AC값(산술적 복잡도) 7 이상 계산법 및 번호 합계 100~175 황금구간 진단기</title>
-  <meta name="description" content="로또 1등 당첨번호의 80% 이상이 분포하는 산술적 복잡도(AC값 7~10)와 번호 총합 황금구간(100~175), 홀짝 밸런스를 즉시 계산해 주는 무료 로또 수학 필터 진단기입니다." />
+  <title>[당첨확률 82% 구간] 내 로또 번호 AC값 7 이상 & 총합 100~175 황금구간 무료 진단기</title>
+  <meta name="description" content="역대 로또 1등의 82%가 출현한 산술적 복잡도(AC값 7~10)와 총합 황금구간(100~175), 홀짝·연번 밸런스를 1초 만에 S~B등급으로 판정해 주는 무료 로또 수학 필터 계산기입니다." />
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
   <link rel="canonical" href="https://tj-park8176.github.io/guides/lotto-ac-value-sum-calculator.html" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="공덕왕 (King of Karma)" />
-  <meta property="og:title" content="로또 AC값(산술적 복잡도) 7 이상 계산법 및 번호 합계 100~175 황금구간 진단기" />
-  <meta property="og:description" content="로또 1등 당첨번호의 80% 이상이 분포하는 산술적 복잡도(AC값 7~10)와 번호 총합 황금구간(100~175), 홀짝 밸런스를 즉시 계산해 주는 무료 로또 수학 필터 진단기입니다." />
+  <meta property="og:title" content="[당첨확률 82% 구간] 내 로또 번호 AC값 7 이상 & 총합 100~175 황금구간 무료 진단기" />
+  <meta property="og:description" content="역대 로또 1등의 82%가 출현한 산술적 복잡도(AC값 7~10)와 총합 황금구간(100~175), 홀짝·연번 밸런스를 1초 만에 S~B등급으로 판정해 주는 무료 로또 수학 필터 계산기입니다." />
   <meta property="og:url" content="https://tj-park8176.github.io/guides/lotto-ac-value-sum-calculator.html" />
   <meta property="og:image" content="https://tj-park8176.github.io/assets/feature_graphic.png" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="로또 AC값(산술적 복잡도) 7 이상 계산법 및 번호 합계 100~175 황금구간 진단기" />
-  <meta name="twitter:description" content="로또 1등 당첨번호의 80% 이상이 분포하는 산술적 복잡도(AC값 7~10)와 번호 총합 황금구간(100~175), 홀짝 밸런스를 즉시 계산해 주는 무료 로또 수학 필터 진단기입니다." />
+  <meta name="twitter:title" content="[당첨확률 82% 구간] 내 로또 번호 AC값 7 이상 & 총합 100~175 황금구간 무료 진단기" />
+  <meta name="twitter:description" content="역대 로또 1등의 82%가 출현한 산술적 복잡도(AC값 7~10)와 총합 황금구간(100~175), 홀짝·연번 밸런스를 1초 만에 S~B등급으로 판정해 주는 무료 로또 수학 필터 계산기입니다." />
   <meta name="twitter:image" content="https://tj-park8176.github.io/assets/feature_graphic.png" />
+  <link rel="shortcut icon" href="/favicon.ico" />
   <link rel="icon" type="image/png" href="/assets/app_icon.png" />
   <link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
   <style>
@@ -459,11 +460,11 @@ p {
         <p style="font-size:14px; margin-bottom:12px;">번호 6개를 입력하면 AC값 공식(15개 차이값 중 고유값 개수 - 5)과 황금총합 통과 여부를 즉시 판정합니다.</p>
         <div class="ball-inputs">
           <input type="number" min="1" max="45" class="ball-input" id="ac1" value="3" />
-          <input type="number" min="1" max="45" class="ball-input" id="ac2" value="11" />
+          <input type="number" min="1" max="45" class="ball-input" id="ac2" value="8" />
           <input type="number" min="1" max="45" class="ball-input" id="ac3" value="19" />
-          <input type="number" min="1" max="45" class="ball-input" id="ac4" value="26" />
-          <input type="number" min="1" max="45" class="ball-input" id="ac5" value="35" />
-          <input type="number" min="1" max="45" class="ball-input" id="ac6" value="42" />
+          <input type="number" min="1" max="45" class="ball-input" id="ac4" value="27" />
+          <input type="number" min="1" max="45" class="ball-input" id="ac5" value="34" />
+          <input type="number" min="1" max="45" class="ball-input" id="ac6" value="43" />
         </div>
         <div class="cta-row">
           <button class="btn-primary" onclick="calcAcAndSum()">AC값 및 황금구간 정밀 진단하기</button>
@@ -518,6 +519,7 @@ p {
       <div style="margin-bottom:12px;">
         <a href="/">홈</a> ·
         <a href="/stores/index.html">전국 로또 1등 명당 지도</a> ·
+        <a href="/stores/seoul-stores.html">서울·잠실주공·노원스파 1등 명당</a> ·
         <a href="/guides/past-winning-number-check.html">과거 당첨번호 중복 조회</a> ·
         <a href="/guides/lotto-ac-value-sum-calculator.html">로또 AC값 계산기</a> ·
         <a href="/guides/lotto-first-prize-tax-real-payout-calculator.html">1등 세금 실수령액 계산기</a> ·
