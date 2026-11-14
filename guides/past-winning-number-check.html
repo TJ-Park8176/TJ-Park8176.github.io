@@ -217,6 +217,43 @@ p {
   cursor: pointer;
   text-decoration: none !important;
 }
+.btn-share {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--elevated);
+  color: var(--gold) !important;
+  font-weight: 800;
+  font-size: 14px;
+  padding: 12px 18px;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none !important;
+  transition: transform 0.15s ease;
+}
+.btn-share:hover {
+  transform: translateY(-2px);
+}
+.share-toast {
+  position: fixed;
+  bottom: 78px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--elevated);
+  color: var(--jade);
+  font-weight: 800;
+  font-size: 13.5px;
+  padding: 12px 20px;
+  border-radius: 999px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.65);
+  z-index: 120;
+  display: none;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
 .cta-row {
   display: flex;
   flex-wrap: wrap;
@@ -530,6 +567,7 @@ p {
     </footer>
   </main>
   
+<div id="shareToast" class="share-toast"><span class="orb-dot"></span><span id="shareToastText">계산 결과와 링크가 복사되었습니다! 단톡방에 붙여넣어 보세요.</span></div>
 <div class="sticky-cta">
   <div class="sticky-inner">
     <div>
@@ -549,6 +587,54 @@ function getOrbClass(n) {
   if (n <= 30) return 'orb-red';
   if (n <= 40) return 'orb-grey';
   return 'orb-green';
+}
+window.lastSharePayload = { title: '공덕왕 무료 로또·사주 계산기', summary: '', url: 'https://tj-park8176.github.io' };
+function setLastSharePayload(calcTitle, resultSummary, pagePath) {
+  window.lastSharePayload = {
+    title: calcTitle,
+    summary: resultSummary,
+    url: 'https://tj-park8176.github.io' + (pagePath || '')
+  };
+}
+function showShareToast(msg) {
+  const el = document.getElementById('shareToast');
+  const txt = document.getElementById('shareToastText');
+  if (!el || !txt) return;
+  txt.textContent = msg;
+  el.style.display = 'inline-flex';
+  clearTimeout(window.__shareToastTimer);
+  window.__shareToastTimer = setTimeout(() => { el.style.display = 'none'; }, 3200);
+}
+async function shareCalcResult(customTitle, customSummary, customPath) {
+  const payload = window.lastSharePayload || {};
+  const title = customTitle || payload.title || '공덕왕 무료 계산기';
+  const summary = customSummary || payload.summary || '';
+  const url = customPath ? ('https://tj-park8176.github.io' + customPath) : (payload.url || (typeof window !== 'undefined' && window.location ? window.location.href : 'https://tj-park8176.github.io'));
+  const shareText = `[공덕왕 ${title} 결과]\n${summary}\n\n▶ 나도 내 번호·세금·사주 바로 계산해보기:\n${url}\n\n▶ 공덕왕 앱 설치하고 +50,000P 쿠폰(kofk261113) 받기:\nhttps://play.google.com/store/apps/details?id=com.taejoonlabs.kingofkarma`;
+  if (typeof navigator !== 'undefined' && navigator.share) {
+    try {
+      await navigator.share({ title: `[공덕왕] ${title}`, text: shareText, url: url });
+      return shareText;
+    } catch (err) {
+      if (err && err.name === 'AbortError') return shareText;
+    }
+  }
+  try {
+    if (typeof navigator !== 'undefined' && navigator.clipboard && navigator.clipboard.writeText) {
+      await navigator.clipboard.writeText(shareText);
+    } else if (typeof document !== 'undefined' && document.createElement) {
+      const ta = document.createElement('textarea');
+      ta.value = shareText;
+      document.body.appendChild(ta);
+      if (ta.select) ta.select();
+      if (document.execCommand) document.execCommand('copy');
+      if (document.body.removeChild) document.body.removeChild(ta);
+    }
+    showShareToast('계산 결과와 링크가 복사되었습니다! 카카오톡·단톡방에 붙여넣어 보세요.');
+  } catch (e) {
+    showShareToast('공유 텍스트가 준비되었습니다.');
+  }
+  return shareText;
 }
 </script>
 
@@ -607,15 +693,28 @@ async function checkPastWinning() {
   panel.style.display = 'block';
   const ballsHtml = nums.map(n => `<span class="lotto-orb ${getOrbClass(n)}">${n}</span>`).join('');
   if (hits.length === 0) {
+    setLastSharePayload(
+      '역대 로또 당첨 대조기',
+      `내 번호 [${nums.join(', ')}] → 제1회~1248회 전수 대조 결과 아직 1~4등으로 소진된 적 없는 미개척 순수 조합!`,
+      '/guides/past-winning-number-check.html'
+    );
     panel.innerHTML = `
       <div style="margin-bottom:10px;">${ballsHtml}</div>
       <h3 style="margin:0 0 8px 0; color:var(--jade);">역대 1~4등 당첨 이력이 없는 '미개척 순수 조합'입니다!</h3>
       <p style="margin:0 0 14px 0; font-size:14.5px;">제1회부터 최신 회차까지 아직 4개 이상 일치(4등 이상)로 소진된 적이 없는 신선한 번호입니다. 복권 용지 전체 5게임을 카메라로 0.1초 만에 찍어 확인하려면 공덕왕 앱을 이용해 보세요.</p>
-      <a class="btn-primary" style="font-size:14px; padding:12px 20px;" href="${PLAY_STORE_URL}" target="_blank" rel="noopener">용지 5게임 전체 QR 0.1초 스캔하기 (Google Play)</a>
+      <div class="cta-row">
+        <button class="btn-share" onclick="shareCalcResult()"><span class="orb-dot-gold"></span>내 대조 결과 카카오톡·단톡방 1클릭 공유하기</button>
+        <a class="btn-primary" style="font-size:14px; padding:12px 20px;" href="${PLAY_STORE_URL}" target="_blank" rel="noopener">용지 5게임 전체 QR 0.1초 스캔하기 (Google Play)</a>
+      </div>
     `;
   } else {
     const best = hits[0];
     const prizeStr = best.rank === 1 ? (Math.round(best.prize / 100000000 * 10) / 10) + '억 원 (실제 1등 지급액)' : (best.rank === 2 ? '약 5,500만 원 (2등)' : (best.rank === 3 ? '약 150만 원 (3등)' : '5만 원 (4등)'));
+    setLastSharePayload(
+      '역대 로또 평행우주 당첨 대조기',
+      `내 번호 [${nums.join(', ')}] → 만약 제${best.round}회(${best.date})에 샀다면 평행우주 [${best.rank}등] 당첨! (${prizeStr})`,
+      '/guides/past-winning-number-check.html'
+    );
     const topRows = hits.slice(0, 5).map(h => `
       <tr>
         <td><strong>제${h.round}회</strong> (${h.date})</td>
@@ -632,7 +731,10 @@ async function checkPastWinning() {
         <tbody>${topRows}</tbody>
       </table>
       <p style="margin:12px 0; font-size:14px; color:#D5DCEB;">방금 확인하신 것은 단 1게임입니다! 구매하신 종이 복권의 QR 코드를 공덕왕 앱으로 스캔하면 5게임 전체의 평행우주 등수와 42% 기부보살 증서를 0.1초 만에 확인하실 수 있습니다.</p>
-      <a class="btn-primary" style="font-size:14px; padding:12px 20px;" href="${PLAY_STORE_URL}" target="_blank" rel="noopener">내 종이 복권 QR 0.1초 스캔하러 가기 (Google Play)</a>
+      <div class="cta-row">
+        <button class="btn-share" onclick="shareCalcResult()"><span class="orb-dot-gold"></span>내 평행우주 당첨 결과 카톡·단톡방 1클릭 공유하기</button>
+        <a class="btn-primary" style="font-size:14px; padding:12px 20px;" href="${PLAY_STORE_URL}" target="_blank" rel="noopener">내 종이 복권 QR 0.1초 스캔하러 가기 (Google Play)</a>
+      </div>
     `;
   }
 }

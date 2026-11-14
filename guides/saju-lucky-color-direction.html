@@ -217,6 +217,43 @@ p {
   cursor: pointer;
   text-decoration: none !important;
 }
+.btn-share {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--elevated);
+  color: var(--gold) !important;
+  font-weight: 800;
+  font-size: 14px;
+  padding: 12px 18px;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none !important;
+  transition: transform 0.15s ease;
+}
+.btn-share:hover {
+  transform: translateY(-2px);
+}
+.share-toast {
+  position: fixed;
+  bottom: 78px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--elevated);
+  color: var(--jade);
+  font-weight: 800;
+  font-size: 13.5px;
+  padding: 12px 20px;
+  border-radius: 999px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.65);
+  z-index: 120;
+  display: none;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
 .cta-row {
   display: flex;
   flex-wrap: wrap;
@@ -517,6 +554,7 @@ p {
     </footer>
   </main>
   
+<div id="shareToast" class="share-toast"><span class="orb-dot"></span><span id="shareToastText">계산 결과와 링크가 복사되었습니다! 단톡방에 붙여넣어 보세요.</span></div>
 <div class="sticky-cta">
   <div class="sticky-inner">
     <div>
@@ -536,6 +574,54 @@ function getOrbClass(n) {
   if (n <= 30) return 'orb-red';
   if (n <= 40) return 'orb-grey';
   return 'orb-green';
+}
+window.lastSharePayload = { title: '공덕왕 무료 로또·사주 계산기', summary: '', url: 'https://tj-park8176.github.io' };
+function setLastSharePayload(calcTitle, resultSummary, pagePath) {
+  window.lastSharePayload = {
+    title: calcTitle,
+    summary: resultSummary,
+    url: 'https://tj-park8176.github.io' + (pagePath || '')
+  };
+}
+function showShareToast(msg) {
+  const el = document.getElementById('shareToast');
+  const txt = document.getElementById('shareToastText');
+  if (!el || !txt) return;
+  txt.textContent = msg;
+  el.style.display = 'inline-flex';
+  clearTimeout(window.__shareToastTimer);
+  window.__shareToastTimer = setTimeout(() => { el.style.display = 'none'; }, 3200);
+}
+async function shareCalcResult(customTitle, customSummary, customPath) {
+  const payload = window.lastSharePayload || {};
+  const title = customTitle || payload.title || '공덕왕 무료 계산기';
+  const summary = customSummary || payload.summary || '';
+  const url = customPath ? ('https://tj-park8176.github.io' + customPath) : (payload.url || (typeof window !== 'undefined' && window.location ? window.location.href : 'https://tj-park8176.github.io'));
+  const shareText = `[공덕왕 ${title} 결과]\n${summary}\n\n▶ 나도 내 번호·세금·사주 바로 계산해보기:\n${url}\n\n▶ 공덕왕 앱 설치하고 +50,000P 쿠폰(kofk261113) 받기:\nhttps://play.google.com/store/apps/details?id=com.taejoonlabs.kingofkarma`;
+  if (typeof navigator !== 'undefined' && navigator.share) {
+    try {
+      await navigator.share({ title: `[공덕왕] ${title}`, text: shareText, url: url });
+      return shareText;
+    } catch (err) {
+      if (err && err.name === 'AbortError') return shareText;
+    }
+  }
+  try {
+    if (typeof navigator !== 'undefined' && navigator.clipboard && navigator.clipboard.writeText) {
+      await navigator.clipboard.writeText(shareText);
+    } else if (typeof document !== 'undefined' && document.createElement) {
+      const ta = document.createElement('textarea');
+      ta.value = shareText;
+      document.body.appendChild(ta);
+      if (ta.select) ta.select();
+      if (document.execCommand) document.execCommand('copy');
+      if (document.body.removeChild) document.body.removeChild(ta);
+    }
+    showShareToast('계산 결과와 링크가 복사되었습니다! 카카오톡·단톡방에 붙여넣어 보세요.');
+  } catch (e) {
+    showShareToast('공유 텍스트가 준비되었습니다.');
+  }
+  return shareText;
 }
 </script>
 
@@ -568,6 +654,11 @@ function calcSajuDirection() {
   const info = DIRECTIONS[dirIdx];
   const score = 78 + ((stemIdx * 7 + todaySeed) % 21);
   const ballsHtml = info.nums.map(n => `<span class="lotto-orb ${getOrbClass(n)}">${n}</span>`).join('');
+  setLastSharePayload(
+    '사주 일주별 오늘의 로또 재물 길방 계산기',
+    `${STEMS[stemIdx]}${BRANCHES[branchIdx]}일주 오늘의 재물기운 ${score}점 · 황금 길방 [${info.name}] · 사주 행운수 [${info.nums.join(', ')}]`,
+    '/guides/saju-lucky-direction-lotto.html'
+  );
   const panel = document.getElementById('sjResult');
   panel.style.display = 'block';
   panel.innerHTML = `
@@ -579,7 +670,10 @@ function calcSajuDirection() {
       ${ballsHtml}
     </div>
     <p style="margin:0 0 14px 0; font-size:14px;">내 현재 위치에서 <strong>${info.name}</strong>에 있는 실제 1·2등 배출 명당 판매점까지의 거리와 나침반 방향은 공덕왕 앱의 [길방 레이더]에서 실시간으로 확인하실 수 있습니다.</p>
-    <a class="btn-primary" style="font-size:14px; padding:12px 20px;" href="${PLAY_STORE_URL}" target="_blank" rel="noopener">내 주변 [${info.name}] 1등 명당 레이더로 찾기 (Google Play)</a>
+    <div class="cta-row">
+      <button class="btn-share" onclick="shareCalcResult()"><span class="orb-dot-gold"></span>오늘 내 사주 길방·행운수 카톡·단톡방 1클릭 공유하기</button>
+      <a class="btn-primary" style="font-size:14px; padding:12px 20px;" href="${PLAY_STORE_URL}" target="_blank" rel="noopener">내 주변 [${info.name}] 1등 명당 레이더로 찾기 (Google Play)</a>
+    </div>
   `;
 }
 window.addEventListener('DOMContentLoaded', () => { calcSajuDirection(); });
