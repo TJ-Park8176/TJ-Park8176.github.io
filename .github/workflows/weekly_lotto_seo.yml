@@ -1,0 +1,88 @@
+# ************************************************************************
+# ** Code Description: 매주 토요일 밤 추첨 직후 로또 최신 회차를 무인 수집하여
+# **                   사주 오행 SEO HTML & Sitemap을 자동 발행·배포하는 워크플로우
+# ** Creator: Origincs / Park.TJ
+# ** Creation Date: 2026.11.14
+# ************************************************************************
+name: Weekly Lotto SEO Auto Publisher
+
+on:
+  schedule:
+    # 매주 토요일 21:10 KST (UTC 12:10) - 1차 추첨 결과 수집
+    - cron: '10 12 * * 6'
+    # 매주 토요일 21:45 KST (UTC 12:45) - 동행복권 API 지연 대비 재시도
+    - cron: '45 12 * * 6'
+    # 매주 일요일 09:15 KST (UTC 00:15) - 보조 데이터 소스 반영 보완
+    - cron: '15 0 * * 0'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  update-weekly-lotto-seo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout GitHub Pages repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Setup Node.js for Script Syntax Verification
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Fetch Latest Lotto Draw & Build Round SEO Pages
+        run: |
+          python3 scripts/auto_update_weekly_lotto.py --site-root .
+
+      - name: Verify Script Syntax and Concept B Emoji Policy
+        run: |
+          node - << 'EOF'
+          const fs = require('fs');
+          const path = require('path');
+          const { execSync } = require('child_process');
+          const banned = ['\u2728', '\u23F0', '\uD83C\uDF40', '\u26A0\uFE0F', '\uD83C\uDF89', '\uD83E\uDEB5', '\uD83D\uDD12', '\uD83C\uDFAF', '\uD83D\uDEAB', '\uD83D\uDCCA', '\uD83E\uDEB7', '\u26E9\uFE0F', '\uD83E\uDDE7', '\uD83D\uDCDC', '\uD83D\uDD25'];
+          const files = fs.readdirSync('guides').filter(f => f.endsWith('.html'));
+          for (const f of files) {
+            const p = path.join('guides', f);
+            const html = fs.readFileSync(p, 'utf8');
+            for (const b of banned) {
+              if (html.includes(b)) throw new Error('Banned emoji found in ' + p);
+            }
+            const re = /<script(?![^>]*application\/ld\+json)[^>]*>([\s\S]*?)<\/script>/gi;
+            let m, idx = 0;
+            while ((m = re.exec(html)) !== null) {
+              idx++;
+              const tmp = '/tmp/check_' + f + '_' + idx + '.js';
+              fs.writeFileSync(tmp, m[1], 'utf8');
+              execSync('node --check ' + tmp, { stdio: 'inherit' });
+            }
+          }
+          console.log('Verified guides/*.html syntax & Concept B policy cleanly:', files.length);
+          EOF
+
+      - name: Commit, Push & Request GitHub Pages Rebuild
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "No new lotto draw changes to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          LATEST_ROUND=$(python3 -c "import json; print(json.load(open('assets/lotto_draws_compact.json'))[0][0])")
+          git add assets/lotto_draws_compact.json guides/round-*.html sitemap.xml sitemap_index.xml
+          git commit -m "[SEO Bot] 제${LATEST_ROUND}회 로또 당첨번호 및 사주 오행 분석 자동 발행"
+          git push
+          curl -sf -X POST \
+            -H "Authorization: Bearer $GITHUB_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${{ github.repository }}/pages/builds" || true
