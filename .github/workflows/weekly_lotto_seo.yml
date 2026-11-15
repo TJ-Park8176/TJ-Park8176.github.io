@@ -49,9 +49,9 @@ jobs:
           const path = require('path');
           const { execSync } = require('child_process');
           const banned = ['\u2728', '\u23F0', '\uD83C\uDF40', '\u26A0\uFE0F', '\uD83C\uDF89', '\uD83E\uDEB5', '\uD83D\uDD12', '\uD83C\uDFAF', '\uD83D\uDEAB', '\uD83D\uDCCA', '\uD83E\uDEB7', '\u26E9\uFE0F', '\uD83E\uDDE7', '\uD83D\uDCDC', '\uD83D\uDD25'];
-          const files = fs.readdirSync('guides').filter(f => f.endsWith('.html'));
-          for (const f of files) {
-            const p = path.join('guides', f);
+          const targets = fs.readdirSync('guides').filter(f => f.endsWith('.html')).map(f => path.join('guides', f));
+          if (fs.existsSync('index.html')) targets.push('index.html');
+          for (const p of targets) {
             const html = fs.readFileSync(p, 'utf8');
             for (const b of banned) {
               if (html.includes(b)) throw new Error('Banned emoji found in ' + p);
@@ -60,12 +60,13 @@ jobs:
             let m, idx = 0;
             while ((m = re.exec(html)) !== null) {
               idx++;
-              const tmp = '/tmp/check_' + f + '_' + idx + '.js';
+              const safeName = path.basename(p);
+              const tmp = '/tmp/check_' + safeName + '_' + idx + '.js';
               fs.writeFileSync(tmp, m[1], 'utf8');
               execSync('node --check ' + tmp, { stdio: 'inherit' });
             }
           }
-          console.log('Verified guides/*.html syntax & Concept B policy cleanly:', files.length);
+          console.log('Verified guides/*.html & index.html syntax & Concept B policy cleanly:', targets.length);
           EOF
 
       - name: Commit, Push & Request GitHub Pages Rebuild
@@ -79,7 +80,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           LATEST_ROUND=$(python3 -c "import json; print(json.load(open('assets/lotto_draws_compact.json'))[0][0])")
-          git add assets/lotto_draws_compact.json guides/round-*.html sitemap.xml sitemap_index.xml
+          git add index.html assets/lotto_draws_compact.json guides/round-*.html sitemap.xml sitemap_index.xml
           git commit -m "[SEO Bot] 제${LATEST_ROUND}회 로또 당첨번호 및 사주 오행 분석 자동 발행"
           git push
           curl -sf -X POST \

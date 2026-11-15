@@ -100,8 +100,9 @@ def render_round_seo_html(
     first_prize_amount: int = 0,
     element_theme: str = "",
     coupon_code: str = "kofk261113",
+    has_next_round: bool = False,
 ) -> str:
-    """시안 B 규격 + 1클릭 공유 버튼 포함 회차별 사주 오행 SEO HTML 생성"""
+    """시안 B 규격 + 1클릭 공유 버튼 + 인접 회차 양방향 링크 포함 회차별 사주 오행 SEO HTML 생성"""
     sorted_nums = sorted(int(n) for n in numbers)
     bonus = int(bonus)
     display_date = draw_date or datetime.now().strftime("%Y-%m-%d")
@@ -134,6 +135,12 @@ def render_round_seo_html(
         prev_round_link = (
             f'<a class="cta-btn-sub" href="/guides/round-{round_no - 1}-analysis.html">'
             f"직전 제{round_no - 1}회 분석 보기</a>"
+        )
+    next_round_link = ""
+    if has_next_round:
+        next_round_link = (
+            f'<a class="cta-btn-sub" href="/guides/round-{round_no + 1}-analysis.html">'
+            f"다음 제{round_no + 1}회 분석 보기</a>"
         )
 
     canonical_url = f"{BASE_URL}/guides/round-{round_no}-analysis.html"
@@ -434,6 +441,7 @@ def render_round_seo_html(
                     </button>
                     <a class="cta-btn" href="{PLAY_STORE_URL}" target="_blank" rel="noopener">Google Play 앱 설치하기</a>
                     {prev_round_link}
+                    {next_round_link}
                     <a class="cta-btn-sub" href="/">웹 무료 계산기 모음 보기</a>
                 </div>
             </div>
@@ -512,6 +520,81 @@ def render_round_seo_html(
 """
 
 
+def render_weekly_rounds_hub_html(by_round: Dict[int, list], max_cards: int = 4) -> str:
+    """홈 index.html에 삽입되는 최신 회차 분석 링크 허브 섹션(시안 B 규격, 고아 페이지 제거용) 생성"""
+    target_rounds = [r for r in sorted(by_round.keys(), reverse=True) if r >= 1248][:max_cards]
+    if not target_rounds and by_round:
+        target_rounds = sorted(by_round.keys(), reverse=True)[:1]
+
+    cards_html: List[str] = []
+    for idx, rno in enumerate(target_rounds):
+        row = by_round[rno]
+        draw_date = str(row[1])
+        nums = sorted(int(n) for n in row[2])
+        bonus = int(row[3])
+        prize_amount = int(row[4]) if len(row) > 4 else 0
+        theme, _, _ = derive_ohang_theme(nums)
+        ac_val = calculate_ac_value(nums)
+        prize_short = format_prize_korean(prize_amount).split(" (")[0]
+        orbs_mini = "".join(
+            f'<span class="lotto-orb" style="width:28px;height:28px;font-size:12px;margin-right:4px;background:{get_orb_color_style(n)};">{n}</span>'
+            for n in nums
+        )
+        bonus_mini = (
+            '<span style="color:var(--muted);font-weight:700;margin:0 4px;">+</span>'
+            f'<span class="lotto-orb" style="width:28px;height:28px;font-size:12px;margin-right:0;background:{get_orb_color_style(bonus)};">{bonus}</span>'
+        )
+        badge_cls = "badge badge-gold" if idx == 0 else "badge"
+        dot_cls = "orb-dot-gold" if idx == 0 else "orb-dot"
+        badge_label = f"최신 제{rno}회 · {draw_date}" if idx == 0 else f"제{rno}회 · {draw_date}"
+        cards_html.append(
+            f"""        <a class="card-elevated" style="text-decoration:none; display:block;" href="/guides/round-{rno}-analysis.html">
+          <span class="{badge_cls}" style="margin-bottom:8px;"><span class="{dot_cls}"></span>{badge_label}</span>
+          <h3 style="margin-top:0; color:var(--text);">제{rno}회 당첨번호 &amp; {theme} 오행 분석</h3>
+          <div style="display:flex;align-items:center;flex-wrap:wrap;gap:2px;margin:10px 0 12px 0;">{orbs_mini}{bonus_mini}</div>
+          <p style="margin:0; font-size:13.5px;">AC {ac_val} · 합계 {sum(nums)} · 1등 {prize_short} · 사주 오행 &amp; {rno + 1}회 전략 보기 →</p>
+        </a>"""
+        )
+
+    cards_joined = "\n".join(cards_html)
+    return (
+        "<!-- WEEKLY_ROUNDS_SECTION_START -->\n"
+        '    <section class="card" id="weekly-rounds-hub">\n'
+        '      <span class="badge"><span class="orb-dot"></span>주간 로또 당첨번호 &amp; 사주 오행 자동 발행 아카이브</span>\n'
+        "      <h2>최신 회차별 당첨번호 오행 통계 &amp; 다음 회차 길방 전략</h2>\n"
+        "      <p>매주 토요일 동행복권 추첨 직후 자동 업데이트되는 회차별 당첨번호 분포, AC값 및 사주 오행 해설입니다.</p>\n"
+        '      <div class="grid-2">\n'
+        f"{cards_joined}\n"
+        "      </div>\n"
+        "    </section>\n"
+        "    <!-- WEEKLY_ROUNDS_SECTION_END -->"
+    )
+
+
+def refresh_weekly_rounds_in_index_html(index_path: Path, by_round: Dict[int, list]) -> bool:
+    """홈 index.html의 최신 회차 링크 허브와 1~N회 표기를 멱등 동기화"""
+    if not index_path.exists() or not by_round:
+        return False
+
+    raw = index_path.read_text(encoding="utf-8")
+    updated = raw
+    latest_round = max(by_round.keys())
+    updated = re.sub(r"1~\d+회", f"1~{latest_round}회", updated)
+
+    section_html = render_weekly_rounds_hub_html(by_round)
+    pattern = re.compile(
+        r"<!-- WEEKLY_ROUNDS_SECTION_START -->.*?<!-- WEEKLY_ROUNDS_SECTION_END -->",
+        re.DOTALL,
+    )
+    if pattern.search(updated):
+        updated = pattern.sub(lambda _: section_html, updated, count=1)
+
+    if updated != raw:
+        index_path.write_text(updated, encoding="utf-8", newline="\n")
+        return True
+    return False
+
+
 def collect_sorted_round_paths(guides_dir: Path) -> List[str]:
     """guides 디렉터리 내 round-*-analysis.html 경로를 회차 내림차순으로 반환"""
     rounds: List[Tuple[int, str]] = []
@@ -554,6 +637,7 @@ def refresh_round_urls_in_sitemap(
             seen.add(normalized)
             static_non_round.append(normalized)
 
+    # ~~기존 주석~~ -> 순수 <loc> 표준 규격으로 sitemap.xml 갱신 및 sitemap_index.xml을 표준 <sitemapindex>로 멱등 분리-2026.11.15
     ordered_urls = [home_url] + [f"{BASE_URL}{rel}" for rel in round_paths] + static_non_round
     url_entries = "\n".join(
         f"  <url>\n    <loc>{u}</loc>\n  </url>" for u in ordered_urls
@@ -564,6 +648,14 @@ def refresh_round_urls_in_sitemap(
         f"{url_entries}\n"
         "</urlset>\n"
     )
+    new_index_xml = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        "  <sitemap>\n"
+        f"    <loc>{BASE_URL}/sitemap.xml</loc>\n"
+        "  </sitemap>\n"
+        "</sitemapindex>\n"
+    )
 
     changed = False
     old_sitemap = sitemap_path.read_text(encoding="utf-8") if sitemap_path.exists() else ""
@@ -572,8 +664,8 @@ def refresh_round_urls_in_sitemap(
         changed = True
     if sitemap_index_path is not None:
         old_index = sitemap_index_path.read_text(encoding="utf-8") if sitemap_index_path.exists() else ""
-        if old_index != new_xml:
-            sitemap_index_path.write_text(new_xml, encoding="utf-8", newline="\n")
+        if old_index != new_index_xml:
+            sitemap_index_path.write_text(new_index_xml, encoding="utf-8", newline="\n")
             changed = True
     return changed
 
@@ -734,14 +826,20 @@ def sync_latest_lotto(
                 newline="\n",
             )
 
-    # ensure_from_round 이상 중 HTML이 없거나 새로 추가된 회차 또는 force_regenerate 시 HTML 생성
+    # ensure_from_round 이상 중 HTML이 없거나 새로 추가된 회차(직전 회차 포함) 또는 force_regenerate 시 HTML 생성
     guides_dir.mkdir(parents=True, exist_ok=True)
     generated_files: List[str] = []
+    newly_added_rounds = {int(d["round"]) for d in new_rounds_fetched}
     target_rounds = [r for r in sorted(by_round.keys()) if r >= ensure_from_round]
     for rno in target_rounds:
         row = by_round[rno]
         out_html = guides_dir / f"round-{rno}-analysis.html"
-        if force_regenerate or not out_html.exists() or any(d["round"] == rno for d in new_rounds_fetched):
+        if (
+            force_regenerate
+            or not out_html.exists()
+            or rno in newly_added_rounds
+            or (rno + 1) in newly_added_rounds
+        ):
             html = render_round_seo_html(
                 round_no=int(row[0]),
                 numbers=list(row[2]),
@@ -749,12 +847,14 @@ def sync_latest_lotto(
                 draw_date=str(row[1]),
                 first_prize_amount=int(row[4]),
                 coupon_code=coupon_code,
+                has_next_round=(rno + 1) in by_round,
             )
             old_html = out_html.read_text(encoding="utf-8") if out_html.exists() else ""
             if old_html != html:
                 out_html.write_text(html, encoding="utf-8", newline="\n")
                 generated_files.append(str(out_html))
 
+    index_updated = refresh_weekly_rounds_in_index_html(site_root / "index.html", by_round)
     sitemap_updated = refresh_round_urls_in_sitemap(sitemap_path, sitemap_index_path, guides_dir)
     latest_round = max(by_round.keys()) if by_round else 0
     return {
@@ -763,6 +863,7 @@ def sync_latest_lotto(
         "compact_updated": compact_updated,
         "seed_updated": seed_updated,
         "generated_files": generated_files,
+        "index_updated": index_updated,
         "sitemap_updated": sitemap_updated,
     }
 

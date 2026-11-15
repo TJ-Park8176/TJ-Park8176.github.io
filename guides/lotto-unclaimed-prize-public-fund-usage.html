@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="naver-site-verification" content="9f119f04ba678c0bd33719745297069751709464" />
+  <meta name="google-site-verification" content="mUhHkJJcnw3pLYkugLDV9ktjiaMZM67z3SI7XKqhzZ4" />
+  <title>[1년 지나면 국고 귀속?] 로또 미수령 당첨금 지급기한 계산기 · 복권기금 사용처(연탄가격·임대주택)</title>
+  <meta name="description" content="로또 1등~5등 미수령 당첨금의 법정 지급기한(지급개시일로부터 1년)을 추첨일 입력만으로 즉시 계산하고, 소멸시효 경과 후 복권기금으로 귀속되어 사랑의 연탄(약 850원)·서민 주거안정·장학사업에 쓰이는 공익 환산 수량을 확인해 보세요." />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
+  <link rel="canonical" href="https://tj-park8176.github.io/guides/lotto-unclaimed-prize-public-fund-usage.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="공덕왕 (King of Karma)" />
+  <meta property="og:title" content="[1년 지나면 국고 귀속?] 로또 미수령 당첨금 지급기한 계산기 · 복권기금 사용처(연탄가격·임대주택)" />
+  <meta property="og:description" content="로또 1등~5등 미수령 당첨금의 법정 지급기한(지급개시일로부터 1년)을 추첨일 입력만으로 즉시 계산하고, 소멸시효 경과 후 복권기금으로 귀속되어 사랑의 연탄(약 850원)·서민 주거안정·장학사업에 쓰이는 공익 환산 수량을 확인해 보세요." />
+  <meta property="og:url" content="https://tj-park8176.github.io/guides/lotto-unclaimed-prize-public-fund-usage.html" />
+  <meta property="og:image" content="https://tj-park8176.github.io/assets/feature_graphic.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="[1년 지나면 국고 귀속?] 로또 미수령 당첨금 지급기한 계산기 · 복권기금 사용처(연탄가격·임대주택)" />
+  <meta name="twitter:description" content="로또 1등~5등 미수령 당첨금의 법정 지급기한(지급개시일로부터 1년)을 추첨일 입력만으로 즉시 계산하고, 소멸시효 경과 후 복권기금으로 귀속되어 사랑의 연탄(약 850원)·서민 주거안정·장학사업에 쓰이는 공익 환산 수량을 확인해 보세요." />
+  <meta name="twitter:image" content="https://tj-park8176.github.io/assets/feature_graphic.png" />
+  <link rel="shortcut icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" href="/assets/app_icon.png" />
+  <link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+  <style>
+:root {
+  --bg: #0B0D13;
+  --surface: #171B26;
+  --elevated: #1E2330;
+  --jade: #2EF2A0;
+  --jade-dim: rgba(46, 242, 160, 0.14);
+  --gold: #FFD666;
+  --gold-dim: rgba(255, 214, 102, 0.14);
+  --crimson: #FF6B7A;
+  --crimson-dim: rgba(255, 107, 122, 0.14);
+  --text: #F4F6FA;
+  --muted: #949EB0;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  padding: 0 0 100px 0;
+  background-color: var(--bg);
+  background-image: radial-gradient(circle at 50% 0%, rgba(46, 242, 160, 0.08) 0%, transparent 55%);
+  color: var(--text);
+  font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Malgun Gothic", sans-serif;
+  line-height: 1.68;
+  word-break: keep-all;
+}
+a { color: var(--jade); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.nav-bar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(11, 13, 19, 0.88);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 14px 20px;
+}
+.nav-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.brand-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 800;
+  font-size: 18px;
+  color: var(--text);
+  text-decoration: none !important;
+}
+.orb-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #A8FFDB, var(--jade) 60%, #0A7045 100%);
+  box-shadow: 0 0 12px var(--jade);
+  display: inline-block;
+  flex-shrink: 0;
+}
+.orb-dot-gold {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #FFF3C4, var(--gold) 65%, #997300 100%);
+  box-shadow: 0 0 10px var(--gold);
+  display: inline-block;
+  flex-shrink: 0;
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.nav-links a { color: var(--muted); text-decoration: none; }
+.nav-links a:hover { color: var(--jade); }
+.nav-cta {
+  background: var(--jade);
+  color: var(--bg) !important;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 13px;
+  text-decoration: none !important;
+}
+.container {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 32px 20px;
+}
+.breadcrumb {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 18px;
+}
+.breadcrumb a { color: var(--muted); }
+.card {
+  background: var(--surface);
+  border-radius: 24px;
+  padding: 30px 26px;
+  margin-bottom: 22px;
+}
+.card-elevated {
+  background: var(--elevated);
+  border-radius: 20px;
+  padding: 22px;
+  margin-bottom: 16px;
+}
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: var(--jade-dim);
+  color: var(--jade);
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+.badge-gold {
+  background: var(--gold-dim);
+  color: var(--gold);
+}
+h1 {
+  margin: 0 0 14px 0;
+  font-size: clamp(24px, 4vw, 34px);
+  font-weight: 800;
+  line-height: 1.32;
+  letter-spacing: -0.02em;
+}
+h2 {
+  margin: 0 0 14px 0;
+  font-size: 21px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+h3 {
+  margin: 18px 0 8px 0;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--gold);
+}
+p {
+  color: var(--muted);
+  margin: 0 0 16px 0;
+  font-size: 15.5px;
+}
+.lead {
+  font-size: 17px;
+  color: #D5DCEB;
+  margin-bottom: 24px;
+}
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: var(--jade);
+  color: var(--bg) !important;
+  font-weight: 800;
+  font-size: 16px;
+  padding: 16px 26px;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none !important;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: 0 8px 24px rgba(46, 242, 160, 0.22);
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(46, 242, 160, 0.34);
+}
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--elevated);
+  color: var(--gold) !important;
+  font-weight: 700;
+  font-size: 15px;
+  padding: 15px 22px;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none !important;
+}
+.btn-share {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--elevated);
+  color: var(--gold) !important;
+  font-weight: 800;
+  font-size: 14px;
+  padding: 12px 18px;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none !important;
+  transition: transform 0.15s ease;
+}
+.btn-share:hover {
+  transform: translateY(-2px);
+}
+.share-toast {
+  position: fixed;
+  bottom: 78px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--elevated);
+  color: var(--jade);
+  font-weight: 800;
+  font-size: 13.5px;
+  padding: 12px 20px;
+  border-radius: 999px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.65);
+  z-index: 120;
+  display: none;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+.cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 18px;
+}
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+}
+.screen-card {
+  background: var(--elevated);
+  border-radius: 20px;
+  padding: 14px;
+  text-align: center;
+}
+.screen-card img {
+  width: 100%;
+  max-width: 220px;
+  border-radius: 14px;
+  display: block;
+  margin: 0 auto 10px auto;
+}
+.screen-card span {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+}
+/* 인터랙티브 미니 위젯 스타일 */
+.widget-box {
+  background: linear-gradient(145deg, #1A2030 0%, #141824 100%);
+  border-radius: 24px;
+  padding: 28px 24px;
+  margin: 24px 0;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.35);
+}
+.ball-inputs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 16px 0;
+}
+.ball-input {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--bg);
+  color: var(--text);
+  border: 2px solid #2C344A;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 800;
+  outline: none;
+}
+.ball-input:focus {
+  border-color: var(--jade);
+  box-shadow: 0 0 12px rgba(46, 242, 160, 0.3);
+}
+.lotto-orb {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  font-weight: 800;
+  font-size: 15px;
+  color: #0B0D13;
+  margin-right: 6px;
+  box-shadow: inset -3px -3px 6px rgba(0,0,0,0.35), 0 4px 10px rgba(0,0,0,0.3);
+}
+.orb-yellow { background: radial-gradient(circle at 30% 30%, #FFF5B8, #FFD666 65%, #C79300); }
+.orb-blue   { background: radial-gradient(circle at 30% 30%, #C7E8FF, #5CAEFF 65%, #1E62B5); color: #FFF; }
+.orb-red    { background: radial-gradient(circle at 30% 30%, #FFD0D6, #FF6B7A 65%, #B82535); color: #FFF; }
+.orb-grey   { background: radial-gradient(circle at 30% 30%, #E2E7F0, #949EB0 65%, #4B5363); color: #FFF; }
+.orb-green  { background: radial-gradient(circle at 30% 30%, #C2FBE1, #2EF2A0 65%, #0E8F58); }
+.result-panel {
+  background: var(--bg);
+  border-radius: 18px;
+  padding: 20px;
+  margin-top: 18px;
+  display: none;
+}
+.stat-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 14px 0;
+  font-size: 14.5px;
+}
+.stat-table th, .stat-table td {
+  padding: 12px 14px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.stat-table th {
+  color: var(--gold);
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.03);
+}
+.faq-item {
+  background: var(--elevated);
+  border-radius: 16px;
+  padding: 18px 20px;
+  margin-bottom: 12px;
+}
+.faq-q {
+  font-weight: 800;
+  font-size: 16px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.faq-a {
+  font-size: 14.5px;
+  color: var(--muted);
+  margin: 0;
+}
+/* 하단 고정 스마트 전환 바 */
+.sticky-cta {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 60;
+  background: rgba(23, 27, 38, 0.95);
+  backdrop-filter: blur(16px);
+  border-top: 1px solid rgba(46, 242, 160, 0.25);
+  padding: 12px 20px;
+}
+.sticky-inner {
+  max-width: 880px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.sticky-text {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+}
+.sticky-sub {
+  font-size: 12px;
+  color: var(--gold);
+  display: block;
+}
+/* 비공개 테스터 & 다운로드 안내 모달 */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(5, 7, 11, 0.82);
+  backdrop-filter: blur(8px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal-card {
+  background: var(--surface);
+  max-width: 480px;
+  width: 100%;
+  border-radius: 26px;
+  padding: 28px 24px;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.6);
+}
+.footer {
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+@media (max-width: 640px) {
+  .nav-links { display: none; }
+  .sticky-inner { flex-direction: column; align-items: stretch; text-align: center; }
+}
+</style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "로또 당첨금 지급기한 1년이 지나면 미수령 당첨금은 어디로 가나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "로또 당첨금은 지급개시일로부터 1년 안에 수령하지 않으면 소멸시효가 완성되며, 복권 및 복권기금법 제23조에 따라 전액 100% 공익 복권기금으로 귀속되어 저소득층 임대주택·장학·연탄 나눔 등 공익사업에 사용됩니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "로또 지급기한 마지막 날이 주말이나 공휴일이면 어떻게 되나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "당첨금 지급만료일이 토요일·일요일 또는 법정 공휴일인 경우 직후 영업일까지 청구 기한이 연장됩니다."
+      }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+  <header class="nav-bar">
+    <div class="nav-inner">
+      <a class="brand-link" href="/">
+        <span class="orb-dot"></span>
+        <span>공덕왕 (King of Karma)</span>
+      </a>
+      <nav class="nav-links">
+        <a href="/guides/past-winning-number-check.html">역대 당첨번호 대조</a>
+        <a href="/guides/lotto-ac-value-sum-calculator.html">AC값·총합 계산기</a>
+        <a href="/guides/saju-lucky-direction-lotto.html">사주 재물 길방</a>
+        <a href="/guides/lotto-first-prize-tax-real-payout-calculator.html">1등 실수령액 계산</a>
+        <a href="/stores/index.html">전국 1등 명당</a>
+      </nav>
+      <a class="nav-cta" href="https://play.google.com/store/apps/details?id=com.taejoonlabs.kingofkarma" target="_blank" rel="noopener">Google Play 설치</a>
+    </div>
+  </header>
+  <main class="container">
+    
+    <div class="breadcrumb"><a href="/">홈</a> &gt; <a href="/guides/lottery-public-fund-42-percent-donation.html">복권기금 42% 가이드</a> &gt; 미수령 당첨금 &amp; 지급기한 1년 계산기</div>
+    <article class="card">
+      <span class="badge badge-gold"><span class="orb-dot-gold"></span>복권 및 복권기금법 제9조·제23조 공익 가이드</span>
+      <h1>로또 미수령 당첨금, 1년이 지나면 어디로 갈까요? (지급기한 &amp; 복권기금 사용처)</h1>
+      <p class="lead">
+        매년 찾아가지 않아 소멸시효(1년)가 만료되는 로또 미수령 당첨금은 수백억 원 규모에 달합니다. 기한이 지난 당첨금은 사라지는 것이 아니라 <strong>전액 100% 공익 복권기금으로 귀속</strong>되어 서민 주거안정과 소외계층 복지, 사랑의 연탄 나눔 등에 사용됩니다.
+      </p>
+
+      <div class="widget-box">
+        <span class="badge"><span class="orb-dot"></span>2-in-1 공익 환산 &amp; 지급만료일 즉시 계산기</span>
+        <h2 style="margin-bottom:8px;">1. 미수령 당첨금 · 복권기금 공익(연탄가격) 환산기</h2>
+        <p style="font-size:14px; margin-bottom:12px;">금액 유형을 선택하고 금액을 입력하면 공익 복권기금 적립액과 사랑의 연탄(기부 환산 기준 850원~900원대)·장학 나눔 규모를 즉시 계산합니다.</p>
+        <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px;">
+          <button type="button" class="btn-secondary" style="padding:8px 14px; font-size:13px;" onclick="setUnclaimedPreset(5000, 'unclaimed')">5등 미수령 5,000원</button>
+          <button type="button" class="btn-secondary" style="padding:8px 14px; font-size:13px;" onclick="setUnclaimedPreset(50000, 'unclaimed')">4등 미수령 50,000원</button>
+          <button type="button" class="btn-secondary" style="padding:8px 14px; font-size:13px;" onclick="setUnclaimedPreset(1500000, 'unclaimed')">3등 평균 150만 원</button>
+          <button type="button" class="btn-secondary" style="padding:8px 14px; font-size:13px;" onclick="setUnclaimedPreset(3103164459, 'unclaimed')">1등 평균 약 31억 원</button>
+        </div>
+        <div style="display:flex; flex-wrap:wrap; gap:14px; margin:12px 0;">
+          <div>
+            <label for="ufMode" style="font-size:13px; color:var(--muted); display:block;">계산 기준 선택</label>
+            <select id="ufMode" style="padding:12px 14px; border-radius:12px; background:var(--bg); color:var(--text); border:1px solid #2C344A; font-weight:700;">
+              <option value="unclaimed">미수령 당첨금 (100% 복권기금 귀속)</option>
+              <option value="spend">일반 복권 구매액 (판매액의 42% 공익기금)</option>
+            </select>
+          </div>
+          <div>
+            <label for="ufAmount" style="font-size:13px; color:var(--muted); display:block;">금액 입력 (원)</label>
+            <input type="number" id="ufAmount" value="50000" step="1000" min="1000" style="padding:12px 14px; border-radius:12px; background:var(--bg); color:var(--text); border:1px solid #2C344A; font-weight:700; width:190px;" />
+          </div>
+        </div>
+        <button type="button" class="btn-primary" onclick="calcPublicFundImpact()">복권기금 &amp; 연탄 환산 수량 계산하기</button>
+        <div id="ufResult" class="result-panel"></div>
+      </div>
+
+      <div class="widget-box" style="margin-top:20px;">
+        <span class="badge badge-gold"><span class="orb-dot-gold"></span>소멸시효 D-Day 체크</span>
+        <h2 style="margin-bottom:8px;">2. 내 로또 추첨일 기준 지급기한(1년) 만료일 계산기</h2>
+        <p style="font-size:14px; margin-bottom:12px;">로또 당첨금은 지급개시일로부터 <strong>1년 이내</strong>에 청구해야 하며, 만료일이 토·일요일(공휴일)이면 직후 영업일까지 연장됩니다.</p>
+        <div style="display:flex; flex-wrap:wrap; gap:14px; align-items:flex-end; margin:12px 0;">
+          <div>
+            <label for="ufDrawDate" style="font-size:13px; color:var(--muted); display:block;">로또 추첨일 (토요일)</label>
+            <input type="date" id="ufDrawDate" value="2026-11-14" style="padding:12px 14px; border-radius:12px; background:var(--bg); color:var(--text); border:1px solid #2C344A; font-weight:700;" />
+          </div>
+          <button type="button" class="btn-primary" onclick="calcClaimDeadline()">지급만료일 &amp; 남은 기한 계산하기</button>
+        </div>
+        <div id="ufDeadlineResult" class="result-panel"></div>
+      </div>
+
+      <h2>미수령 당첨금과 복권 판매금(42%)은 어디에 쓰이나요?</h2>
+      <p>
+        「복권 및 복권기금법」에 따라 소멸시효가 완성된 미수령 당첨금은 전액 복권기금으로 편입되어 법정 배분사업(약 35%)과 공익사업(약 65%)에 투명하게 집행됩니다.
+      </p>
+      <table class="stat-table">
+        <thead><tr><th>지원 분야</th><th>주요 사용처</th><th>체감 공익 효과</th></tr></thead>
+        <tbody>
+          <tr><td><strong style="color:var(--jade);">서민 주거안정 지원</strong></td><td>저소득층·신혼부부 임대주택 공급 및 주거환경 개선</td><td>가장 큰 비중으로 집행되는 핵심 복지 재원</td></tr>
+          <tr><td><strong style="color:var(--gold);">소외계층 연탄·생활복지</strong></td><td>에너지 취약계층 사랑의 연탄·난방비 및 한부모가족 지원</td><td>시중 연탄(1장 약 850원~900원대) 기준 직관적 환산 가능</td></tr>
+          <tr><td><strong>보훈·장학·문화예술</strong></td><td>국가유공자 복지, 저소득층 장학사업, 문화소외지역 문화나눔</td><td>세대별 교육·보훈·문화 접근성 개선</td></tr>
+        </tbody>
+      </table>
+
+      <div class="card-elevated">
+        <h3>지급기한 지나기 전에 0.1초 QR 스캔으로 놓친 4·5등까지 한 번에 점검하세요</h3>
+        <p style="margin:0;">서랍이나 지갑 속에 넣어둔 지난 복권이 있다면 공덕왕 앱의 초고속 QR 스캐너로 1초 만에 미수령 당첨 여부를 확인하고, 이미 기한이 지났거나 낙첨된 복권은 디지털 향로에서 액운을 소각하며 공식 <strong>기부보살 공덕 증서</strong>로 기록할 수 있습니다.</p>
+      </div>
+
+      <div class="cta-row">
+        <a class="btn-primary" href="https://play.google.com/store/apps/details?id=com.taejoonlabs.kingofkarma" target="_blank" rel="noopener">공덕왕 앱으로 미확인 복권 QR 스캔하기 (Google Play)</a>
+        <a class="btn-secondary" href="/guides/lottery-public-fund-42-percent-donation.html">내 누적 구매액 42% 공익기금 환산기 바로가기 →</a>
+        <a class="btn-secondary" href="/guides/past-winning-number-check.html">역대 당첨번호 1~최신회차 대조기 →</a>
+      </div>
+    </article>
+    
+    <footer class="footer">
+      <div style="margin-bottom:12px;">
+        <a href="/">홈</a> ·
+        <a href="/stores/index.html">전국 로또 1등 명당 지도</a> ·
+        <a href="/stores/seoul-stores.html">서울·잠실주공·노원스파 1등 명당</a> ·
+        <a href="/guides/past-winning-number-check.html">과거 당첨번호 중복 조회</a> ·
+        <a href="/guides/lotto-ac-value-sum-calculator.html">로또 AC값 계산기</a> ·
+        <a href="/guides/lotto-first-prize-tax-real-payout-calculator.html">1등 세금 실수령액 계산기</a> ·
+        <a href="/privacy-policy.html">개인정보처리방침</a> ·
+        <a href="/delete-account.html">계정 및 데이터 삭제</a>
+      </div>
+      <div>© 2026 Taejoon Labs (Origincs). 문의: ptj8176@gmail.com</div>
+      <div style="font-size:12px; margin-top:6px; opacity:0.75;">본 서비스는 동행복권 공개 데이터 및 정통 만세력 알고리즘에 기반한 통계·엔터테인먼트 유틸리티이며, 앱 내 복권 판매 및 사행성 결제를 일절 제공하지 않습니다.</div>
+    </footer>
+  </main>
+  
+<div id="shareToast" class="share-toast"><span class="orb-dot"></span><span id="shareToastText">계산 결과와 링크가 복사되었습니다! 단톡방에 붙여넣어 보세요.</span></div>
+<div class="sticky-cta">
+  <div class="sticky-inner">
+    <div>
+      <span class="sticky-text">공덕왕 Google Play 정식 출시! — 사주 길방 로또 명당 &amp; 0.1초 QR 스캐너</span>
+      <span class="sticky-sub">정식 출시 축원 쿠폰 코드 [ kofk261113 ] 입력 시 +50,000 공덕 포인트 즉시 지급</span>
+    </div>
+    <div style="display:flex; gap:8px; justify-content:center;">
+      <a class="btn-primary" style="padding:11px 18px; font-size:14px;" href="https://play.google.com/store/apps/details?id=com.taejoonlabs.kingofkarma" target="_blank" rel="noopener">Google Play 무료 설치</a>
+    </div>
+  </div>
+</div>
+
+<script>
+function getOrbClass(n) {
+  if (n <= 10) return 'orb-yellow';
+  if (n <= 20) return 'orb-blue';
+  if (n <= 30) return 'orb-red';
+  if (n <= 40) return 'orb-grey';
+  return 'orb-green';
+}
+window.lastSharePayload = { title: '공덕왕 무료 로또·사주 계산기', summary: '', url: 'https://tj-park8176.github.io' };
+function setLastSharePayload(calcTitle, resultSummary, pagePath) {
+  window.lastSharePayload = {
+    title: calcTitle,
+    summary: resultSummary,
+    url: 'https://tj-park8176.github.io' + (pagePath || '')
+  };
+}
+function showShareToast(msg) {
+  const el = document.getElementById('shareToast');
+  const txt = document.getElementById('shareToastText');
+  if (!el || !txt) return;
+  txt.textContent = msg;
+  el.style.display = 'inline-flex';
+  clearTimeout(window.__shareToastTimer);
+  window.__shareToastTimer = setTimeout(() => { el.style.display = 'none'; }, 3200);
+}
+async function shareCalcResult(customTitle, customSummary, customPath) {
+  const payload = window.lastSharePayload || {};
+  const title = customTitle || payload.title || '공덕왕 무료 계산기';
+  const summary = customSummary || payload.summary || '';
+  const url = customPath ? ('https://tj-park8176.github.io' + customPath) : (payload.url || (typeof window !== 'undefined' && window.location ? window.location.href : 'https://tj-park8176.github.io'));
+  const shareText = `[공덕왕 ${title} 결과]\n${summary}\n\n▶ 나도 내 번호·세금·사주 바로 계산해보기:\n${url}\n\n▶ 공덕왕 앱 설치하고 +50,000P 쿠폰(kofk261113) 받기:\nhttps://play.google.com/store/apps/details?id=com.taejoonlabs.kingofkarma`;
+  if (typeof navigator !== 'undefined' && navigator.share) {
+    try {
+      await navigator.share({ title: `[공덕왕] ${title}`, text: shareText, url: url });
+      return shareText;
+    } catch (err) {
+      if (err && err.name === 'AbortError') return shareText;
+    }
+  }
+  try {
+    if (typeof navigator !== 'undefined' && navigator.clipboard && navigator.clipboard.writeText) {
+      await navigator.clipboard.writeText(shareText);
+    } else if (typeof document !== 'undefined' && document.createElement) {
+      const ta = document.createElement('textarea');
+      ta.value = shareText;
+      document.body.appendChild(ta);
+      if (ta.select) ta.select();
+      if (document.execCommand) document.execCommand('copy');
+      if (document.body.removeChild) document.body.removeChild(ta);
+    }
+    showShareToast('계산 결과와 링크가 복사되었습니다! 카카오톡·단톡방에 붙여넣어 보세요.');
+  } catch (e) {
+    showShareToast('공유 텍스트가 준비되었습니다.');
+  }
+  return shareText;
+}
+</script>
+
+  
+<script>
+const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.taejoonlabs.kingofkarma';
+function setUnclaimedPreset(amount, mode) {
+  const modeEl = document.getElementById('ufMode');
+  const amtEl = document.getElementById('ufAmount');
+  if (modeEl && mode) modeEl.value = mode;
+  if (amtEl) amtEl.value = String(amount);
+  calcPublicFundImpact();
+}
+function calcPublicFundImpact() {
+  const modeEl = document.getElementById('ufMode');
+  const amtEl = document.getElementById('ufAmount');
+  const panel = document.getElementById('ufResult');
+  const mode = modeEl ? modeEl.value : 'unclaimed';
+  const raw = parseInt(amtEl ? amtEl.value : '50000', 10);
+  const amount = (!isNaN(raw) && raw > 0) ? raw : 50000;
+  const rate = mode === 'unclaimed' ? 1.0 : 0.42;
+  const fundAmount = Math.round(amount * rate);
+  const briquettes = (fundAmount / 850).toFixed(1);
+  const briquettesMarket = (fundAmount / 900).toFixed(1);
+  const meals = Math.floor(fundAmount / 4000);
+  const modeLabel = mode === 'unclaimed' ? '미수령 당첨금 100% 복권기금 귀속' : '복권 구매액 42% 법정 공익기금 환원';
+  setLastSharePayload(
+    '로또 미수령 당첨금 · 복권기금 연탄 환산기',
+    `${amount.toLocaleString()}원(${modeLabel}) → 복권기금 적립 ${fundAmount.toLocaleString()}원 · 사랑의 연탄 약 ${briquettes}장(시중 900원 기준 ${briquettesMarket}장) 상당 공익 기여`,
+    '/guides/lotto-unclaimed-prize-public-fund-usage.html'
+  );
+  if (!panel) return { fundAmount, briquettes, meals };
+  panel.style.display = 'block';
+  panel.innerHTML = `
+    <span class="badge badge-gold"><span class="orb-dot-gold"></span>${modeLabel}</span>
+    <h3 style="margin:0 0 10px 0; color:var(--gold); font-size:21px;">공익 복권기금 귀속액: ${fundAmount.toLocaleString()}원</h3>
+    <p style="margin:0 0 14px 0; font-size:15px; color:#D5DCEB;">
+      입력하신 ${amount.toLocaleString()}원 중 <strong>${fundAmount.toLocaleString()}원</strong>이 복권기금으로 편입되어 공익사업에 사용됩니다.<br/>
+      사랑의 연탄 환산(850원 기준): <strong>약 ${briquettes}장</strong> (시중 900원대 기준 약 ${briquettesMarket}장) · 무료 급식 약 <strong>${meals.toLocaleString()}끼</strong> 상당의 사회적 가치입니다.
+    </p>
+    <div class="cta-row">
+      <button type="button" class="btn-share" onclick="shareCalcResult()"><span class="orb-dot-gold"></span>복권기금 · 연탄 환산 결과 카톡 공유하기</button>
+      <a class="btn-primary" style="font-size:14px; padding:12px 20px;" href="${PLAY_STORE_URL}" target="_blank" rel="noopener">내 복권 QR 스캔 &amp; 기부보살 증서 발급</a>
+    </div>
+  `;
+  return { fundAmount, briquettes, meals };
+}
+function formatKoreanDate(d) {
+  const names = ['일', '월', '화', '수', '목', '금', '토'];
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day} (${names[d.getDay()]})`;
+}
+function calcClaimDeadline() {
+  const input = document.getElementById('ufDrawDate');
+  const panel = document.getElementById('ufDeadlineResult');
+  const val = (input && input.value) ? input.value : '2026-11-14';
+  const parts = val.split('-').map(x => parseInt(x, 10));
+  if (parts.length !== 3 || parts.some(isNaN)) return null;
+  const drawDate = new Date(parts[0], parts[1] - 1, parts[2], 12, 0, 0);
+  const startDate = new Date(drawDate.getTime());
+  startDate.setDate(startDate.getDate() + 1);
+  while (startDate.getDay() === 0 || startDate.getDay() === 6) {
+    startDate.setDate(startDate.getDate() + 1);
+  }
+  const deadlineDate = new Date(startDate.getFullYear() + 1, startDate.getMonth(), startDate.getDate(), 12, 0, 0);
+  while (deadlineDate.getDay() === 0 || deadlineDate.getDay() === 6) {
+    deadlineDate.setDate(deadlineDate.getDate() + 1);
+  }
+  const now = new Date();
+  const todayNoon = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 12, 0, 0);
+  const diffDays = Math.round((deadlineDate.getTime() - todayNoon.getTime()) / (1000 * 60 * 60 * 24));
+  const statusText = diffDays >= 0
+    ? `오늘 기준 <strong>${diffDays.toLocaleString()}일 남음</strong> (기한 내 수령 가능)`
+    : `오늘 기준 <strong>${Math.abs(diffDays).toLocaleString()}일 경과</strong> (소멸시효 완성 → 복권기금 전액 귀속)`;
+  if (panel) {
+    panel.style.display = 'block';
+    panel.innerHTML = `
+      <span class="badge"><span class="orb-dot"></span>법정 지급개시일 + 1년 산정 완료</span>
+      <h3 style="margin:0 0 10px 0; color:var(--jade); font-size:20px;">당첨금 지급 만료일: ${formatKoreanDate(deadlineDate)}</h3>
+      <p style="margin:0 0 10px 0; font-size:15px; color:#D5DCEB;">
+        추첨일: ${formatKoreanDate(drawDate)} · 최초 지급개시일(영업일): <strong>${formatKoreanDate(startDate)}</strong><br/>
+        현재 상태: ${statusText} (실제 공휴일·대체공휴일 포함 시 익영업일까지 연장)
+      </p>
+    `;
+  }
+  return { drawDate: formatKoreanDate(drawDate), startDate: formatKoreanDate(startDate), deadline: formatKoreanDate(deadlineDate), diffDays };
+}
+window.addEventListener('DOMContentLoaded', () => {
+  calcPublicFundImpact();
+  calcClaimDeadline();
+});
+</script>
+
+</body>
+</html>
