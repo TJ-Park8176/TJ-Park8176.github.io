@@ -432,7 +432,8 @@ def render_round_seo_html(
             </p>
             <div class="coupon-box">
                 <div>
-                    <div style="font-size: 13px; color: var(--text-muted);">공덕왕 정식 출시 축원 쿠폰 (+50,000P 즉시 지급 · 선착순 30,000명 · 2026-12-31까지)</div>
+                    <!-- ~~만료일: 2026-12-31까지~~ -->
+                    <div style="font-size: 13px; color: var(--text-muted);">공덕왕 정식 출시 축원 쿠폰 (+50,000P 즉시 지급 · 선착순 50,000명 · 2027-12-31까지)</div>
                     <div class="coupon-code">{coupon_code}</div>
                 </div>
                 <div class="cta-row">
@@ -515,6 +516,7 @@ def render_round_seo_html(
             return payloadText;
         }}
     </script>
+    <script defer src="/assets/kok_funnel_sdk.js"></script>
 </body>
 </html>
 """
@@ -637,8 +639,31 @@ def refresh_round_urls_in_sitemap(
             seen.add(normalized)
             static_non_round.append(normalized)
 
-    # ~~기존 주석~~ -> 순수 <loc> 표준 규격으로 sitemap.xml 갱신 및 sitemap_index.xml을 표준 <sitemapindex>로 멱등 분리-2026.11.15
-    ordered_urls = [home_url] + [f"{BASE_URL}{rel}" for rel in round_paths] + static_non_round
+    # ~~기존 주석~~ -> 순수 <loc> 표준 규격으로 sitemap.xml 갱신 및 60갑자 일주·시군구 명당 드립 페이지 동적 수록-2026.11.15
+    drip_ilju_urls: List[str] = []
+    if (guides_dir / "ilju-index.html").exists():
+        drip_ilju_urls.append(f"{BASE_URL}/guides/ilju-index.html")
+    for p in sorted(guides_dir.glob("ilju-*.html")):
+        if p.name != "ilju-index.html":
+            drip_ilju_urls.append(f"{BASE_URL}/guides/{p.name}")
+
+    stores_dir = guides_dir.parent / "stores"
+    drip_region_urls: List[str] = []
+    if stores_dir.exists():
+        for p in sorted(stores_dir.glob("region-*.html")):
+            drip_region_urls.append(f"{BASE_URL}/stores/{p.name}")
+
+    filtered_static = [
+        u for u in static_non_round
+        if "/guides/ilju-" not in u and "/stores/region-" not in u
+    ]
+    ordered_urls = (
+        [home_url]
+        + [f"{BASE_URL}{rel}" for rel in round_paths]
+        + filtered_static
+        + drip_ilju_urls
+        + drip_region_urls
+    )
     url_entries = "\n".join(
         f"  <url>\n    <loc>{u}</loc>\n  </url>" for u in ordered_urls
     )
@@ -834,11 +859,15 @@ def sync_latest_lotto(
     for rno in target_rounds:
         row = by_round[rno]
         out_html = guides_dir / f"round-{rno}-analysis.html"
+        existing_raw = out_html.read_text(encoding="utf-8") if out_html.exists() else ""
+        # ~~기존 조건: force_regenerate or not out_html.exists() or rno in newly_added_rounds or (rno + 1) in newly_added_rounds~~
+        # 1st-Party 무쿠키 퍼널 SDK(kok_funnel_sdk.js) 누락 파일 자동 재생성 조건 추가-2026.11.15
         if (
             force_regenerate
             or not out_html.exists()
             or rno in newly_added_rounds
             or (rno + 1) in newly_added_rounds
+            or "/assets/kok_funnel_sdk.js" not in existing_raw
         ):
             html = render_round_seo_html(
                 round_no=int(row[0]),
@@ -849,8 +878,7 @@ def sync_latest_lotto(
                 coupon_code=coupon_code,
                 has_next_round=(rno + 1) in by_round,
             )
-            old_html = out_html.read_text(encoding="utf-8") if out_html.exists() else ""
-            if old_html != html:
+            if existing_raw != html:
                 out_html.write_text(html, encoding="utf-8", newline="\n")
                 generated_files.append(str(out_html))
 
