@@ -144,14 +144,16 @@ def render_round_seo_html(
         )
 
     canonical_url = f"{BASE_URL}/guides/round-{round_no}-analysis.html"
+    # ~~기존: [로또 N회 당첨번호 분석] ...~~
+    # H-224: 롱테일 검색 CTR 및 5만 공덕 쿠폰 소구 Title/Description 표준화-2026.11.18
     page_title = (
-        f"[로또 {round_no}회 당첨번호 분석] {nums_str} + 보너스 {bonus} · "
-        f"{round_no + 1}회 예상번호 & 사주 오행({final_theme}) 무료 쿠폰 | 공덕왕"
+        f"제{round_no}회 로또 당첨번호 사주 오행 상생 분석 및 다음 회차 행운 수 "
+        f"({nums_str} + {bonus} · {final_theme}) | 공덕왕"
     )
     page_desc = (
-        f"로또 {round_no}회({display_date}) 1등 당첨번호({nums_str} + {bonus})의 "
-        f"홀짝({odd_cnt}:{even_cnt})·고저({low_cnt}:{high_cnt})·총합({total_sum})·AC값({ac_value})과 "
-        f"{final_theme} 사주 오행 분석! 다가오는 {round_no + 1}회 무료 비기 번호 쿠폰({coupon_code}, +50,000P)을 확인하세요."
+        f"제{round_no}회({display_date}) 로또 당첨번호({nums_str} + {bonus})와 "
+        f"목·화·토·금·수 오행 분포({final_theme} · 홀짝 {odd_cnt}:{even_cnt} · 총합 {total_sum} · AC {ac_value})를 분석하고, "
+        f"내 일주에 맞는 행운 번호와 50,000 공덕 시작 쿠폰({coupon_code}) 혜택을 확인하세요."
     )
 
     json_ld = json.dumps(
@@ -378,6 +380,30 @@ def render_round_seo_html(
             gap: 8px;
             z-index: 9999;
         }}
+        .bridge-grid {{
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 10px;
+            margin-top: 14px;
+        }}
+        .bridge-step {{
+            background: var(--ink-surface-elevated);
+            border-radius: 16px;
+            padding: 14px 16px;
+            font-size: 13.5px;
+            color: var(--text-muted);
+        }}
+        .bridge-step strong {{
+            display: block;
+            color: var(--text-ivory);
+            font-size: 14px;
+            margin-bottom: 4px;
+        }}
+        .bridge-step .step-num {{
+            color: var(--sonar-jade);
+            font-weight: 800;
+            margin-right: 6px;
+        }}
     </style>
 </head>
 <body>
@@ -433,17 +459,34 @@ def render_round_seo_html(
             <div class="coupon-box">
                 <div>
                     <!-- ~~만료일: 2026-12-31까지~~ -->
-                    <div style="font-size: 13px; color: var(--text-muted);">공덕왕 정식 출시 축원 쿠폰 (+50,000P 즉시 지급 · 선착순 50,000명 · 2027-12-31까지)</div>
-                    <div class="coupon-code">{coupon_code}</div>
+                    <div style="font-size: 13px; color: var(--text-muted);">신규 도반 전용 50,000P 쿠폰 [{coupon_code}] 복사 후 30초 만에 기명 랭킹 등록 (2027-12-31까지)</div>
+                    <div class="coupon-code" data-kok-coupon-code="1">{coupon_code}</div>
                 </div>
                 <div class="cta-row">
+                    <button type="button" class="btn-share" onclick="copyCouponCode('{coupon_code}')">
+                        <span class="dot-jade"></span>5만 공덕 쿠폰 복사
+                    </button>
                     <button type="button" class="btn-share" onclick="shareCalcResult()">
                         <span class="dot-gold"></span>제{round_no}회 분석 결과 카톡·링크 공유
                     </button>
-                    <a class="cta-btn" href="{PLAY_STORE_URL}" target="_blank" rel="noopener">Google Play 앱 설치하기</a>
+                    <a class="cta-btn" href="{PLAY_STORE_URL}" target="_blank" rel="noopener">제{round_no}회 오행 흐름 반영 완료 · 앱 설치 후 쿠폰({coupon_code})으로 5만 공덕 즉시 수령</a>
                     {prev_round_link}
                     {next_round_link}
                     <a class="cta-btn-sub" href="/">웹 무료 계산기 모음 보기</a>
+                </div>
+            </div>
+            <div class="bridge-grid" aria-label="미전환 기기 3단계 온보딩 가이드">
+                <div class="bridge-step">
+                    <strong><span class="step-num">01</span>앱 설치</strong>
+                    Google Play에서 '공덕왕' 설치 후 실행하기
+                </div>
+                <div class="bridge-step">
+                    <strong><span class="step-num">02</span>5만 공덕 즉시 지급</strong>
+                    설정·보상 탭에서 쿠폰 코드 <span style="color: var(--sonar-jade); font-weight: 700;">{coupon_code}</span> 입력 (50,000P 즉시 적립)
+                </div>
+                <div class="bridge-step">
+                    <strong><span class="step-num">03</span>기명 도반 정착</strong>
+                    법명(닉네임) 설정 및 1회 번호 추출·QR 스캔 완료 시 전국 리더보드 즉시 등재
                 </div>
             </div>
         </div>
@@ -470,7 +513,7 @@ def render_round_seo_html(
             }}, 2800);
         }}
 
-        function fallbackCopyText(text) {{
+        function fallbackCopyText(text, customMsg) {{
             var ta = document.createElement('textarea');
             ta.value = text;
             ta.style.position = 'fixed';
@@ -479,11 +522,30 @@ def render_round_seo_html(
             ta.select();
             try {{
                 document.execCommand('copy');
-                showShareToast('제{round_no}회 분석 결과와 쿠폰 코드가 복사되었습니다. 카카오톡에 붙여넣으세요.');
+                showShareToast(customMsg || '제{round_no}회 분석 결과와 쿠폰 코드가 복사되었습니다. 카카오톡에 붙여넣으세요.');
             }} catch (err) {{
                 showShareToast('브라우저에서 복사를 지원하지 않아 주소를 직접 복사해 주세요.');
             }}
             document.body.removeChild(ta);
+        }}
+
+        async function copyCouponCode(code) {{
+            var target = String(code || '{coupon_code}').trim();
+            var toastMsg = '쿠폰 코드 ' + target + ' 복사 완료! 앱 설치 후 설정·보상 탭에 입력하면 50,000P가 즉시 지급됩니다.';
+            if (window.KokFunnel && typeof window.KokFunnel.trackEvent === 'function') {{
+                window.KokFunnel.trackEvent('coupon_copy');
+            }}
+            if (navigator.clipboard && navigator.clipboard.writeText) {{
+                try {{
+                    await navigator.clipboard.writeText(target);
+                    showShareToast(toastMsg);
+                    return target;
+                }} catch (err) {{
+                    // 클립보드 API 거부 시 execCommand 폴백
+                }}
+            }}
+            fallbackCopyText(target, toastMsg);
+            return target;
         }}
 
         async function shareCalcResult() {{
@@ -664,8 +726,9 @@ def refresh_round_urls_in_sitemap(
         + drip_ilju_urls
         + drip_region_urls
     )
+    lastmod_date = datetime.now().strftime("%Y-%m-%d")
     url_entries = "\n".join(
-        f"  <url>\n    <loc>{u}</loc>\n  </url>" for u in ordered_urls
+        f"  <url>\n    <loc>{u}</loc>\n    <lastmod>{lastmod_date}</lastmod>\n  </url>" for u in ordered_urls
     )
     new_xml = (
         '<?xml version="1.0" encoding="UTF-8"?>\n'
@@ -678,6 +741,7 @@ def refresh_round_urls_in_sitemap(
         '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
         "  <sitemap>\n"
         f"    <loc>{BASE_URL}/sitemap.xml</loc>\n"
+        f"    <lastmod>{lastmod_date}</lastmod>\n"
         "  </sitemap>\n"
         "</sitemapindex>\n"
     )
