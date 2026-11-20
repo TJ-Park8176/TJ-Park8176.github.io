@@ -657,6 +657,25 @@ p {
       </div>
     </section>
 
+    <section class="card" id="weekend-coupon-bridge">
+      <span class="badge badge-gold"><span class="orb-dot-gold"></span>주말 로또 골든타임 · 50,000 공덕 30초 수령 가이드</span>
+      <h2>토요일 추첨 전 명당 확인부터 추첨 후 낙첨 QR 액땜까지</h2>
+      <p>아쉽게 낙첨된 복권 용지도 그냥 버리지 마세요. 공덕왕 앱에서 QR을 스캔하면 액땜 공덕으로 적립되며, 정식 출시 축원 코드로 50,000 공덕을 바로 받으실 수 있습니다.</p>
+      <div class="card-elevated" style="margin:14px 0;">
+        <div style="font-size:14px; font-weight:800; color:var(--text); margin-bottom:10px;">설치 후 30초 만에 50,000 공덕 받는 순서</div>
+        <div style="display:grid; gap:8px; font-size:14px; color:var(--muted);">
+          <div><strong style="color:var(--jade);">1단계.</strong> 구글 플레이에서 공덕왕 설치 후 실행</div>
+          <div><strong style="color:var(--jade);">2단계.</strong> 닉네임 확인으로 내 공덕 프로필 시작 (복잡한 가입 절차 없음)</div>
+          <div><strong style="color:var(--jade);">3단계.</strong> 앱 쿠폰함에 <strong style="color:var(--gold);">kofk261113</strong> 입력 -&gt; 50,000 공덕 즉시 지급</div>
+        </div>
+        <div class="cta-row" style="margin-top:14px;">
+          <a class="btn-primary" href="https://play.google.com/store/apps/details?id=com.taejoonlabs.kingofkarma" target="_blank" rel="noopener">공덕왕 무료 설치하고 5만 공덕 받기</a>
+          <button type="button" class="btn-secondary" style="border:none; cursor:pointer; font-family:inherit;" onclick="copyWeekendCoupon('kofk261113')">쿠폰 kofk261113 복사</button>
+          <button type="button" class="btn-secondary" style="border:none; cursor:pointer; font-family:inherit;" onclick="shareWeekendDrawBridge()">추첨 직후 지인 공유 복사</button>
+        </div>
+      </div>
+    </section>
+
     <section class="card">
       <h2>공식 정책 및 데이터 안전 센터</h2>
       <p>공덕왕은 사용자의 개인정보 보호와 투명한 계정 관리를 최우선으로 준수합니다.</p>
@@ -750,6 +769,45 @@ async function shareCalcResult(customTitle, customSummary, customPath) {
     showShareToast('공유 텍스트가 준비되었습니다.');
   }
   return shareText;
+}
+function copyWeekendCoupon(code) {
+  const couponCode = code || 'kofk261113';
+  if (typeof copyKokCoupon === 'function') {
+    copyKokCoupon(couponCode);
+    return;
+  }
+  if (typeof navigator !== 'undefined' && navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(couponCode).then(function () {
+      showShareToast('쿠폰 코드 ' + couponCode + ' 복사 완료! 앱 프로필 시작 후 쿠폰함에 붙여넣으세요.');
+    }).catch(function () {
+      showShareToast('쿠폰 코드: ' + couponCode);
+    });
+    return;
+  }
+  showShareToast('쿠폰 코드: ' + couponCode);
+}
+function shareWeekendDrawBridge() {
+  const shareBody = [
+    '방금 끝난 이번 주 로또 추첨, 아쉽게 낙첨되셨다면 용지 버리지 마세요.',
+    '',
+    '공덕왕 앱에서 낙첨 복권 QR을 스캔하면 그대로 액땜 공덕으로 적립되고, 정식 출시 축원 코드로 50,000 공덕까지 바로 받으실 수 있습니다.',
+    '',
+    '[30초 참여 방법]',
+    '1. 공덕왕 설치 및 실행: https://play.google.com/store/apps/details?id=com.taejoonlabs.kingofkarma',
+    '2. 닉네임 확인으로 내 프로필 시작',
+    '3. 쿠폰함에 kofk261113 입력 -> 50,000 공덕 즉시 지급',
+    '',
+    '회차별 당첨 번호 분석 보기: https://tj-park8176.github.io'
+  ].join('\n');
+  if (typeof navigator !== 'undefined' && navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(shareBody).then(function () {
+      showShareToast('추첨 직후 지인 공유 원고(kofk261113 포함)가 복사되었습니다.');
+    }).catch(function () {
+      showShareToast('공유 원고를 복사하지 못했습니다. 브라우저 권한을 확인해 주세요.');
+    });
+    return;
+  }
+  showShareToast('쿠폰 코드 kofk261113을 지인에게 공유해 보세요.');
 }
 </script>
 
