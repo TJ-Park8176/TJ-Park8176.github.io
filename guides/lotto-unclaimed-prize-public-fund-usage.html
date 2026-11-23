@@ -8,19 +8,20 @@
   <title>[1년 지나면 국고 귀속?] 로또 미수령 당첨금 지급기한 계산기 · 복권기금 사용처(연탄가격·임대주택)</title>
   <meta name="description" content="로또 1등~5등 미수령 당첨금의 법정 지급기한(지급개시일로부터 1년)을 추첨일 입력만으로 즉시 계산하고, 소멸시효 경과 후 복권기금으로 귀속되어 사랑의 연탄(약 850원)·서민 주거안정·장학사업에 쓰이는 공익 환산 수량을 확인해 보세요." />
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
-  <link rel="canonical" href="https://tj-park8176.github.io/guides/lotto-unclaimed-prize-public-fund-usage.html" />
+  <link rel="canonical" href="https://karma.taejoonlabs.com/guides/lotto-unclaimed-prize-public-fund-usage.html" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="공덕왕 (King of Karma)" />
   <meta property="og:title" content="[1년 지나면 국고 귀속?] 로또 미수령 당첨금 지급기한 계산기 · 복권기금 사용처(연탄가격·임대주택)" />
   <meta property="og:description" content="로또 1등~5등 미수령 당첨금의 법정 지급기한(지급개시일로부터 1년)을 추첨일 입력만으로 즉시 계산하고, 소멸시효 경과 후 복권기금으로 귀속되어 사랑의 연탄(약 850원)·서민 주거안정·장학사업에 쓰이는 공익 환산 수량을 확인해 보세요." />
-  <meta property="og:url" content="https://tj-park8176.github.io/guides/lotto-unclaimed-prize-public-fund-usage.html" />
-  <meta property="og:image" content="https://tj-park8176.github.io/assets/feature_graphic.png" />
+  <meta property="og:url" content="https://karma.taejoonlabs.com/guides/lotto-unclaimed-prize-public-fund-usage.html" />
+  <meta property="og:image" content="https://karma.taejoonlabs.com/assets/feature_graphic.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="[1년 지나면 국고 귀속?] 로또 미수령 당첨금 지급기한 계산기 · 복권기금 사용처(연탄가격·임대주택)" />
   <meta name="twitter:description" content="로또 1등~5등 미수령 당첨금의 법정 지급기한(지급개시일로부터 1년)을 추첨일 입력만으로 즉시 계산하고, 소멸시효 경과 후 복권기금으로 귀속되어 사랑의 연탄(약 850원)·서민 주거안정·장학사업에 쓰이는 공익 환산 수량을 확인해 보세요." />
-  <meta name="twitter:image" content="https://tj-park8176.github.io/assets/feature_graphic.png" />
+  <meta name="twitter:image" content="https://karma.taejoonlabs.com/assets/feature_graphic.png" />
   <link rel="shortcut icon" href="/favicon.ico" />
   <link rel="icon" type="image/png" href="/assets/app_icon.png" />
+  <link rel="alternate" type="application/rss+xml" title="공덕왕 로또·사주·명당 가이드 RSS" href="https://karma.taejoonlabs.com/rss.xml" />
   <link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
   <style>
 :root {
@@ -594,12 +595,12 @@ function getOrbClass(n) {
   if (n <= 40) return 'orb-grey';
   return 'orb-green';
 }
-window.lastSharePayload = { title: '공덕왕 무료 로또·사주 계산기', summary: '', url: 'https://tj-park8176.github.io' };
+window.lastSharePayload = { title: '공덕왕 무료 로또·사주 계산기', summary: '', url: 'https://karma.taejoonlabs.com' };
 function setLastSharePayload(calcTitle, resultSummary, pagePath) {
   window.lastSharePayload = {
     title: calcTitle,
     summary: resultSummary,
-    url: 'https://tj-park8176.github.io' + (pagePath || '')
+    url: 'https://karma.taejoonlabs.com' + (pagePath || '')
   };
 }
 function showShareToast(msg) {
@@ -615,7 +616,7 @@ async function shareCalcResult(customTitle, customSummary, customPath) {
   const payload = window.lastSharePayload || {};
   const title = customTitle || payload.title || '공덕왕 무료 계산기';
   const summary = customSummary || payload.summary || '';
-  const url = customPath ? ('https://tj-park8176.github.io' + customPath) : (payload.url || (typeof window !== 'undefined' && window.location ? window.location.href : 'https://tj-park8176.github.io'));
+  const url = customPath ? ('https://karma.taejoonlabs.com' + customPath) : (payload.url || (typeof window !== 'undefined' && window.location ? window.location.href : 'https://karma.taejoonlabs.com'));
   const shareText = `[공덕왕 ${title} 결과]\n${summary}\n\n▶ 나도 내 번호·세금·사주 바로 계산해보기:\n${url}\n\n▶ 공덕왕 앱 설치하고 +50,000P 쿠폰(kofk261113) 받기:\nhttps://play.google.com/store/apps/details?id=com.taejoonlabs.kingofkarma`;
   if (typeof navigator !== 'undefined' && navigator.share) {
     try {
@@ -641,6 +642,30 @@ async function shareCalcResult(customTitle, customSummary, customPath) {
     showShareToast('공유 텍스트가 준비되었습니다.');
   }
   return shareText;
+}
+async function copyKokCoupon(couponCode) {
+  const target = String(couponCode || 'kofk261113').trim();
+  if (window.KokFunnel && typeof window.KokFunnel.trackEvent === 'function') {
+    window.KokFunnel.trackEvent('coupon_copy');
+  }
+  try {
+    if (typeof navigator !== 'undefined' && navigator.clipboard && navigator.clipboard.writeText) {
+      await navigator.clipboard.writeText(target);
+    } else if (typeof document !== 'undefined' && document.createElement) {
+      const ta = document.createElement('textarea');
+      ta.value = target;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      if (ta.select) ta.select();
+      if (document.execCommand) document.execCommand('copy');
+      if (document.body.removeChild) document.body.removeChild(ta);
+    }
+    showShareToast(`쿠폰 코드 ${target} 복사 완료! 앱 설치 후 설정·보상 탭에서 50,000P를 받으세요.`);
+  } catch (e) {
+    showShareToast(`쿠폰 코드: ${target} (직접 복사해 주세요)`);
+  }
+  return target;
 }
 </script>
 

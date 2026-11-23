@@ -8,19 +8,20 @@
   <title>[무료 번호생성기] 내 로또 제외수(꽝 번호) 빼고 홀짝·고저(23 기준)·AC값 7+ 통과 번호 즉시 추출</title>
   <meta name="description" content="넣을 때마다 빗나가는 내 제외수(악연수)를 완벽히 배제하고 홀짝(3:3, 4:2), 고저(23 기준), 총합(100~175), AC값 7 이상을 모두 통과한 로또 번호를 무료로 즉시 추출하세요." />
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
-  <link rel="canonical" href="https://tj-park8176.github.io/guides/lotto-excluded-numbers-odd-even-high-low-stat.html" />
+  <link rel="canonical" href="https://karma.taejoonlabs.com/guides/lotto-excluded-numbers-odd-even-high-low-stat.html" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="공덕왕 (King of Karma)" />
   <meta property="og:title" content="[무료 번호생성기] 내 로또 제외수(꽝 번호) 빼고 홀짝·고저(23 기준)·AC값 7+ 통과 번호 즉시 추출" />
   <meta property="og:description" content="넣을 때마다 빗나가는 내 제외수(악연수)를 완벽히 배제하고 홀짝(3:3, 4:2), 고저(23 기준), 총합(100~175), AC값 7 이상을 모두 통과한 로또 번호를 무료로 즉시 추출하세요." />
-  <meta property="og:url" content="https://tj-park8176.github.io/guides/lotto-excluded-numbers-odd-even-high-low-stat.html" />
-  <meta property="og:image" content="https://tj-park8176.github.io/assets/feature_graphic.png" />
+  <meta property="og:url" content="https://karma.taejoonlabs.com/guides/lotto-excluded-numbers-odd-even-high-low-stat.html" />
+  <meta property="og:image" content="https://karma.taejoonlabs.com/assets/feature_graphic.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="[무료 번호생성기] 내 로또 제외수(꽝 번호) 빼고 홀짝·고저(23 기준)·AC값 7+ 통과 번호 즉시 추출" />
   <meta name="twitter:description" content="넣을 때마다 빗나가는 내 제외수(악연수)를 완벽히 배제하고 홀짝(3:3, 4:2), 고저(23 기준), 총합(100~175), AC값 7 이상을 모두 통과한 로또 번호를 무료로 즉시 추출하세요." />
-  <meta name="twitter:image" content="https://tj-park8176.github.io/assets/feature_graphic.png" />
+  <meta name="twitter:image" content="https://karma.taejoonlabs.com/assets/feature_graphic.png" />
   <link rel="shortcut icon" href="/favicon.ico" />
   <link rel="icon" type="image/png" href="/assets/app_icon.png" />
+  <link rel="alternate" type="application/rss+xml" title="공덕왕 로또·사주·명당 가이드 RSS" href="https://karma.taejoonlabs.com/rss.xml" />
   <link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
   <style>
 :root {
@@ -559,12 +560,12 @@ function getOrbClass(n) {
   if (n <= 40) return 'orb-grey';
   return 'orb-green';
 }
-window.lastSharePayload = { title: '공덕왕 무료 로또·사주 계산기', summary: '', url: 'https://tj-park8176.github.io' };
+window.lastSharePayload = { title: '공덕왕 무료 로또·사주 계산기', summary: '', url: 'https://karma.taejoonlabs.com' };
 function setLastSharePayload(calcTitle, resultSummary, pagePath) {
   window.lastSharePayload = {
     title: calcTitle,
     summary: resultSummary,
-    url: 'https://tj-park8176.github.io' + (pagePath || '')
+    url: 'https://karma.taejoonlabs.com' + (pagePath || '')
   };
 }
 function showShareToast(msg) {
@@ -580,7 +581,7 @@ async function shareCalcResult(customTitle, customSummary, customPath) {
   const payload = window.lastSharePayload || {};
   const title = customTitle || payload.title || '공덕왕 무료 계산기';
   const summary = customSummary || payload.summary || '';
-  const url = customPath ? ('https://tj-park8176.github.io' + customPath) : (payload.url || (typeof window !== 'undefined' && window.location ? window.location.href : 'https://tj-park8176.github.io'));
+  const url = customPath ? ('https://karma.taejoonlabs.com' + customPath) : (payload.url || (typeof window !== 'undefined' && window.location ? window.location.href : 'https://karma.taejoonlabs.com'));
   const shareText = `[공덕왕 ${title} 결과]\n${summary}\n\n▶ 나도 내 번호·세금·사주 바로 계산해보기:\n${url}\n\n▶ 공덕왕 앱 설치하고 +50,000P 쿠폰(kofk261113) 받기:\nhttps://play.google.com/store/apps/details?id=com.taejoonlabs.kingofkarma`;
   if (typeof navigator !== 'undefined' && navigator.share) {
     try {
@@ -606,6 +607,30 @@ async function shareCalcResult(customTitle, customSummary, customPath) {
     showShareToast('공유 텍스트가 준비되었습니다.');
   }
   return shareText;
+}
+async function copyKokCoupon(couponCode) {
+  const target = String(couponCode || 'kofk261113').trim();
+  if (window.KokFunnel && typeof window.KokFunnel.trackEvent === 'function') {
+    window.KokFunnel.trackEvent('coupon_copy');
+  }
+  try {
+    if (typeof navigator !== 'undefined' && navigator.clipboard && navigator.clipboard.writeText) {
+      await navigator.clipboard.writeText(target);
+    } else if (typeof document !== 'undefined' && document.createElement) {
+      const ta = document.createElement('textarea');
+      ta.value = target;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      if (ta.select) ta.select();
+      if (document.execCommand) document.execCommand('copy');
+      if (document.body.removeChild) document.body.removeChild(ta);
+    }
+    showShareToast(`쿠폰 코드 ${target} 복사 완료! 앱 설치 후 설정·보상 탭에서 50,000P를 받으세요.`);
+  } catch (e) {
+    showShareToast(`쿠폰 코드: ${target} (직접 복사해 주세요)`);
+  }
+  return target;
 }
 </script>
 

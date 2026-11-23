@@ -21,7 +21,9 @@ from typing import Dict, List, Optional, Tuple
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
-BASE_URL = "https://tj-park8176.github.io"
+# ~~기존 도메인: BASE_URL = "https://tj-park8176.github.io"~~
+# Cloudflare 커스텀 도메인(karma.taejoonlabs.com) 공식 전환-2026.11.23
+BASE_URL = "https://karma.taejoonlabs.com"
 PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=com.taejoonlabs.kingofkarma"
 DHLOTTERY_LT645_API = "https://www.dhlottery.co.kr/lt645/selectPstLt645Info.do?srchLtEpsd={round_no}"
 SMOK95_ALL_URL = "https://smok95.github.io/lotto/results/all.json"
@@ -198,6 +200,7 @@ def render_round_seo_html(
     <meta property="og:description" content="{page_desc}" />
     <meta property="og:url" content="{canonical_url}" />
     <link rel="canonical" href="{canonical_url}" />
+    <link rel="alternate" type="application/rss+xml" title="공덕왕 (King of Karma) 로또 명당·사주 RSS" href="{BASE_URL}/rss.xml" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="icon" type="image/png" href="/assets/app_icon.png" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
@@ -705,7 +708,7 @@ def refresh_round_urls_in_sitemap(
     seen = set()
     home_url = f"{BASE_URL}/"
     for url in existing_urls:
-        normalized = url.strip()
+        normalized = url.strip().replace("https://tj-park8176.github.io", BASE_URL)
         if not normalized or normalized == home_url:
             continue
         if re.search(r"/guides/round-\d+-analysis\.html$", normalized):
@@ -714,7 +717,11 @@ def refresh_round_urls_in_sitemap(
             seen.add(normalized)
             static_non_round.append(normalized)
 
-    # ~~기존 주석~~ -> 순수 <loc> 표준 규격으로 sitemap.xml 갱신 및 60갑자 일주·시군구 명당 드립 페이지 동적 수록-2026.11.15
+    # ~~기존 주석~~ -> 고의도 롱테일(guides/lt-*.html) + 60갑자 일주·시군구 명당 드립 페이지 동적 수록-2026.11.23
+    drip_longtail_urls: List[str] = [
+        f"{BASE_URL}/guides/{p.name}"
+        for p in sorted(guides_dir.glob("lt-*.html"))
+    ]
     drip_ilju_urls: List[str] = []
     if (guides_dir / "ilju-index.html").exists():
         drip_ilju_urls.append(f"{BASE_URL}/guides/ilju-index.html")
@@ -730,11 +737,12 @@ def refresh_round_urls_in_sitemap(
 
     filtered_static = [
         u for u in static_non_round
-        if "/guides/ilju-" not in u and "/stores/region-" not in u
+        if "/guides/lt-" not in u and "/guides/ilju-" not in u and "/stores/region-" not in u
     ]
     ordered_urls = (
         [home_url]
         + [f"{BASE_URL}{rel}" for rel in round_paths]
+        + drip_longtail_urls
         + filtered_static
         + drip_ilju_urls
         + drip_region_urls
