@@ -99,10 +99,13 @@ def render_round_seo_html(
     draw_date: str = "",
     first_prize_amount: int = 0,
     element_theme: str = "",
-    coupon_code: str = "kofk261113",
+    # ~~coupon_code: str = "kofk261113",~~
+    # H-230: 대문자 표준 쿠폰 코드(KOFK261113) 통일-2026.11.22
+    coupon_code: str = "KOFK261113",
     has_next_round: bool = False,
 ) -> str:
     """시안 B 규격 + 1클릭 공유 버튼 + 인접 회차 양방향 링크 포함 회차별 사주 오행 SEO HTML 생성"""
+    coupon_code = (coupon_code or "KOFK261113").strip().upper()
     sorted_nums = sorted(int(n) for n in numbers)
     bonus = int(bonus)
     display_date = draw_date or datetime.now().strftime("%Y-%m-%d")
@@ -456,37 +459,46 @@ def render_round_seo_html(
                 다가오는 제{round_no + 1}회차에는 본인의 사주 일간(日干)과 부족한 오행을 보완하는 길방(吉方) 명당 판매점을 확인하고,
                 낙첨 복권 스캔(42% 공익기금 기부 환산)과 108 목탁 수행으로 공덕의 그릇을 넓혀 보세요.
             </p>
-            <div class="coupon-box">
+            <div class="coupon-box" data-ctr-cta-box="1">
                 <div>
                     <!-- ~~만료일: 2026-12-31까지~~ -->
-                    <div style="font-size: 13px; color: var(--text-muted);">신규 도반 전용 50,000P 쿠폰 [{coupon_code}] 복사 후 30초 만에 기명 랭킹 등록 (2027-12-31까지)</div>
+                    <!-- H-230: 주간 회차 분석 하단 유형 C 고전환 CTA 카드 및 30초 정착 가이드 반영-2026.11.22 -->
+                    <div class="badge-top" style="margin-bottom: 10px;">
+                        <span class="dot-gold"></span>
+                        <span>꽝 복권 QR 공덕 환전 · 초기 100명 돌파 이벤트</span>
+                    </div>
+                    <h3 data-ctr-cta-title="1" style="margin: 0 0 8px 0; font-size: 19px; color: var(--text-ivory); line-height: 1.4;">이번 회차 꽝 나온 용지, 버리지 말고 QR 스캔으로 공덕을 쌓아 두세요</h3>
+                    <p style="margin: 0 0 12px 0; font-size: 14px; color: var(--text-muted);">
+                        꽝 복권 QR을 찍을 때마다 공덕이 누적되며, 다음 회차 당첨 기운을 높이는 오행 분석과 명당 레이더를 함께 쓸 수 있습니다.
+                    </p>
+                    <div style="font-size: 13px; color: var(--text-muted);">설치 -&gt; 닉네임 등록 -&gt; 쿠폰함 {coupon_code} 입력까지 30초면 50,000P가 즉시 지급됩니다 (2027-12-31까지)</div>
                     <div class="coupon-code" data-kok-coupon-code="1">{coupon_code}</div>
                 </div>
                 <div class="cta-row">
-                    <button type="button" class="btn-share" onclick="copyCouponCode('{coupon_code}')">
-                        <span class="dot-jade"></span>5만 공덕 쿠폰 복사
+                    <a class="cta-btn" data-ctr-cta="1" href="{PLAY_STORE_URL}" target="_blank" rel="noopener">공덕왕 무료 설치하고 꽝 복권 적립 시작하기</a>
+                    <button type="button" class="btn-share" onclick="copyKokCoupon('{coupon_code}')">
+                        <span class="dot-jade"></span>출시 쿠폰 {coupon_code} 복사 (+50,000P)
                     </button>
                     <button type="button" class="btn-share" onclick="shareCalcResult()">
                         <span class="dot-gold"></span>제{round_no}회 분석 결과 카톡·링크 공유
                     </button>
-                    <a class="cta-btn" href="{PLAY_STORE_URL}" target="_blank" rel="noopener">제{round_no}회 오행 흐름 반영 완료 · 앱 설치 후 쿠폰({coupon_code})으로 5만 공덕 즉시 수령</a>
                     {prev_round_link}
                     {next_round_link}
                     <a class="cta-btn-sub" href="/">웹 무료 계산기 모음 보기</a>
                 </div>
             </div>
-            <div class="bridge-grid" aria-label="미전환 기기 3단계 온보딩 가이드">
+            <div class="bridge-grid" aria-label="30초 정착 3단계 온보딩 가이드">
                 <div class="bridge-step">
                     <strong><span class="step-num">01</span>앱 설치</strong>
-                    Google Play에서 '공덕왕' 설치 후 실행하기
+                    Google Play에서 공덕왕 설치 후 실행하기
                 </div>
                 <div class="bridge-step">
-                    <strong><span class="step-num">02</span>5만 공덕 즉시 지급</strong>
-                    설정·보상 탭에서 쿠폰 코드 <span style="color: var(--sonar-jade); font-weight: 700;">{coupon_code}</span> 입력 (50,000P 즉시 적립)
+                    <strong><span class="step-num">02</span>닉네임 1초 등록</strong>
+                    닉네임 확정으로 초기 100명 돌파 리더보드 프로필 개설
                 </div>
                 <div class="bridge-step">
-                    <strong><span class="step-num">03</span>기명 도반 정착</strong>
-                    법명(닉네임) 설정 및 1회 번호 추출·QR 스캔 완료 시 전국 리더보드 즉시 등재
+                    <strong><span class="step-num">03</span>쿠폰 입력 및 첫 공덕</strong>
+                    쿠폰함 <span style="color: var(--sonar-jade); font-weight: 700;">{coupon_code}</span> 입력 시 50,000P 즉시 지급 및 꽝 복권 적립 시작
                 </div>
             </div>
         </div>
@@ -547,6 +559,7 @@ def render_round_seo_html(
             fallbackCopyText(target, toastMsg);
             return target;
         }}
+        window.copyKokCoupon = copyCouponCode;
 
         async function shareCalcResult() {{
             var shareUrl = (window.location && window.location.href) ? window.location.href : '{canonical_url}';
@@ -832,7 +845,9 @@ def fetch_draws_from_smok95_since(min_round_exclusive: int) -> List[dict]:
 def sync_latest_lotto(
     site_root: Path,
     seed_file: Optional[Path] = None,
-    coupon_code: str = "kofk261113",
+    # ~~coupon_code: str = "kofk261113",~~
+    # H-230: 대문자 표준 쿠폰 코드(KOFK261113) 통일-2026.11.22
+    coupon_code: str = "KOFK261113",
     ensure_from_round: int = 1248,
     force_regenerate: bool = False,
 ) -> Dict[str, object]:
@@ -925,13 +940,15 @@ def sync_latest_lotto(
         out_html = guides_dir / f"round-{rno}-analysis.html"
         existing_raw = out_html.read_text(encoding="utf-8") if out_html.exists() else ""
         # ~~기존 조건: force_regenerate or not out_html.exists() or rno in newly_added_rounds or (rno + 1) in newly_added_rounds~~
-        # 1st-Party 무쿠키 퍼널 SDK(kok_funnel_sdk.js) 누락 파일 자동 재생성 조건 추가-2026.11.15
+        # ~~1st-Party 무쿠키 퍼널 SDK(kok_funnel_sdk.js) 누락 파일 자동 재생성 조건 추가-2026.11.15~~
+        # H-230: 하단 고전환 CTA(data-ctr-cta-box) 및 대문자 쿠폰(KOFK261113) 미반영 파일 자동 재생성 조건 추가-2026.11.22
         if (
             force_regenerate
             or not out_html.exists()
             or rno in newly_added_rounds
             or (rno + 1) in newly_added_rounds
             or "/assets/kok_funnel_sdk.js" not in existing_raw
+            or 'data-ctr-cta-box="1"' not in existing_raw
         ):
             html = render_round_seo_html(
                 round_no=int(row[0]),
@@ -968,7 +985,9 @@ def main() -> None:
         default=Path(__file__).resolve().parent.parent / "docs",
         help="정적 웹사이트 루트 경로 (로컬 docs 또는 GitHub Pages .)",
     )
-    parser.add_argument("--coupon", type=str, default="kofk261113", help="삽입할 복덕 쿠폰 코드")
+    # ~~parser.add_argument("--coupon", type=str, default="kofk261113", help="삽입할 복덕 쿠폰 코드")~~
+    # H-230: 기본 쿠폰 코드 대문자 통일-2026.11.22
+    parser.add_argument("--coupon", type=str, default="KOFK261113", help="삽입할 복덕 쿠폰 코드")
     parser.add_argument("--ensure-from", type=int, default=1248, help="해당 회차 이상 누락 HTML 보완")
     parser.add_argument("--force", action="store_true", help="1248회 이후 분석 페이지 강제 재생성")
     args = parser.parse_args()
