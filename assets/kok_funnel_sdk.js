@@ -496,11 +496,36 @@
     return false;
   }
 
+  function buildCampaignSlug(pagePath) {
+    var norm = normalizePagePath(pagePath || resolvePagePath());
+    if (norm === '/' || norm === '/index.html') return 'home';
+    var cleaned = norm
+      .replace(/^\/+/, '')
+      .replace(/\.html$/i, '')
+      .replace(/[^a-zA-Z0-9_-]+/g, '_')
+      .replace(/^_+|_+$/g, '')
+      .toLowerCase();
+    if (!cleaned) return 'home';
+    return cleaned.slice(0, 28);
+  }
+
   function buildReferrerParam(pagePath, couponCode, channel) {
     var src = normalizePagePath(pagePath || resolvePagePath());
     var cp = couponCode || resolveCouponCode();
     var ch = channel || resolveSourceChannel();
-    return 'src=' + src + '&cp=' + cp + '&ch=' + ch;
+    var safeCh = String(ch || 'direct').toLowerCase().replace(/[^a-z0-9_]+/g, '_').slice(0, 20) || 'direct';
+    var utmSource = 'karma_' + safeCh;
+    var utmCampaign = buildCampaignSlug(src);
+    // ~~기존 반환: return 'src=' + src + '&cp=' + cp + '&ch=' + ch;~~
+    // Google Play Console 공식 UTM 소스/캠페인 리포트 분리 집계 + Android InstallReferrerTracker 하위 호환 병기-2026.11.23
+    return (
+      'utm_source=' + utmSource +
+      '&utm_medium=seo_web' +
+      '&utm_campaign=' + utmCampaign +
+      '&src=' + src +
+      '&cp=' + cp +
+      '&ch=' + ch
+    );
   }
 
   function buildAttributedPlayUrl(pagePath, couponCode, channel) {
@@ -623,7 +648,9 @@
       doc.body.appendChild(modal);
     }
 
-    var qrSvg = buildQrSvg(url, 196);
+    // ~~var qrSvg = buildQrSvg(url, 196);~~
+    // Play 표준 UTM 병기로 증가한 QR 버전(V10~V11)의 스마트폰 카메라 인식 속도 향상을 위해 220px로 확대-2026.11.23
+    var qrSvg = buildQrSvg(url, 220);
     modal.innerHTML =
       '<div style="background:#171B26;border-radius:26px;padding:28px 24px;max-width:420px;width:100%;' +
       'text-align:center;color:#F4F6FA;box-shadow:0 24px 64px rgba(0,0,0,0.68);font-family:Pretendard,sans-serif;">' +
@@ -826,6 +853,7 @@
   root.KokFunnel = {
     init: init,
     applyAttributionToLinksAndCta: applyAttributionToLinksAndCta,
+    buildCampaignSlug: buildCampaignSlug,
     buildAttributedPlayUrl: buildAttributedPlayUrl,
     buildAndroidIntentUrl: buildAndroidIntentUrl,
     buildQrSvg: buildQrSvg,
