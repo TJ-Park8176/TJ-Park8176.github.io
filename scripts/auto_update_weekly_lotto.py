@@ -191,7 +191,9 @@ def render_round_seo_html(
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="naver-site-verification" content="0796e6b464560edac9370d120a74c9f8a85d225f" />
     <meta name="naver-site-verification" content="9f119f04ba678c0bd33719745297069751709464" />
+    <meta name="google-site-verification" content="38CLrsR-Vert1oEBc6ZVuecEKByM-yKScpLHIVtPrdY" />
     <meta name="google-site-verification" content="mUhHkJJcnw3pLYkugLDV9ktjiaMZM67z3SI7XKqhzZ4" />
     <title>{page_title}</title>
     <meta name="description" content="{page_desc}" />
