@@ -53,6 +53,479 @@ OHANG_SUPPORT_GUIDE = {
     "수(水)": "흑색·남색 계열과 북쪽 방향의 지혜와 순환 기운이 부드럽게 이어지는 흐름",
 }
 
+# 전체 웹사이트 공통 상단 고정 탭바·쉘 단일 원천 정의 (GitHub Actions 단독 실행 100% 호환)-2026.11.27
+GLOBAL_NAV_TABS: Tuple[Tuple[str, str], ...] = (
+    (WEEKLY_STORES_REL_URL, "이번 주 1등 판매점"),
+    ("/guides/past-winning-number-check.html", "역대 당첨번호 대조"),
+    ("/guides/lotto-ac-value-sum-calculator.html", "AC값·총합 계산기"),
+    ("/guides/saju-lucky-direction-lotto.html", "사주 재물 길방"),
+    ("/guides/lotto-first-prize-tax-real-payout-calculator.html", "1등 실수령액 계산"),
+    ("/stores/index.html", "전국 1등 명당"),
+)
+
+GLOBAL_SHELL_CSS = """
+:root {
+  --bg: #0B0D13;
+  --surface: #171B26;
+  --elevated: #1E2330;
+  --jade: #2EF2A0;
+  --jade-dim: rgba(46, 242, 160, 0.14);
+  --gold: #FFD666;
+  --gold-dim: rgba(255, 214, 102, 0.14);
+  --crimson: #FF6B7A;
+  --crimson-dim: rgba(255, 107, 122, 0.14);
+  --text: #F4F6FA;
+  --muted: #949EB0;
+  --ink-black: #0B0D13;
+  --ink-surface-sub: #171B26;
+  --ink-surface-elevated: #1E2330;
+  --sonar-jade: #2EF2A0;
+  --karma-gold: #FFD666;
+  --crimson-fire: #FF6B7A;
+  --text-ivory: #F4F6FA;
+  --text-muted: #949EB0;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  padding: 0 0 112px 0;
+  background-color: var(--bg);
+  background-image: radial-gradient(circle at 50% 0%, rgba(46, 242, 160, 0.08) 0%, transparent 55%);
+  color: var(--text);
+  font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Malgun Gothic", sans-serif;
+  line-height: 1.68;
+  word-break: keep-all;
+}
+a { color: var(--jade); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.nav-bar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(11, 13, 19, 0.9);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 12px 20px;
+}
+.nav-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+.brand-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 800;
+  font-size: 17px;
+  color: var(--text);
+  text-decoration: none !important;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+.orb-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #A8FFDB, var(--jade) 60%, #0A7045 100%);
+  box-shadow: 0 0 12px var(--jade);
+  display: inline-block;
+  flex-shrink: 0;
+}
+.orb-dot-gold {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #FFF3C4, var(--gold) 65%, #997300 100%);
+  box-shadow: 0 0 10px var(--gold);
+  display: inline-block;
+  flex-shrink: 0;
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13.5px;
+  font-weight: 600;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.nav-links::-webkit-scrollbar { display: none; }
+.nav-links a {
+  color: var(--muted);
+  text-decoration: none !important;
+  white-space: nowrap;
+  padding: 7px 11px;
+  border-radius: 999px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.nav-links a:hover {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.05);
+}
+.nav-links a.nav-active {
+  color: var(--jade) !important;
+  background: var(--jade-dim);
+  font-weight: 800;
+}
+.nav-cta {
+  background: var(--jade);
+  color: var(--bg) !important;
+  padding: 8px 15px;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 13px;
+  text-decoration: none !important;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+.container {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 32px 20px;
+}
+.breadcrumb {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+.breadcrumb a { color: var(--muted); }
+.sub-tab-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  background: var(--surface);
+  border-radius: 18px;
+  padding: 8px;
+  margin-bottom: 20px;
+}
+.sub-tab-link {
+  flex: 1 1 180px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 14px;
+  border-radius: 13px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--muted) !important;
+  background: transparent;
+  text-decoration: none !important;
+  text-align: center;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.sub-tab-link:hover {
+  background: var(--elevated);
+  color: var(--text) !important;
+}
+.sub-tab-link.active {
+  background: var(--jade);
+  color: var(--bg) !important;
+  font-weight: 800;
+}
+.card {
+  background: var(--surface);
+  border-radius: 24px;
+  padding: 30px 26px;
+  margin-bottom: 22px;
+}
+.card-elevated {
+  background: var(--elevated);
+  border-radius: 20px;
+  padding: 22px;
+  margin-bottom: 16px;
+}
+.widget-box {
+  background: linear-gradient(145deg, #1A2030 0%, #141824 100%);
+  border-radius: 24px;
+  padding: 26px 24px;
+  margin: 22px 0;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.35);
+}
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: var(--jade-dim);
+  color: var(--jade);
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+.badge-gold {
+  background: var(--gold-dim);
+  color: var(--gold);
+}
+h1 {
+  margin: 0 0 14px 0;
+  font-size: clamp(24px, 4vw, 32px);
+  font-weight: 800;
+  line-height: 1.32;
+  letter-spacing: -0.02em;
+}
+h2 {
+  margin: 0 0 14px 0;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+h3 {
+  margin: 16px 0 8px 0;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--gold);
+}
+p {
+  color: var(--muted);
+  margin: 0 0 14px 0;
+  font-size: 15px;
+}
+.lead {
+  font-size: 16px;
+  color: #D5DCEB;
+  margin-bottom: 20px;
+}
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: var(--jade);
+  color: var(--bg) !important;
+  font-weight: 800;
+  font-size: 15px;
+  padding: 14px 22px;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  text-decoration: none !important;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: 0 8px 24px rgba(46, 242, 160, 0.22);
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(46, 242, 160, 0.34);
+}
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--elevated);
+  color: var(--gold) !important;
+  font-weight: 700;
+  font-size: 14px;
+  padding: 13px 18px;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  text-decoration: none !important;
+}
+.btn-share {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--elevated);
+  color: var(--gold) !important;
+  font-weight: 800;
+  font-size: 14px;
+  padding: 12px 18px;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  text-decoration: none !important;
+}
+.cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin-top: 16px;
+}
+.share-toast {
+  position: fixed;
+  bottom: 84px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--elevated);
+  color: var(--jade);
+  font-weight: 800;
+  font-size: 13.5px;
+  padding: 12px 20px;
+  border-radius: 999px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.65);
+  z-index: 120;
+  display: none;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+.sticky-cta {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 60;
+  background: rgba(23, 27, 38, 0.95);
+  backdrop-filter: blur(16px);
+  border-top: 1px solid rgba(46, 242, 160, 0.25);
+  padding: 12px 20px;
+}
+.sticky-inner {
+  max-width: 880px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.sticky-text {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+}
+.sticky-sub {
+  font-size: 12px;
+  color: var(--gold);
+  display: block;
+}
+.footer {
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+@media (max-width: 860px) {
+  .nav-bar { padding: 10px 14px 8px; }
+  .nav-inner { flex-wrap: wrap; gap: 10px; }
+  .nav-links {
+    order: 3;
+    width: 100%;
+    padding-top: 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    gap: 6px;
+  }
+  .nav-links a { font-size: 13px; padding: 6px 10px; }
+  .sticky-inner { flex-direction: column; align-items: stretch; text-align: center; }
+}
+"""
+
+
+def resolve_active_nav_href(active_path: str) -> str:
+    """현재 페이지 경로에 해당하는 전역 상단 탭 href를 결정한다.-2026.11.27"""
+    norm = (active_path or "/").strip()
+    if not norm.startswith("/"):
+        norm = "/" + norm
+    if norm == WEEKLY_STORES_REL_URL or re.match(r"^/guides/round-\d+-analysis\.html$", norm):
+        return WEEKLY_STORES_REL_URL
+    for href, _label in GLOBAL_NAV_TABS:
+        if norm == href:
+            return href
+    if norm.startswith("/stores/"):
+        return "/stores/index.html"
+    if norm.startswith("/guides/ilju-"):
+        return "/guides/saju-lucky-direction-lotto.html"
+    return ""
+
+
+def render_global_nav_header(active_path: str = "/") -> str:
+    """전체 웹사이트 동일 상단 고정 탭바(활성 탭 자동 하이라이트 + 모바일 가로 스크롤 탭) HTML 반환-2026.11.27"""
+    active_href = resolve_active_nav_href(active_path)
+    tab_links: List[str] = []
+    for href, label in GLOBAL_NAV_TABS:
+        if href == active_href:
+            tab_links.append(
+                f'        <a href="{href}" class="nav-active" aria-current="page">{label}</a>'
+            )
+        else:
+            tab_links.append(f'        <a href="{href}">{label}</a>')
+    links_html = "\n".join(tab_links)
+    return f"""  <header class="nav-bar">
+    <div class="nav-inner">
+      <a class="brand-link" href="/">
+        <span class="orb-dot"></span>
+        <span>공덕왕 (King of Karma)</span>
+      </a>
+      <nav class="nav-links" aria-label="주요 기능 탭">
+{links_html}
+      </nav>
+      <a class="nav-cta" href="{PLAY_STORE_URL}" target="_blank" rel="noopener">Google Play 설치</a>
+    </div>
+  </header>"""
+
+
+def render_stores_subtab_bar(active_tab: str, latest_round: Optional[int] = None) -> str:
+    """주간 당첨 판매점 · 전국 누적 명당 · 회차별 오행 분석 간 1클릭 전환 세그먼트 서브 탭 바-2026.11.27"""
+    round_num = int(latest_round) if latest_round and int(latest_round) > 0 else 1251
+    weekly_label = f"이번 주 제{round_num}회 1·2등 판매점" if active_tab != "round" else "이번 주 최신 1·2등 판매점"
+    tabs = [
+        ("weekly", WEEKLY_STORES_REL_URL, weekly_label),
+        ("alltime", "/stores/index.html", "역대 누적 1등 명당 TOP 34"),
+        ("round", f"/guides/round-{round_num}-analysis.html", f"제{round_num}회 당첨번호 · 오행 분석"),
+    ]
+    items: List[str] = []
+    for key, href, label in tabs:
+        is_act = key == active_tab
+        cls = "sub-tab-link active" if is_act else "sub-tab-link"
+        aria = ' aria-current="page"' if is_act else ""
+        items.append(f'<a class="{cls}" href="{href}"{aria}>{html_lib.escape(label)}</a>')
+    return (
+        '    <nav class="sub-tab-bar" aria-label="당첨 판매점·명당 서브 탭">\n'
+        f'      {"".join(items)}\n'
+        "    </nav>"
+    )
+
+
+def render_global_footer_html() -> str:
+    """전체 웹사이트 공통 푸터 HTML 반환-2026.11.27"""
+    return """    <footer class="footer">
+      <div style="margin-bottom:12px;">
+        <a href="/">홈</a> ·
+        <a href="/stores/weekly-winning-stores.html">이번 주 1·2등 당첨 판매점</a> ·
+        <a href="/stores/index.html">전국 로또 1등 명당 지도</a> ·
+        <a href="/stores/seoul-stores.html">서울·잠실주공·노원스파 1등 명당</a> ·
+        <a href="/guides/past-winning-number-check.html">과거 당첨번호 중복 조회</a> ·
+        <a href="/guides/lotto-ac-value-sum-calculator.html">로또 AC값 계산기</a> ·
+        <a href="/guides/lotto-first-prize-tax-real-payout-calculator.html">1등 세금 실수령액 계산기</a> ·
+        <a href="/privacy-policy.html">개인정보처리방침</a> ·
+        <a href="/delete-account.html">계정 및 데이터 삭제</a>
+      </div>
+      <div>© 2026 Taejoon Labs (Origincs). 문의: ptj8176@gmail.com</div>
+      <div style="font-size:12px; margin-top:6px; opacity:0.75;">본 서비스는 동행복권 공개 데이터 및 정통 만세력 알고리즘에 기반한 통계·엔터테인먼트 유틸리티이며, 앱 내 복권 판매 및 사행성 결제를 일절 제공하지 않습니다.</div>
+    </footer>"""
+
+
+def render_global_sticky_cta_html(coupon_code: str = "KOFK261113") -> str:
+    """전체 웹사이트 공통 토스트 + 하단 고정 Google Play 전환 바 HTML 반환-2026.11.27"""
+    code = html_lib.escape((coupon_code or "KOFK261113").strip())
+    return f"""<div id="shareToast" class="share-toast" role="status" aria-live="polite"><span class="orb-dot"></span><span id="shareToastText">계산 결과와 링크가 복사되었습니다! 단톡방에 붙여넣어 보세요.</span></div>
+<div class="sticky-cta">
+  <div class="sticky-inner">
+    <div>
+      <span class="sticky-text">공덕왕 Google Play 정식 출시! — 사주 길방 로또 명당 &amp; 0.1초 QR 스캐너</span>
+      <span class="sticky-sub">정식 출시 축원 쿠폰 코드 [ {code} ] 입력 시 +50,000 공덕 포인트 즉시 지급</span>
+    </div>
+    <div style="display:flex; gap:8px; justify-content:center;">
+      <a class="btn-primary" style="padding:11px 18px; font-size:14px;" href="{PLAY_STORE_URL}" target="_blank" rel="noopener">Google Play 무료 설치</a>
+    </div>
+  </div>
+</div>"""
+
 
 def get_orb_color_style(num: int) -> str:
     """5색 번호대별 시안 B 3D 글래스 오브 그라데이션 반환"""
@@ -328,6 +801,11 @@ def render_round_seo_html(
             "                </div>"
         )
 
+    nav_header_html = render_global_nav_header(f"/guides/round-{round_no}-analysis.html")
+    subtab_html = render_stores_subtab_bar("round", round_no)
+    footer_html = render_global_footer_html()
+    sticky_cta_html = render_global_sticky_cta_html(coupon_code)
+
     return f"""<!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -339,90 +817,68 @@ def render_round_seo_html(
     <meta name="google-site-verification" content="mUhHkJJcnw3pLYkugLDV9ktjiaMZM67z3SI7XKqhzZ4" />
     <title>{page_title}</title>
     <meta name="description" content="{page_desc}" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
     <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="공덕왕 (King of Karma)" />
     <meta property="og:title" content="{page_title}" />
     <meta property="og:description" content="{page_desc}" />
     <meta property="og:url" content="{canonical_url}" />
+    <meta property="og:image" content="{BASE_URL}/assets/feature_graphic.png" />
     <link rel="canonical" href="{canonical_url}" />
     <link rel="alternate" type="application/rss+xml" title="공덕왕 (King of Karma) 로또 명당·사주 RSS" href="{BASE_URL}/rss.xml" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="icon" type="image/png" href="/assets/app_icon.png" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
+    <link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
     <script type="application/ld+json">
 {json_ld}
     </script>
     <style>
-        :root {{
-            --ink-black: #0B0D13;
-            --ink-surface-sub: #171B26;
-            --ink-surface-elevated: #1E2330;
-            --sonar-jade: #2EF2A0;
-            --karma-gold: #FFD666;
-            --crimson-fire: #FF6B7A;
-            --text-ivory: #F4F6FA;
-            --text-muted: #949EB0;
-        }}
-        * {{ box-sizing: border-box; margin: 0; padding: 0; }}
-        body {{
-            background-color: var(--ink-black);
-            color: var(--text-ivory);
-            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
-            line-height: 1.65;
-            padding: 36px 20px 80px;
-        }}
-        .container {{ max-width: 820px; margin: 0 auto; }}
+{GLOBAL_SHELL_CSS}
         .badge-top {{
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background: var(--ink-surface-elevated);
-            color: var(--sonar-jade);
+            background: var(--jade-dim);
+            color: var(--jade);
             padding: 6px 14px;
             border-radius: 999px;
             font-size: 13px;
-            font-weight: 600;
+            font-weight: 700;
             margin-bottom: 14px;
         }}
         .dot-jade {{
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            background: var(--sonar-jade);
-            box-shadow: 0 0 8px var(--sonar-jade);
+            background: var(--jade);
+            box-shadow: 0 0 8px var(--jade);
             display: inline-block;
         }}
         .dot-gold {{
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            background: var(--karma-gold);
-            box-shadow: 0 0 8px var(--karma-gold);
+            background: var(--gold);
+            box-shadow: 0 0 8px var(--gold);
             display: inline-block;
         }}
-        h1 {{ font-size: 28px; font-weight: 800; margin-bottom: 10px; letter-spacing: -0.02em; }}
-        .sub-meta {{ color: var(--text-muted); font-size: 14px; margin-bottom: 28px; }}
-        .card {{
-            background: var(--ink-surface-sub);
-            border-radius: 24px;
-            padding: 26px;
-            margin-bottom: 22px;
-        }}
+        .sub-meta {{ color: var(--muted); font-size: 14px; margin-bottom: 20px; }}
         .card h2 {{
             font-size: 19px;
-            font-weight: 700;
+            font-weight: 800;
             margin-bottom: 14px;
-            color: var(--karma-gold);
+            color: var(--gold);
         }}
         .orbs-row {{
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             flex-wrap: wrap;
-            margin: 18px 0;
+            margin: 16px 0;
         }}
         .lotto-orb {{
-            width: 48px;
-            height: 48px;
+            width: 46px;
+            height: 46px;
             border-radius: 50%;
             display: inline-flex;
             align-items: center;
@@ -432,7 +888,7 @@ def render_round_seo_html(
             color: #0B0D13;
             box-shadow: inset -3px -3px 8px rgba(0,0,0,0.35), 0 6px 14px rgba(0,0,0,0.4);
         }}
-        .plus-txt {{ font-size: 22px; font-weight: 700; color: var(--text-muted); }}
+        .plus-txt {{ font-size: 22px; font-weight: 700; color: var(--muted); }}
         .stat-grid {{
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
@@ -440,23 +896,23 @@ def render_round_seo_html(
             margin-top: 16px;
         }}
         .stat-box {{
-            background: var(--ink-surface-elevated);
+            background: var(--elevated);
             border-radius: 16px;
             padding: 16px;
         }}
-        .stat-label {{ font-size: 12px; color: var(--text-muted); }}
-        .stat-val {{ font-size: 19px; font-weight: 800; color: var(--text-ivory); margin-top: 4px; }}
+        .stat-label {{ font-size: 12px; color: var(--muted); }}
+        .stat-val {{ font-size: 18px; font-weight: 800; color: var(--text); margin-top: 4px; }}
         .ohang-pill {{
-            background: var(--ink-surface-elevated);
+            background: var(--elevated);
             border-radius: 14px;
             padding: 12px 16px;
             margin-top: 14px;
             font-size: 14px;
-            color: var(--text-muted);
+            color: var(--muted);
         }}
-        .ohang-pill strong {{ color: var(--sonar-jade); }}
+        .ohang-pill strong {{ color: var(--jade); }}
         .coupon-box {{
-            background: var(--ink-surface-elevated);
+            background: var(--elevated);
             border-radius: 20px;
             padding: 20px;
             margin-top: 16px;
@@ -469,66 +925,33 @@ def render_round_seo_html(
         .coupon-code {{
             font-size: 20px;
             font-weight: 800;
-            color: var(--sonar-jade);
+            color: var(--jade);
             letter-spacing: 0.06em;
         }}
-        .cta-row {{
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            align-items: center;
-        }}
         .cta-btn {{
-            display: inline-block;
-            background: var(--sonar-jade);
-            color: var(--ink-black);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--jade);
+            color: var(--bg) !important;
             font-weight: 800;
-            text-decoration: none;
+            text-decoration: none !important;
             padding: 14px 22px;
             border-radius: 16px;
             font-size: 15px;
             cursor: pointer;
         }}
         .cta-btn-sub {{
-            display: inline-block;
-            background: var(--ink-surface-sub);
-            color: var(--karma-gold);
-            font-weight: 700;
-            text-decoration: none;
-            padding: 13px 18px;
-            border-radius: 16px;
-            font-size: 14px;
-        }}
-        .btn-share {{
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            background: var(--ink-surface-sub);
-            color: var(--text-ivory);
+            justify-content: center;
+            background: var(--surface);
+            color: var(--gold) !important;
             font-weight: 700;
-            border: none;
+            text-decoration: none !important;
             padding: 13px 18px;
             border-radius: 16px;
             font-size: 14px;
-            cursor: pointer;
-            font-family: inherit;
-        }}
-        .share-toast {{
-            position: fixed;
-            left: 50%;
-            bottom: 24px;
-            transform: translateX(-50%);
-            background: var(--ink-surface-elevated);
-            color: var(--sonar-jade);
-            padding: 12px 20px;
-            border-radius: 999px;
-            font-size: 14px;
-            font-weight: 700;
-            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.5);
-            display: none;
-            align-items: center;
-            gap: 8px;
-            z-index: 9999;
         }}
         .bridge-grid {{
             display: grid;
@@ -537,20 +960,20 @@ def render_round_seo_html(
             margin-top: 14px;
         }}
         .bridge-step {{
-            background: var(--ink-surface-elevated);
+            background: var(--elevated);
             border-radius: 16px;
             padding: 14px 16px;
             font-size: 13.5px;
-            color: var(--text-muted);
+            color: var(--muted);
         }}
         .bridge-step strong {{
             display: block;
-            color: var(--text-ivory);
+            color: var(--text);
             font-size: 14px;
             margin-bottom: 4px;
         }}
         .bridge-step .step-num {{
-            color: var(--sonar-jade);
+            color: var(--jade);
             font-weight: 800;
             margin-right: 6px;
         }}
@@ -561,8 +984,8 @@ def render_round_seo_html(
             margin-bottom: 14px;
         }}
         .filter-chip {{
-            background: var(--ink-surface-elevated);
-            color: var(--text-muted);
+            background: var(--elevated);
+            color: var(--muted);
             border: none;
             border-radius: 999px;
             padding: 7px 14px;
@@ -572,13 +995,13 @@ def render_round_seo_html(
             font-family: inherit;
         }}
         .filter-chip.active {{
-            background: var(--sonar-jade);
-            color: var(--ink-black);
+            background: var(--jade);
+            color: var(--bg);
         }}
         .table-wrap {{
             overflow-x: auto;
             border-radius: 16px;
-            background: var(--ink-surface-elevated);
+            background: var(--elevated);
         }}
         .store-table {{
             width: 100%;
@@ -592,7 +1015,7 @@ def render_round_seo_html(
             vertical-align: middle;
         }}
         .store-table th {{
-            color: var(--karma-gold);
+            color: var(--gold);
             font-size: 12.5px;
             font-weight: 700;
         }}
@@ -604,12 +1027,12 @@ def render_round_seo_html(
             font-weight: 800;
             white-space: nowrap;
         }}
-        .method-auto {{ background: rgba(46, 242, 160, 0.14); color: var(--sonar-jade); }}
-        .method-manual {{ background: rgba(255, 214, 102, 0.16); color: var(--karma-gold); }}
-        .method-semi {{ background: rgba(255, 107, 122, 0.16); color: var(--crimson-fire); }}
+        .method-auto {{ background: var(--jade-dim); color: var(--jade); }}
+        .method-manual {{ background: var(--gold-dim); color: var(--gold); }}
+        .method-semi {{ background: var(--crimson-dim); color: var(--crimson); }}
         .stores-details {{
             margin-top: 14px;
-            background: var(--ink-surface-elevated);
+            background: var(--elevated);
             border-radius: 16px;
             padding: 14px 16px;
         }}
@@ -617,26 +1040,19 @@ def render_round_seo_html(
             cursor: pointer;
             font-weight: 700;
             font-size: 14px;
-            color: var(--sonar-jade);
+            color: var(--jade);
         }}
     </style>
 </head>
 <body>
-    <div class="container">
-        <div style="margin-bottom: 16px; font-size: 13px; display: flex; gap: 16px; flex-wrap: wrap;">
-            <a href="/" style="color: var(--text-muted); text-decoration: none;">홈으로 돌아가기</a>
-            <a href="{WEEKLY_STORES_REL_URL}" style="color: var(--sonar-jade); text-decoration: none; font-weight: 700;">이번 주 1·2등 당첨 판매점</a>
-            <a href="/stores/index.html" style="color: var(--text-muted); text-decoration: none;">전국 누적 1등 명당</a>
-            <a href="/guides/past-winning-number-check.html" style="color: var(--text-muted); text-decoration: none;">역대 당첨번호 전수 대조기</a>
-        </div>
-        <div class="badge-top">
-            <span class="dot-jade"></span>
-            <span>KING OF KARMA WEEKLY SAJU &amp; LOTTO REPORT</span>
-        </div>
-        <h1>제{round_no}회 로또 당첨번호 및 사주 오행({final_theme}) 정밀 분석</h1>
-        <p class="sub-meta">추첨일: {display_date} · 작성: 공덕왕 자동 분석 엔진 · 검수: 시안 B 정적 감사 통과</p>
-
-        <div class="card">
+{nav_header_html}
+  <main class="container">
+    <div class="breadcrumb"><a href="/">홈</a> &gt; <a href="{WEEKLY_STORES_REL_URL}">이번 주 1등 판매점</a> &gt; 제{round_no}회 당첨번호 · 판매점 분석</div>
+{subtab_html}
+        <article class="card">
+            <span class="badge"><span class="orb-dot"></span>주간 로또 회차 정밀 분석 · 제{round_no}회</span>
+            <h1>제{round_no}회 로또 당첨번호 및 사주 오행({final_theme}) 정밀 분석</h1>
+            <p class="sub-meta">추첨일: {display_date} · 당첨번호: {nums_str} + 보너스 {bonus} · 출처: 동행복권 공식 발표</p>
             <h2>1. 제{round_no}회 당첨번호 3D 구체 및 핵심 통계</h2>
             <div class="orbs-row">
                 {orbs_html}
@@ -657,19 +1073,19 @@ def render_round_seo_html(
                 </div>
                 <div class="stat-box">
                     <div class="stat-label">핵심 오행 기운</div>
-                    <div class="stat-val" style="color: var(--sonar-jade);">{final_theme}</div>
+                    <div class="stat-val" style="color: var(--jade);">{final_theme}</div>
                 </div>
                 {prize_stat_html}
             </div>
             <div class="ohang-pill">
                 끝수 오행 분포: <strong>{ohang_breakdown}</strong> — {element_comment}
             </div>
-        </div>
+        </article>
         {winning_stores_card_html}
 
         <div class="card">
             <h2>3. 제{round_no + 1}회 대비 사주 일간별 공덕 가이드 &amp; 1클릭 공유</h2>
-            <p style="color: var(--text-ivory); margin-bottom: 12px;">
+            <p style="color: var(--text); margin-bottom: 12px;">
                 제{round_no}회 추첨에서는 <strong>{final_theme}</strong>의 흐름이 강하게 작용하며 총합 <strong>{total_sum}</strong>, AC값 <strong>{ac_value}</strong> 구간에서 번호가 형성되었습니다.
                 다가오는 제{round_no + 1}회차에는 본인의 사주 일간(日干)과 부족한 오행을 보완하는 길방(吉方) 명당 판매점을 확인하고,
                 낙첨 복권 스캔(42% 공익기금 기부 환산)과 108 목탁 수행으로 공덕의 그릇을 넓혀 보세요.
@@ -678,15 +1094,15 @@ def render_round_seo_html(
                 <div>
                     <!-- ~~만료일: 2026-12-31까지~~ -->
                     <!-- H-230: 주간 회차 분석 하단 유형 C 고전환 CTA 카드 및 30초 정착 가이드 반영-2026.11.22 -->
-                    <div class="badge-top" style="margin-bottom: 10px;">
-                        <span class="dot-gold"></span>
+                    <div class="badge badge-gold" style="margin-bottom: 10px;">
+                        <span class="orb-dot-gold"></span>
                         <span>꽝 복권 QR 공덕 환전 · 초기 100명 돌파 이벤트</span>
                     </div>
-                    <h3 data-ctr-cta-title="1" style="margin: 0 0 8px 0; font-size: 19px; color: var(--text-ivory); line-height: 1.4;">이번 회차 꽝 나온 용지, 버리지 말고 QR 스캔으로 공덕을 쌓아 두세요</h3>
-                    <p style="margin: 0 0 12px 0; font-size: 14px; color: var(--text-muted);">
+                    <h3 data-ctr-cta-title="1" style="margin: 0 0 8px 0; font-size: 19px; color: var(--text); line-height: 1.4;">이번 회차 꽝 나온 용지, 버리지 말고 QR 스캔으로 공덕을 쌓아 두세요</h3>
+                    <p style="margin: 0 0 12px 0; font-size: 14px; color: var(--muted);">
                         꽝 복권 QR을 찍을 때마다 공덕이 누적되며, 다음 회차 당첨 기운을 높이는 오행 분석과 명당 레이더를 함께 쓸 수 있습니다.
                     </p>
-                    <div style="font-size: 13px; color: var(--text-muted);">설치 -&gt; 닉네임 등록 -&gt; 쿠폰함 {coupon_code} 입력까지 30초면 50,000P가 즉시 지급됩니다 (2027-12-31까지)</div>
+                    <div style="font-size: 13px; color: var(--muted);">설치 -&gt; 닉네임 등록 -&gt; 쿠폰함 {coupon_code} 입력까지 30초면 50,000P가 즉시 지급됩니다 (2027-12-31까지)</div>
                     <div class="coupon-code" data-kok-coupon-code="1">{coupon_code}</div>
                 </div>
                 <div class="cta-row">
@@ -713,16 +1129,13 @@ def render_round_seo_html(
                 </div>
                 <div class="bridge-step">
                     <strong><span class="step-num">03</span>쿠폰 입력 및 첫 공덕</strong>
-                    쿠폰함 <span style="color: var(--sonar-jade); font-weight: 700;">{coupon_code}</span> 입력 시 50,000P 즉시 지급 및 꽝 복권 적립 시작
+                    쿠폰함 <span style="color: var(--jade); font-weight: 700;">{coupon_code}</span> 입력 시 50,000P 즉시 지급 및 꽝 복권 적립 시작
                 </div>
             </div>
         </div>
-    </div>
-
-    <div id="shareToast" class="share-toast" role="status" aria-live="polite">
-        <span class="dot-jade"></span>
-        <span id="shareToastText">공유 문구가 복사되었습니다.</span>
-    </div>
+{footer_html}
+  </main>
+{sticky_cta_html}
 
     <script>
         var LAST_SHARE_TITLE = '제{round_no}회 로또 당첨번호 & 사주 오행({final_theme}) 분석';
@@ -998,6 +1411,11 @@ def render_weekly_winning_stores_html(
         indent=2,
     )
 
+    nav_header_html = render_global_nav_header(WEEKLY_STORES_REL_URL)
+    subtab_html = render_stores_subtab_bar("weekly", round_no)
+    footer_html = render_global_footer_html()
+    sticky_cta_html = render_global_sticky_cta_html(coupon_code)
+
     return f"""<!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -1016,11 +1434,15 @@ def render_weekly_winning_stores_html(
     <meta property="og:description" content="{html_lib.escape(page_desc, quote=True)}" />
     <meta property="og:url" content="{canonical_url}" />
     <meta property="og:image" content="{BASE_URL}/assets/feature_graphic.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="{html_lib.escape(page_title, quote=True)}" />
+    <meta name="twitter:description" content="{html_lib.escape(page_desc, quote=True)}" />
+    <meta name="twitter:image" content="{BASE_URL}/assets/feature_graphic.png" />
     <link rel="canonical" href="{canonical_url}" />
     <link rel="alternate" type="application/rss+xml" title="공덕왕 (King of Karma) 로또 명당·사주 RSS" href="{BASE_URL}/rss.xml" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="icon" type="image/png" href="/assets/app_icon.png" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
+    <link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
     <script type="application/ld+json">
 {json_ld_itemlist}
     </script>
@@ -1028,69 +1450,7 @@ def render_weekly_winning_stores_html(
 {json_ld_faq}
     </script>
     <style>
-        :root {{
-            --ink-black: #0B0D13;
-            --ink-surface-sub: #171B26;
-            --ink-surface-elevated: #1E2330;
-            --sonar-jade: #2EF2A0;
-            --karma-gold: #FFD666;
-            --crimson-fire: #FF6B7A;
-            --text-ivory: #F4F6FA;
-            --text-muted: #949EB0;
-        }}
-        * {{ box-sizing: border-box; margin: 0; padding: 0; }}
-        body {{
-            background-color: var(--ink-black);
-            color: var(--text-ivory);
-            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
-            line-height: 1.65;
-            padding: 32px 20px 88px;
-        }}
-        .container {{ max-width: 900px; margin: 0 auto; }}
-        .top-nav {{
-            display: flex;
-            flex-wrap: wrap;
-            gap: 14px;
-            margin-bottom: 18px;
-            font-size: 13.5px;
-            font-weight: 600;
-        }}
-        .top-nav a {{ color: var(--text-muted); text-decoration: none; }}
-        .top-nav a:hover {{ color: var(--sonar-jade); }}
-        .badge-top {{
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: var(--ink-surface-elevated);
-            color: var(--sonar-jade);
-            padding: 6px 14px;
-            border-radius: 999px;
-            font-size: 13px;
-            font-weight: 700;
-            margin-bottom: 12px;
-        }}
-        .dot-jade {{
-            width: 8px; height: 8px; border-radius: 50%;
-            background: var(--sonar-jade); box-shadow: 0 0 8px var(--sonar-jade); display: inline-block;
-        }}
-        .dot-gold {{
-            width: 8px; height: 8px; border-radius: 50%;
-            background: var(--karma-gold); box-shadow: 0 0 8px var(--karma-gold); display: inline-block;
-        }}
-        h1 {{ font-size: 28px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 8px; }}
-        .sub-meta {{ color: var(--text-muted); font-size: 14px; margin-bottom: 24px; }}
-        .card {{
-            background: var(--ink-surface-sub);
-            border-radius: 24px;
-            padding: 26px;
-            margin-bottom: 20px;
-        }}
-        .card h2 {{
-            font-size: 19px;
-            font-weight: 700;
-            color: var(--karma-gold);
-            margin-bottom: 12px;
-        }}
+{GLOBAL_SHELL_CSS}
         .orbs-row {{ display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 14px 0 18px; }}
         .lotto-orb {{
             width: 44px; height: 44px; border-radius: 50%;
@@ -1098,19 +1458,19 @@ def render_weekly_winning_stores_html(
             font-weight: 800; font-size: 16px; color: #0B0D13;
             box-shadow: inset -3px -3px 8px rgba(0,0,0,0.35), 0 6px 14px rgba(0,0,0,0.4);
         }}
-        .plus-txt {{ font-size: 20px; font-weight: 700; color: var(--text-muted); }}
+        .plus-txt {{ font-size: 20px; font-weight: 700; color: var(--muted); }}
         .stat-grid {{
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
             gap: 12px;
         }}
         .stat-box {{
-            background: var(--ink-surface-elevated);
+            background: var(--elevated);
             border-radius: 16px;
             padding: 15px 16px;
         }}
-        .stat-label {{ font-size: 12px; color: var(--text-muted); }}
-        .stat-val {{ font-size: 18px; font-weight: 800; color: var(--text-ivory); margin-top: 4px; }}
+        .stat-label {{ font-size: 12px; color: var(--muted); }}
+        .stat-val {{ font-size: 18px; font-weight: 800; color: var(--text); margin-top: 4px; }}
         .widget-row {{
             display: flex;
             flex-wrap: wrap;
@@ -1119,45 +1479,34 @@ def render_weekly_winning_stores_html(
             margin-top: 12px;
         }}
         .text-input {{
-            background: var(--ink-surface-elevated);
-            color: var(--text-ivory);
+            background: var(--bg);
+            color: var(--text);
             border: none;
             border-radius: 14px;
             padding: 12px 15px;
-            font-size: 14px;
+            font-size: 14.5px;
+            font-weight: 700;
             font-family: inherit;
             flex: 1 1 220px;
         }}
-        .cta-btn {{
-            display: inline-block;
-            background: var(--sonar-jade);
-            color: var(--ink-black);
-            font-weight: 800;
-            text-decoration: none;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 14px;
-            font-size: 14.5px;
-            cursor: pointer;
-            font-family: inherit;
-        }}
         .cta-btn-sub {{
-            display: inline-block;
-            background: var(--ink-surface-elevated);
-            color: var(--karma-gold);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--elevated);
+            color: var(--gold) !important;
             font-weight: 700;
-            text-decoration: none;
+            text-decoration: none !important;
             padding: 11px 16px;
             border-radius: 14px;
             font-size: 13.5px;
         }}
-        .cta-row {{ display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }}
         .result-panel {{
             display: none;
-            margin-top: 14px;
-            background: var(--ink-surface-elevated);
+            margin-top: 16px;
+            background: var(--bg);
             border-radius: 18px;
-            padding: 18px;
+            padding: 20px;
         }}
         .search-row {{
             display: flex;
@@ -1167,18 +1516,18 @@ def render_weekly_winning_stores_html(
             margin-bottom: 12px;
         }}
         .count-pill {{
-            background: var(--ink-surface-elevated);
-            color: var(--sonar-jade);
+            background: var(--elevated);
+            color: var(--jade);
             font-size: 13px;
             font-weight: 700;
-            padding: 10px 14px;
+            padding: 11px 14px;
             border-radius: 14px;
             white-space: nowrap;
         }}
         .filter-bar {{ display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }}
         .filter-chip {{
-            background: var(--ink-surface-elevated);
-            color: var(--text-muted);
+            background: var(--elevated);
+            color: var(--muted);
             border: none;
             border-radius: 999px;
             padding: 7px 14px;
@@ -1187,11 +1536,11 @@ def render_weekly_winning_stores_html(
             cursor: pointer;
             font-family: inherit;
         }}
-        .filter-chip.active {{ background: var(--sonar-jade); color: var(--ink-black); }}
+        .filter-chip.active {{ background: var(--jade); color: var(--bg); }}
         .table-wrap {{
             overflow-x: auto;
             border-radius: 16px;
-            background: var(--ink-surface-elevated);
+            background: var(--elevated);
         }}
         .store-table {{ width: 100%; border-collapse: collapse; font-size: 13.5px; }}
         .store-table th, .store-table td {{
@@ -1200,7 +1549,7 @@ def render_weekly_winning_stores_html(
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             vertical-align: middle;
         }}
-        .store-table th {{ color: var(--karma-gold); font-size: 12.5px; font-weight: 700; }}
+        .store-table th {{ color: var(--gold); font-size: 12.5px; font-weight: 700; }}
         .method-pill {{
             display: inline-block;
             padding: 3px 9px;
@@ -1209,12 +1558,12 @@ def render_weekly_winning_stores_html(
             font-weight: 800;
             white-space: nowrap;
         }}
-        .method-auto {{ background: rgba(46, 242, 160, 0.14); color: var(--sonar-jade); }}
-        .method-manual {{ background: rgba(255, 214, 102, 0.16); color: var(--karma-gold); }}
-        .method-semi {{ background: rgba(255, 107, 122, 0.16); color: var(--crimson-fire); }}
+        .method-auto {{ background: var(--jade-dim); color: var(--jade); }}
+        .method-manual {{ background: var(--gold-dim); color: var(--gold); }}
+        .method-semi {{ background: var(--crimson-dim); color: var(--crimson); }}
         .stores-details {{
             margin-top: 14px;
-            background: var(--ink-surface-elevated);
+            background: var(--elevated);
             border-radius: 16px;
             padding: 14px 16px;
         }}
@@ -1222,83 +1571,74 @@ def render_weekly_winning_stores_html(
             cursor: pointer;
             font-weight: 700;
             font-size: 14px;
-            color: var(--sonar-jade);
+            color: var(--jade);
         }}
     </style>
 </head>
 <body data-weekly-stores-loaded="{stores_loaded_flag}">
-    <div class="container">
-        <nav class="top-nav" aria-label="주요 메뉴">
-            <a href="/">홈</a>
-            <a href="/guides/round-{round_no}-analysis.html" style="color: var(--karma-gold);">제{round_no}회 오행 분석</a>
-            <a href="/stores/index.html">역대 누적 1등 명당 TOP 34</a>
-            <a href="/guides/past-winning-number-check.html">역대 당첨번호 대조기</a>
-            <a href="/guides/lotto-first-prize-tax-real-payout-calculator.html">1등 세금 실수령액</a>
-        </nav>
-
-        <div class="badge-top">
-            <span class="dot-jade"></span>
-            <span>WEEKLY LOTTO WINNING STORES · 제{round_no}회 최신 자동 갱신</span>
+{nav_header_html}
+  <main class="container">
+    <div class="breadcrumb"><a href="/">홈</a> &gt; <a href="/stores/index.html">전국 1등 명당</a> &gt; 이번 주 제{round_no}회 당첨 판매점</div>
+{subtab_html}
+    <article class="card">
+      <span class="badge"><span class="orb-dot"></span>매주 토요일 자동 갱신 · 제{round_no}회 최신</span>
+      <h1>이번 주 제{round_no}회 로또 1등·2등 당첨 판매점(배출점) 총정리</h1>
+      <p class="lead">
+        추첨일 {display_date} · 당첨번호 <strong>{nums_str} + 보너스 {bonus}</strong> · 동행복권 공식 발표 1·2등 배출 판매점 전체 목록과 1초 사주 길방 매칭을 확인하세요.
+      </p>
+      <div class="orbs-row">
+        {orbs_html}
+        {bonus_orb_html}
+      </div>
+      <div class="stat-grid">
+        <div class="stat-box">
+          <div class="stat-label">1등 배출 판매점</div>
+          <div class="stat-val" style="color: var(--gold);">{len(rank1)}곳 ({m1_str})</div>
         </div>
-        <h1>이번 주 제{round_no}회 로또 1등·2등 당첨 판매점(배출점) 총정리</h1>
-        <p class="sub-meta">추첨일: {display_date} · 당첨번호: {nums_str} + 보너스 {bonus} · 출처: 동행복권 공식 발표</p>
-
-        <div class="card">
-            <h2>1. 제{round_no}회 당첨 핵심 요약 &amp; 1·2등 배출 현황</h2>
-            <div class="orbs-row">
-                {orbs_html}
-                {bonus_orb_html}
-            </div>
-            <div class="stat-grid">
-                <div class="stat-box">
-                    <div class="stat-label">1등 배출 판매점</div>
-                    <div class="stat-val" style="color: var(--karma-gold);">{len(rank1)}곳 ({m1_str})</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-label">2등 배출 판매점</div>
-                    <div class="stat-val" style="color: var(--sonar-jade);">{len(rank2)}곳 ({m2_str})</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-label">1등 1인당 당첨금</div>
-                    <div class="stat-val">{prize_text}</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-label">주요 배출 지역 분포</div>
-                    <div class="stat-val" style="font-size: 14.5px; line-height: 1.4;">{html_lib.escape(top_reg_str)}</div>
-                </div>
-            </div>
+        <div class="stat-box">
+          <div class="stat-label">2등 배출 판매점</div>
+          <div class="stat-val" style="color: var(--jade);">{len(rank2)}곳 ({m2_str})</div>
         </div>
-
-        <div class="card" id="weekly-saju-matcher">
-            <div class="badge-top" style="margin-bottom: 10px;">
-                <span class="dot-gold"></span>
-                <span>1초 사주 길방 매칭 · 제{round_no}회 1등 배출점 궁합</span>
-            </div>
-            <h2>이번 주 1등 배출점 중 오늘 내 사주 길방과 맞는 곳은?</h2>
-            <p style="color: var(--text-muted); font-size: 14px;">
-                생년월일을 입력하면 오늘 부족한 오행 방위와 제{round_no}회 1등 배출 판매점 중 궁합 1순위 매장을 1초 만에 찾아드립니다.
-            </p>
-            <div class="widget-row">
-                <input type="date" id="weeklyBirthDate" class="text-input" value="1990-05-15" aria-label="생년월일" style="max-width: 240px;" />
-                <button type="button" class="cta-btn" onclick="matchWeeklyWinnerBySaju(true)">내 사주 맞춤 1등 판매점 찾기</button>
-            </div>
-            <div id="weeklySajuResult" class="result-panel"></div>
+        <div class="stat-box">
+          <div class="stat-label">1등 1인당 당첨금</div>
+          <div class="stat-val">{prize_text}</div>
         </div>
-
-        {stores_section_html}
-
-        <div class="card">
-            <h2>3. 최근 회차별 당첨번호·배출점 아카이브 &amp; 전국 누적 명당</h2>
-            <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 14px;">
-                지난 회차의 1·2등 배출점과 사주 오행 분석, 그리고 대한민국 역대 최다 1등 배출 명당 순위까지 함께 확인해 보세요.
-            </p>
-            <div class="cta-row">
-                {archive_links}
-                <a class="cta-btn-sub" href="/stores/index.html">역대 누적 1등 명당 TOP 34</a>
-                <a class="cta-btn" data-ctr-cta="1" href="{PLAY_STORE_URL}" target="_blank" rel="noopener">공덕왕 앱에서 내 주변 명당 GPS 레이더 + {coupon_code}(50,000P) 받기</a>
-            </div>
+        <div class="stat-box">
+          <div class="stat-label">주요 배출 지역 분포</div>
+          <div class="stat-val" style="font-size: 14.5px; line-height: 1.4;">{html_lib.escape(top_reg_str)}</div>
         </div>
-    </div>
+      </div>
+
+      <div class="widget-box" id="weekly-saju-matcher">
+        <span class="badge badge-gold"><span class="orb-dot-gold"></span>1초 무료 매칭 · 제{round_no}회 1등 배출점 사주 궁합</span>
+        <h2 style="margin-bottom: 8px;">이번 주 1등 배출점 중 오늘 내 사주 길방과 맞는 곳은?</h2>
+        <p style="font-size: 14px; margin-bottom: 12px;">
+          생년월일을 입력하면 오늘 부족한 오행 방위와 제{round_no}회 1등 배출 판매점 중 궁합 1순위 매장을 1초 만에 찾아드립니다.
+        </p>
+        <div class="widget-row">
+          <input type="date" id="weeklyBirthDate" class="text-input" value="1990-05-15" aria-label="생년월일" style="max-width: 220px;" />
+          <button type="button" class="btn-primary" style="padding: 13px 20px; font-size: 14.5px;" onclick="matchWeeklyWinnerBySaju(true)">내 사주 맞춤 1등 판매점 찾기</button>
+        </div>
+        <div id="weeklySajuResult" class="result-panel"></div>
+      </div>
+    </article>
+
+    {stores_section_html}
+
+    <section class="card">
+      <h2>3. 최근 회차별 당첨번호·배출점 아카이브 &amp; 전국 누적 명당</h2>
+      <p style="font-size: 14.5px;">
+        지난 회차의 1·2등 배출점과 사주 오행 분석, 그리고 대한민국 역대 최다 1등 배출 명당 순위까지 함께 확인해 보세요.
+      </p>
+      <div class="cta-row">
+        {archive_links}
+        <a class="btn-secondary" href="/stores/index.html">역대 누적 1등 명당 TOP 34</a>
+        <a class="btn-primary" data-ctr-cta="1" href="{PLAY_STORE_URL}" target="_blank" rel="noopener">공덕왕 앱에서 내 주변 명당 GPS 레이더 + {coupon_code}(50,000P) 받기</a>
+      </div>
+    </section>
+{footer_html}
+  </main>
+{sticky_cta_html}
 
     <script>
         var WEEKLY_RANK1_STORES = {rank1_json};
@@ -1374,14 +1714,14 @@ def render_weekly_winning_stores_html(
             }}
             panel.style.display = 'block';
             panel.innerHTML =
-                '<div class="badge-top" style="margin-bottom:8px;"><span class="dot-jade"></span>오늘 제{round_no}회 1등 배출점 사주 궁합 ' + score + '점</div>' +
-                '<h3 style="margin:0 0 6px 0; color:var(--karma-gold); font-size:19px;">추천 1등 배출점: ' + picked.name + ' (' + picked.method + ')</h3>' +
-                '<p style="margin:0 0 8px 0; font-size:14px; color:var(--text-ivory);">소재지: <strong>' + picked.address + '</strong><br/>' +
-                '오늘 내 용신 방위: <strong style="color:var(--sonar-jade);">' + ohang.elem + ' · ' + ohang.dir + '</strong> (행운수 후보: ' + ohang.nums + ')</p>' +
-                '<p style="margin:0 0 12px 0; font-size:13px; color:var(--karma-gold); font-weight:700;">' +
+                '<span class="badge" style="margin-bottom:8px;"><span class="orb-dot"></span>오늘 제{round_no}회 1등 배출점 사주 궁합 ' + score + '점</span>' +
+                '<h3 style="margin:0 0 6px 0; color:var(--gold); font-size:19px;">추천 1등 배출점: ' + picked.name + ' (' + picked.method + ')</h3>' +
+                '<p style="margin:0 0 8px 0; font-size:14.5px; color:#D5DCEB;">소재지: <strong>' + picked.address + '</strong><br/>' +
+                '오늘 내 용신 방위: <strong style="color:var(--jade);">' + ohang.elem + ' · ' + ohang.dir + '</strong> (행운수 후보: ' + ohang.nums + ')</p>' +
+                '<p style="margin:0 0 12px 0; font-size:13px; color:var(--gold); font-weight:700;">' +
                 '앱 전용 기능: 내 현재 위치 기준 가까운 1등 명당 GPS 나침반 + 반경 50m 도착 공덕 스탬프 + 축원 쿠폰 {coupon_code} (+50,000P) 자동 귀속</p>' +
                 '<div class="cta-row">' +
-                '<a class="cta-btn" href="{PLAY_STORE_URL}" target="_blank" rel="noopener">공덕왕 앱에서 내 주변 명당 GPS 레이더 + 50,000P 바로 받기</a>' +
+                '<a class="btn-primary" style="padding:12px 18px; font-size:14px;" href="{PLAY_STORE_URL}" target="_blank" rel="noopener">공덕왕 앱에서 내 주변 명당 GPS 레이더 + 50,000P 바로 받기</a>' +
                 '</div>';
             if (window.KokFunnel && typeof window.KokFunnel.applyAttributionToLinksAndCta === 'function') {{
                 window.KokFunnel.applyAttributionToLinksAndCta();
